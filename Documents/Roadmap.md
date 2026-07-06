@@ -1,8 +1,8 @@
 # Development Roadmap
 
 - [ ] **Foundation** - The project starts and is easy to expand.
-  - [ ] Project folder structure
-  - [ ] Documentation
+  - [x] Project folder structure
+  - [x] Documentation
   - [ ] Bootstrap
   - [ ] Scene Management
   - [ ] Input System

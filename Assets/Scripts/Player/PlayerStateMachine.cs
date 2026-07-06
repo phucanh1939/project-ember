@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class PlayerStateMachine : MonoBehaviour
 {
     private PlayerController _controller;

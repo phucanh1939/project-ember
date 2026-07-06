@@ -1,51 +1,357 @@
-# Project Context
+# Project Context - 2D Top-Down Action RPG
 
 ## Project Overview
-This repository contains a Unity 2D top-down RPG project built primarily as a showcase for clean architecture, scalable project structure, and performance-oriented engineering practices.
 
-## Project Goals
-- Build a maintainable and scalable Unity project from the start
-- Follow clear separation of concerns and modular architecture
-- Demonstrate strong object-oriented design principles
-- Progressively explore performance optimization techniques later in the roadmap
+This project is a **2D top-down Action RPG** built with **Unity** and **C#**.
 
-## Technical Direction
-The project is being developed in stages:
-1. Establish a clean Unity project foundation
-2. Create modular gameplay systems with clear responsibilities
-3. Refine architecture using OOP and maintainable patterns
-4. Later explore performance-focused approaches such as Burst Compiler and ECS
+The gameplay is inspired by classic ARPGs such as **Diablo II**, but the world is **handcrafted** (no procedural generation for now).
 
-## Architecture Notes
-The project is organized around a layered structure:
-- Core: engine-level systems such as bootstrap, scene flow, input, camera, audio, save/load, and utilities
-- Gameplay: reusable gameplay mechanics such as movement, interaction, and animation-related systems
-- Player: player-specific logic, input handling, and state machine behavior
+The primary goal of the project is **learning game architecture while building a complete game**. We intentionally start with conventional Unity architecture and only optimize after the game is feature complete.
 
-## Repository Structure
-- Document/: architecture notes and project documentation
-- Scripts/: implementation files for gameplay and player systems
+---
 
-## Development Principles
-- Keep systems modular and reusable
-- Prefer clear responsibility boundaries between layers
-- Favor clean, readable, and maintainable code
-- Design for future scalability and performance tuning
+# Development Philosophy
 
-## Important Context for AI Assistants
-When working on this project, assume the following:
-- The project is an architectural showcase as well as a game prototype
-- The codebase should remain organized and easy to extend
-- Changes should respect the existing layering and dependency boundaries
-- Performance optimization should be considered gradually, not as an early premature concern
-- Unity-specific conventions and project structure should be respected
+The project follows these principles:
 
-## Suggested Working Style
-When making changes or adding features:
-- Read the documentation under Document/ before implementing major changes
-- Keep new systems aligned with the existing architecture
-- Prefer small, focused, and well-documented changes
-- Avoid introducing unnecessary complexity early
+* Build one complete feature at a time.
+* Keep every milestone playable.
+* Favor clean architecture over premature optimization.
+* Separate decision-making from execution.
+* Optimize only after everything works.
 
-## Short Summary
-This is a Unity 2D top-down RPG project focused on architectural clarity, code organization, and future performance optimization.
+The project should first resemble a typical professional Unity project before evolving toward a more data-oriented architecture.
+
+---
+
+# High-Level Architecture
+
+The project is divided into several layers.
+
+```
+Core
+    ↓
+Gameplay
+    ↓
+Player / Enemy / NPC
+    ↓
+UI
+```
+
+## Core
+
+Responsible for how the game runs.
+
+Examples:
+
+* Bootstrap
+* Scene Management
+* Camera
+* Audio
+* Save / Load
+* Utilities
+
+Core never contains gameplay logic.
+
+---
+
+## Gameplay
+
+Shared gameplay systems.
+
+Gameplay systems define **how mechanics work**, not **who uses them**.
+
+Examples:
+
+* Movement
+* Combat
+* Interaction
+* Health
+* Future Gameplay systems
+
+These systems are shared by:
+
+* Player
+* Enemy
+* NPC
+
+---
+
+## Player
+
+The Player layer is responsible only for **decision making**.
+
+It contains:
+
+* PlayerController
+* PlayerStateMachine
+* Player States
+
+It does NOT implement movement or combat.
+
+Instead it uses Gameplay systems.
+
+---
+
+## Enemy
+
+Enemy follows the same architecture as Player.
+
+Enemy AI decides behavior.
+
+Gameplay systems execute actions.
+
+---
+
+# Player Architecture
+
+Player uses a State-Driven architecture.
+
+```
+PlayerInput
+      ↓
+PlayerController
+      ↓
+PlayerStateMachine
+      ↓
+Current State
+      ↓
+Gameplay Systems
+```
+
+PlayerController is intentionally thin.
+
+The StateMachine decides behavior.
+
+Gameplay systems execute behavior.
+
+---
+
+# Gameplay Component Philosophy
+
+Components such as:
+
+* Movement
+* Combat
+* Interaction
+
+are **Gameplay systems**, not Player components.
+
+They belong under:
+
+```
+Scripts/Gameplay/
+```
+
+Player, Enemy and NPC all reuse them.
+
+---
+
+# Current Gameplay Components
+
+Implemented or designed:
+
+* Movement
+* Character Animation
+* Player Input
+* Interaction
+* Player Controller
+* Player State Machine
+
+Movement owns:
+
+* Rigidbody2D movement
+* Velocity
+* Facing Direction
+
+Movement never reads input.
+
+CharacterAnimation observes Movement.
+
+PlayerController reads PlayerInput.
+
+PlayerStateMachine controls behavior.
+
+---
+
+# Documentation Structure
+
+```
+Documentation/
+│
+├── 00-Architecture
+│
+├── 01-Core
+│
+├── 02-Gameplay
+│
+├── 03-Player
+│
+├── 04-Enemy
+│
+├── 05-NPC
+│
+└── 90-Roadmaps
+```
+
+---
+
+# Documentation Completed
+
+## 00-Architecture
+
+* Project Architecture
+* Folder Structure
+* Dependency Rules
+* Coding Guidelines
+
+---
+
+## 01-Core
+
+* README
+* Bootstrap
+* Scene Management
+
+---
+
+## 02-Gameplay
+
+* README
+* Movement
+* Interaction
+
+---
+
+## 03-Player
+
+* README
+* Player State Machine
+
+---
+
+# Folder Structure
+
+```
+Assets
+│
+├── Art
+├── Audio
+├── Materials
+├── Prefabs
+├── Scenes
+├── ScriptableObjects
+├── Scripts
+├── Documentation
+└── UI
+```
+
+Scripts:
+
+```
+Scripts
+│
+├── Core
+├── Gameplay
+├── Player
+├── Enemy
+├── NPC
+├── UI
+└── Shared
+```
+
+Gameplay contains reusable systems.
+
+Player contains orchestration only.
+
+---
+
+# Coding Style
+
+Preferred style:
+
+* Single Responsibility Principle
+* Small components
+* Self-documenting code
+* Extensive comments explaining architectural decisions
+* Performance notes marked with:
+
+```cpp
+// PERF:
+```
+
+Architecture notes marked with:
+
+```cpp
+// ARCH:
+```
+
+General explanations marked with:
+
+```cpp
+// NOTE:
+```
+
+Documentation is as important as implementation.
+
+Every major system should have its own design document.
+
+---
+
+# Performance Plan
+
+The project intentionally starts with conventional Unity development.
+
+Examples:
+
+* MonoBehaviour
+* Update()
+* Rigidbody2D
+* Animator
+
+Later, after gameplay is complete, systems will be profiled and gradually refactored.
+
+Potential optimizations include:
+
+* Object Pooling
+* Event-driven updates
+* Centralized update loop
+* Data-Oriented Programming
+* Unity Jobs
+* Burst
+* ECS-inspired processing where appropriate
+
+Optimization should always be driven by profiling.
+
+---
+
+# Development Roadmap
+
+* Foundation
+* First Playable Character
+* First Enemy
+* First Combat Loop
+* First Dungeon
+* Loot Loop
+* Character Progression
+* NPC & Town
+* Quest System
+* Polish
+* Performance Optimization
+
+Each milestone should leave the project in a playable state.
+
+---
+
+# Preferred Assistance Style
+
+When helping with this project:
+
+* Explain architecture before implementation.
+* Prefer conventional Unity solutions first.
+* Mention where future optimizations could be applied, but do not implement them yet.
+* Keep Gameplay systems generic and reusable.
+* Keep Player, Enemy and NPC focused on decision making.
+* Explain why design decisions are made, not just how.
+* Progress one feature at a time following the roadmap.
+* When writing code, include meaningful comments (`NOTE`, `ARCH`, `PERF`) to explain design choices and future optimization opportunities.
