@@ -5,7 +5,7 @@
   - [x] Documentation
   - [x] Bootstrap
   - [x] Scene Management
-  - [ ] Input System
+  - [x] Input System
   - [ ] Camera
   - [ ] Test Scene
 
