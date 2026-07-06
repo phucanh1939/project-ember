@@ -1,19 +1,29 @@
 using UnityEngine;
 
-public class IdleState : PlayerState
+namespace Game.Gameplay
 {
-    public IdleState(PlayerStateMachine stateMachine)
-        : base(stateMachine)
+    /// <summary>
+    /// IdleState is a PlayerState that handles the player being idle.
+    ///
+    /// The IdleState reads input from the PlayerInput component and
+    /// transitions to the MoveState when movement input is detected.
+    /// </summary>
+    public class IdleState : PlayerState
     {
-    }
-
-    public override void Update()
-    {
-        Controller.Movement.SetMoveDirection(Vector2.zero);
-
-        if (Controller.Input.Move != Vector2.zero)
+        public IdleState(PlayerStateMachine stateMachine)
+            : base(stateMachine)
         {
-            StateMachine.ChangeState(StateMachine.MoveState);
+        }
+
+        public override void Update()
+        {
+            Controller.Movement.SetMoveDirection(Vector2.zero);
+
+            if (Controller.Input.Move != Vector2.zero)
+            {
+                StateMachine.ChangeState(StateMachine.MoveState);
+            }
         }
     }
+
 }

@@ -1,17 +1,20 @@
-public abstract class PlayerState
+namespace Game.Gameplay
 {
-    protected PlayerStateMachine StateMachine { get; }
-
-    protected PlayerController Controller => StateMachine.Controller;
-
-    protected PlayerState(PlayerStateMachine stateMachine)
+    public abstract class PlayerState
     {
-        StateMachine = stateMachine;
+        protected PlayerStateMachine StateMachine { get; }
+
+        protected PlayerController Controller => StateMachine.Controller;
+
+        protected PlayerState(PlayerStateMachine stateMachine)
+        {
+            StateMachine = stateMachine;
+        }
+
+        public virtual void Enter() { }
+
+        public virtual void Exit() { }
+
+        public virtual void Update() { }
     }
-
-    public virtual void Enter() { }
-
-    public virtual void Exit() { }
-
-    public virtual void Update() { }
 }

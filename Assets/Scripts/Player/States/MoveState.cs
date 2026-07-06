@@ -1,19 +1,29 @@
 using UnityEngine;
 
-public class MoveState : PlayerState
+namespace Game.Gameplay
 {
-    public MoveState(PlayerStateMachine stateMachine)
-        : base(stateMachine)
+    /// <summary>
+    /// MoveState is a PlayerState that handles player movement.
+    ///
+    /// The MoveState reads input from the PlayerInput component and
+    /// delegates movement to the Movement component.
+    /// </summary>
+    public class MoveState : PlayerState
     {
-    }
-
-    public override void Update()
-    {
-        Controller.Movement.SetMoveDirection(Controller.Input.Move);
-
-        if (Controller.Input.Move == Vector2.zero)
+        public MoveState(PlayerStateMachine stateMachine)
+            : base(stateMachine)
         {
-            StateMachine.ChangeState(StateMachine.IdleState);
+        }
+
+        public override void Update()
+        {
+            Controller.Movement.SetMoveDirection(Controller.Input.Move);
+
+            if (Controller.Input.Move == Vector2.zero)
+            {
+                StateMachine.ChangeState(StateMachine.IdleState);
+            }
         }
     }
+
 }
