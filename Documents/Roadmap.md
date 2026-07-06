@@ -4,7 +4,7 @@
   - [x] Project folder structure
   - [x] Documentation
   - [x] Bootstrap
-  - [ ] Scene Management
+  - [x] Scene Management
   - [ ] Input System
   - [ ] Camera
   - [ ] Test Scene

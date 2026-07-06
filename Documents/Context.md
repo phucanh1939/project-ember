@@ -174,95 +174,80 @@ PlayerStateMachine controls behavior.
 
 ---
 
-# Documentation Structure
-
-```
-Documentation/
-│
-├── 00-Architecture
-│
-├── 01-Core
-│
-├── 02-Gameplay
-│
-├── 03-Player
-│
-├── 04-Enemy
-│
-├── 05-NPC
-│
-└── 90-Roadmaps
-```
-
----
-
-# Documentation Completed
-
-## 00-Architecture
-
-* Project Architecture
-* Folder Structure
-* Dependency Rules
-* Coding Guidelines
-
----
-
-## 01-Core
-
-* README
-* Bootstrap
-* Scene Management
-
----
-
-## 02-Gameplay
-
-* README
-* Movement
-* Interaction
-
----
-
-## 03-Player
-
-* README
-* Player State Machine
-
----
-
 # Folder Structure
 
-```
+```text
 Assets
 │
 ├── Art
-├── Audio
-├── Materials
-├── Prefabs
-├── Scenes
-├── ScriptableObjects
-├── Scripts
-├── Documentation
-└── UI
-```
-
-Scripts:
-
-```
-Scripts
+│   ├── Animations
+│   ├── Materials
+│   ├── Sprites
+│   └── Tiles
 │
-├── Core
-├── Gameplay
-├── Player
-├── Enemy
-├── NPC
-├── UI
-└── Shared
+├── Audio
+│   ├── Music
+│   ├── SFX
+│   └── Mixer
+│
+├── Documentation
+│   ├── 00-Architecture
+│   ├── 01-Core
+│   ├── 02-Player
+│   ├── 03-Combat
+│   └── 99-Optimization
+│
+├── Editor
+│
+├── Plugins
+│
+├── Prefabs
+│   ├── Characters
+│   ├── Environment
+│   ├── Items
+│   ├── Effects
+│   └── UI
+│
+├── Resources
+│
+├── Scenes
+│
+├── ScriptableObjects
+│   ├── Characters
+│   ├── Items
+│   ├── Skills
+│   └── Dialogue
+│
+├── Scripts
+│   ├── Core
+│   ├── Gameplay
+│   │   ├── Characters
+│   │   ├── Combat
+│   │   ├── Dialogue
+│   │   ├── Inventory
+│   │   └── World
+│   │
+│   ├── Player
+│   ├── Enemy
+│   ├── NPC
+│   └── UI
+│
+├── Settings
+│
+├── StreamingAssets
+│
+├── Tests
+│   ├── EditMode
+│   └── PlayMode
+│
+├── ThirdParty
+│
+└── UI
+    ├── Fonts
+    ├── Icons
+    ├── Prefabs
+    └── Sprites
 ```
-
-Gameplay contains reusable systems.
-
-Player contains orchestration only.
 
 ---
 
@@ -327,17 +312,84 @@ Optimization should always be driven by profiling.
 
 # Development Roadmap
 
-* Foundation
-* First Playable Character
-* First Enemy
-* First Combat Loop
-* First Dungeon
-* Loot Loop
-* Character Progression
-* NPC & Town
-* Quest System
-* Polish
-* Performance Optimization
+- [ ] **Foundation** - The project starts and is easy to expand.
+  - [x] Project folder structure
+  - [x] Documentation
+  - [x] Bootstrap
+  - [x] Scene Management
+  - [ ] Input System
+  - [ ] Camera
+  - [ ] Test Scene
+
+- [ ] **First Playable Character** - Walk around an empty map.
+  - [ ] Player prefab
+  - [ ] Player Controller
+  - [ ] Player State Machine
+  - [ ] Movement
+  - [ ] Animation
+  - [ ] Interaction
+  - [ ] Basic UI (HP)
+
+- [ ] **First Enemy** - An enemy can detect and chase the player.
+  - [ ] Enemy prefab
+  - [ ] Enemy State Machine
+  - [ ] Idle
+  - [ ] Patrol
+  - [ ] Chase
+  - [ ] Enemy Animation
+
+- [ ] **First Combat Loop** - The player can kill enemies.
+  - [ ] Weapon
+  - [ ] Attack
+  - [ ] Health
+  - [ ] Damage
+  - [ ] Death
+  - [ ] Hit Effects
+
+- [ ] **First Dungeon** - A complete playable level.
+  - [ ] Tilemap
+  - [ ] Collision
+  - [ ] Enemy Spawners
+  - [ ] Exit Portal
+
+- [ ] **Loot Loop** - Defeat enemies to become stronger.
+  - [ ] Item Drops
+  - [ ] Item Pickup
+  - [ ] Inventory
+  - [ ] Equipment
+
+- [ ] **Character Progression** - Grow stronger over time.
+  - [ ] Experience
+  - [ ] Level System
+  - [ ] Character Stats
+  - [ ] Skills
+
+- [ ] **NPC & Town** - A safe hub for the player.
+  - [ ] NPC
+  - [ ] Dialogue
+  - [ ] Shop
+  - [ ] Stash
+  - [ ] Healing
+
+- [ ] **Quest System** - Give the player objectives.
+  - [ ] Quest Data
+  - [ ] Quest Tracking
+  - [ ] Rewards
+
+- [ ] **Polish** - Improve the overall experience.
+  - [ ] Audio
+  - [ ] Visual Effects
+  - [ ] Better UI
+  - [ ] More Enemy Types
+  - [ ] Boss Fight
+
+- [ ] **Performance Optimization** - Improve scalability and performance.
+  - [ ] Object Pooling
+  - [ ] Event-driven Systems
+  - [ ] Reduce Allocations
+  - [ ] Centralized Update Loop
+  - [ ] Data-Oriented Refactoring
+  - [ ] Profiling & Optimization
 
 Each milestone should leave the project in a playable state.
 
