@@ -13,7 +13,7 @@ namespace Game.Core
     {
         [Header("Startup")]
         [SerializeField]
-        private string startupScene = "TestScene";
+        private string startupScene = SceneNames.MainMenu;
 
         private void Awake()
         {
@@ -47,8 +47,7 @@ namespace Game.Core
         private void LoadStartupScene()
         {
             Debug.Log($"[Bootstrap] Loading '{startupScene}'...");
-
-            SceneManager.LoadScene(startupScene);
+            SceneService.Load(startupScene);
         }
     }
 }

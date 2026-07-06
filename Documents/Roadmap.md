@@ -3,7 +3,7 @@
 - [ ] **Foundation** - The project starts and is easy to expand.
   - [x] Project folder structure
   - [x] Documentation
-  - [ ] Bootstrap
+  - [x] Bootstrap
   - [ ] Scene Management
   - [ ] Input System
   - [ ] Camera

@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class MoveState : PlayerState
 {
     public MoveState(PlayerStateMachine stateMachine)

@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class IdleState : PlayerState
 {
     public IdleState(PlayerStateMachine stateMachine)
