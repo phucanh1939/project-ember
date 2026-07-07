@@ -1,13 +1,13 @@
 # Development Roadmap
 
-- [ ] **Foundation** - The project starts and is easy to expand.
+- [x] **Foundation** - The project starts and is easy to expand.
   - [x] Project folder structure
   - [x] Documentation
   - [x] Bootstrap
   - [x] Scene Management
   - [x] Input System
-  - [ ] Camera
-  - [ ] Test Scene
+  - [x] Camera
+  - [x] Test Scene
 
 - [ ] **First Playable Character** - Walk around an empty map.
   - [ ] Player prefab
