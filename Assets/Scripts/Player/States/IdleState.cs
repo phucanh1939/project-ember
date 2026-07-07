@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Game.Gameplay
+namespace Game.Player
 {
     /// <summary>
     /// IdleState is a PlayerState that handles the player being idle.

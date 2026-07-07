@@ -1,7 +1,7 @@
 using UnityEngine;
 using Game.Core;
 
-namespace Game.Gameplay
+namespace Game.Player
 {
     /// <summary>
     /// Wires Player dependencies at scene start.

@@ -1,4 +1,4 @@
-namespace Game.Gameplay
+namespace Game.Player
 {
     public abstract class PlayerState
     {

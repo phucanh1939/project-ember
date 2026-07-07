@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Game.Gameplay
+namespace Game.Player
 {
     /// <summary>
     /// PlayerStateMachine manages the player's current state and transitions between states.

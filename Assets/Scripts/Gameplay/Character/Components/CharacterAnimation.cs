@@ -55,24 +55,16 @@ namespace Game.Gameplay
     [RequireComponent(typeof(Animator))]
     public class CharacterAnimation : MonoBehaviour
     {
-        [SerializeField]
-        private Movement _movement;
-
-        private Animator _animator;
+        [SerializeField] private Animator _animator;
+        [SerializeField] private Movement _movement;
 
         private static readonly int MoveXHash = Animator.StringToHash("MoveX");
         private static readonly int MoveYHash = Animator.StringToHash("MoveY");
         private static readonly int SpeedHash = Animator.StringToHash("Speed");
 
-        private void Awake()
+        private void OnValidate()
         {
             _animator = GetComponent<Animator>();
-
-            // NOTE:
-            // Cache the Animator reference once during initialization.
-
-            // PERF:
-            // Animator.StringToHash() avoids repeated string lookups.
         }
 
         private void Update()

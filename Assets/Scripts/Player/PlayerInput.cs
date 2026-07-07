@@ -1,7 +1,7 @@
 using Game.Core;
 using UnityEngine;
 
-namespace Game.Gameplay
+namespace Game.Player
 {
     /// <summary>
     /// PlayerInput is a thin adapter between InputService and Player gameplay logic.

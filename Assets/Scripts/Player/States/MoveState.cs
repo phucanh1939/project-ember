@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Game.Gameplay
+namespace Game.Player
 {
     /// <summary>
     /// MoveState is a PlayerState that handles player movement.

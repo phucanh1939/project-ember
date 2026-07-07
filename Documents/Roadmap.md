@@ -11,12 +11,12 @@
 
 - [ ] **First Playable Character** - Walk around an empty map.
   - [ ] Player prefab
-  - [ ] Player Controller
-  - [ ] Player State Machine
-  - [ ] Movement
-  - [ ] Animation
-  - [ ] Interaction
-  - [ ] Basic UI (HP)
+  - [x] Player Controller
+  - [x] Player State Machine
+  - [x] Movement
+  - [x] Animation
+  - [x] Interaction
+  - [x] Basic UI (HP)
 
 - [ ] **First Enemy** - An enemy can detect and chase the player.
   - [ ] Enemy prefab
