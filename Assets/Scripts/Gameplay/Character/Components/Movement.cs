@@ -1,14 +1,16 @@
+using System;
 using UnityEngine;
 
 namespace Game.Gameplay
 {
-
-
     /// <summary>
     /// Responsible for moving a character using Rigidbody2D.
     ///
     /// This component only executes movement commands.
     /// It does not decide where the character should move.
+    ///
+    /// It also exposes movement state changes (such as facing direction)
+    /// so visual systems can react without polling every frame.
     /// </summary>
     [RequireComponent(typeof(Rigidbody2D))]
     public class Movement : MonoBehaviour
@@ -36,6 +38,16 @@ namespace Game.Gameplay
         /// </summary>
         public Vector2 FacingDirection { get; private set; } = Vector2.down;
 
+        /// <summary>
+        /// Invoked when the character changes facing direction.
+        ///
+        /// Visual systems can subscribe to this event to update:
+        /// - Sprite flipping
+        /// - Weapon direction
+        /// - Visual effects
+        /// </summary>
+        public event Action<Vector2> OnFacingDirectionChanged;
+
         private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody2D>();
@@ -59,18 +71,26 @@ namespace Game.Gameplay
             // Another component (PlayerController, EnemyController, etc.)
             // is responsible for making that decision.
 
-            // Normalize to prevent faster diagonal movement.
             _moveDirection = direction.normalized;
 
-            // Remember the last movement direction.
             if (_moveDirection != Vector2.zero)
             {
-                FacingDirection = _moveDirection;
+                UpdateFacingDirection(_moveDirection);
             }
 
             // PERF:
             // If movement commands are guaranteed to already be normalized,
             // this normalization step can be skipped.
+        }
+
+        private void UpdateFacingDirection(Vector2 direction)
+        {
+            if (FacingDirection == direction)
+                return;
+
+            FacingDirection = direction;
+
+            OnFacingDirectionChanged?.Invoke(FacingDirection);
         }
 
         private void FixedUpdate()

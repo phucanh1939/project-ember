@@ -9,8 +9,8 @@
   - [x] Camera
   - [x] Test Scene
 
-- [ ] **First Playable Character** - Walk around an empty map.
-  - [ ] Player prefab
+- [x] **First Playable Character** - Walk around an empty map.
+  - [x] Player prefab
   - [x] Player Controller
   - [x] Player State Machine
   - [x] Movement
