@@ -1,49 +1,59 @@
+using System.Collections.Generic;
 using UnityEngine;
-using Game.Enemy;
 
 namespace Game.Enemy
 {
     /// <summary>
-    /// Controls the enemy's current AI state.
+    /// Executes enemy states.
     ///
-    /// States determine the enemy's behavior such as:
-    /// - Idle
-    /// - Patrol
-    /// - Chase
-    /// - Attack
-    /// - Dead
+    /// Responsibilities:
+    /// - Store available states.
+    /// - Switch active state.
+    /// - Manage state lifecycle.
+    ///
+    /// This class does NOT:
+    /// - Create states.
+    /// - Decide enemy behavior.
+    /// - Know about specific enemy types.
+    ///
+    /// EnemyBrain provides the state configuration.
     /// </summary>
-    public class EnemyStateMachine : MonoBehaviour
+    public class EnemyStateMachine
     {
-        public EnemyController Controller { get; private set; }
-
+        private readonly Dictionary<StateId, EnemyState> _states = new();
         private EnemyState _currentState;
 
-        /// <summary>
-        /// Initializes the state machine and enters the initial state.
-        /// </summary>
-        public void Initialize(EnemyController controller)
-        {
-            Controller = controller;
+        public EnemyState CurrentState => _currentState;
 
-            ChangeState(new IdleState(this));
+        public void AddState(StateId id, EnemyState state)
+        {
+            _states.Add(id, state);
         }
 
-        private void Update()
+        public void ChangeState(StateId id)
+        {
+            if (!_states.TryGetValue(id, out EnemyState nextState))
+            {
+                Debug.LogError($"State {id} is not registered.");
+                return;
+            }
+
+            if (_currentState == nextState)
+                return;
+
+            _currentState?.Exit();
+            _currentState = nextState;
+            _currentState.Enter();
+        }
+
+        public void Update()
         {
             _currentState?.Update();
         }
 
-        /// <summary>
-        /// Transitions to a new enemy state.
-        /// </summary>
-        public void ChangeState(EnemyState nextState)
+        public bool HasState(StateId id)
         {
-            _currentState?.Exit();
-
-            _currentState = nextState;
-
-            _currentState.Enter();
+            return _states.ContainsKey(id);
         }
     }
 }
