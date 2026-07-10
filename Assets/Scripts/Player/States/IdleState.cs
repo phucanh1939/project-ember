@@ -17,7 +17,7 @@ namespace Game.Player
 
         public override void Update()
         {
-            Controller.Movement.SetMoveDirection(Vector2.zero);
+            Controller.Movement.StopMovement();
 
             if (Controller.Input.Move != Vector2.zero)
             {

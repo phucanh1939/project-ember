@@ -21,7 +21,7 @@ namespace Game.Enemy
 
         public override void Enter()
         {
-            _controller.Movement.SetMoveDirection(Vector2.zero);
+            _controller.Movement.StopMovement();
 
             _controller.Sensor.SetMode(SensorMode.Passive);
 

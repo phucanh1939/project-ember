@@ -59,7 +59,7 @@ namespace Game.Enemy
 
         public override void Exit()
         {
-            _controller.Movement.SetMoveDirection(Vector2.zero);
+            _controller.Movement.StopMovement();
         }
     }
 }

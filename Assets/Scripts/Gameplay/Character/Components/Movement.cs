@@ -83,6 +83,11 @@ namespace Game.Gameplay
             // this normalization step can be skipped.
         }
 
+        public void StopMovement()
+        {
+            _moveDirection = Vector2.zero;
+        }
+
         private void UpdateFacingDirection(Vector2 direction)
         {
             if (FacingDirection == direction)
@@ -106,5 +111,6 @@ namespace Game.Gameplay
             // During the optimization phase we'll compare this with a
             // centralized update loop (DOP/ECS-inspired architecture).
         }
+        
     }
 }
