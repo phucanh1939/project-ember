@@ -25,7 +25,7 @@ namespace Game.Enemy
         /// Moving around without a target.
         /// Example: random wandering or predefined route.
         /// </summary>
-        Patrol,
+        Wander,
 
         /// <summary>
         /// Moving toward a detected target.

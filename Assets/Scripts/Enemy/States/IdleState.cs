@@ -1,37 +1,57 @@
 using UnityEngine;
+using Game.Gameplay;
 
 namespace Game.Enemy
 {
     public class IdleState : EnemyState
     {
-        private readonly float _scanInterval = 0.25f;
-        private float _nextScanTime;
+        private readonly float _minIdleTime = 2f;
+        private readonly float _maxIdleTime = 5f;
 
-        public IdleState(EnemyStateMachine stateMachine, EnemyController controller) : base(stateMachine, controller)
+        private float _idleEndTime;
+
+
+        public IdleState(
+            EnemyStateMachine stateMachine,
+            EnemyController controller)
+            : base(stateMachine, controller)
         {
         }
+
 
         public override void Enter()
         {
             _controller.Movement.SetMoveDirection(Vector2.zero);
-            _nextScanTime = Time.time;
+
+            _controller.Sensor.SetMode(SensorMode.Passive);
+
+            _idleEndTime = Time.time + Random.Range(
+                _minIdleTime,
+                _maxIdleTime);
         }
+
 
         public override void Update()
         {
-            if (Time.time < _nextScanTime)
+            Collider2D target = _controller.Sensor.DetectedObject;
+
+            if (target != null)
+            {
+                _controller.SetTarget(target.transform);
+                ChangeState(StateId.Chase);
                 return;
+            }
 
-            _nextScanTime = Time.time + _scanInterval;
 
-            Collider2D target = _controller.Sensor.Scan(_controller.TargetMask);
+            if (Time.time >= _idleEndTime)
+            {
+                ChangeState(StateId.Wander);
+            }
+        }
 
-            if (target == null)
-                return;
 
-            _controller.SetTarget(target.transform);
-
-            _stateMachine.ChangeState(StateId.Chase);
+        public override void Exit()
+        {
         }
     }
 }

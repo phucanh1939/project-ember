@@ -6,62 +6,115 @@ namespace Game.Gameplay
     /// Generic world sensing component.
     ///
     /// Responsibilities:
-    /// - Query objects inside a defined detection area.
-    /// - Return detected objects to the caller.
+    /// - Detect objects inside a defined area.
+    /// - Manage scanning frequency.
+    /// - Store the latest detected object.
     ///
     /// This component does NOT:
     /// - Decide what the detected object means.
     /// - Know about Player, Enemy, NPC, or any gameplay rule.
-    /// - Trigger state changes.
+    /// - Trigger gameplay behavior.
     ///
     /// Consumers decide:
-    /// - When to scan.
-    /// - What objects are relevant.
-    /// - How to react to detected objects.
+    /// - Which sensing mode should be active.
+    /// - How detected objects should be handled.
     ///
-    /// Example:
-    /// EnemyState -> scans for Player -> decides whether to chase.
-    /// NPCState -> scans for Player -> decides whether to interact.
-    ///
-    /// Current implementation uses a circle detection area.
-    /// Future extensions may support different detection shapes:
-    /// - Circle
-    /// - Rectangle
-    /// - Cone / Field of View
-    /// - Custom shapes
+    /// Future extensions:
+    /// - Multiple detection targets.
+    /// - Different detection shapes.
+    /// - Vision cone / line of sight.
+    /// - Hearing sensor.
     /// </summary>
     public class Sensor : MonoBehaviour
     {
         [Header("Detection Settings")]
-        [SerializeField]
-        private float _range = 5f;
+        [SerializeField] private float _range = 5f;
+
+        [SerializeField] private float _passiveScanInterval = 0.5f;
+        [SerializeField] private float _activeScanInterval = 0.1f;
 
 
-        /// <summary>
-        /// Finds the first object inside the sensor range
-        /// matching the provided layer mask.
-        ///
-        /// The filter is provided by the caller because different
-        /// systems may need to detect different types of objects.
-        /// </summary>
-        public Collider2D Scan(LayerMask mask)
+        public Collider2D DetectedObject { get; private set; }
+
+        public SensorMode Mode { get; private set; }
+
+        private LayerMask _scanMask;
+        private float _nextScanTime;
+
+
+        public void SetScanMask(LayerMask mask)
+        {
+            _scanMask = mask;
+        }
+
+
+        public void SetMode(SensorMode mode)
+        {
+            Mode = mode;
+
+            if (Mode == SensorMode.Disabled)
+            {
+                DetectedObject = null;
+            }
+        }
+
+
+        private void Update()
+        {
+            if (Mode == SensorMode.Disabled)
+                return;
+
+            if (Time.time < _nextScanTime)
+                return;
+
+            _nextScanTime = Time.time + GetScanInterval();
+
+            Scan();
+        }
+
+
+        private float GetScanInterval()
+        {
+            return Mode switch
+            {
+                SensorMode.Passive => _passiveScanInterval,
+                SensorMode.Active => _activeScanInterval,
+                _ => float.MaxValue
+            };
+        }
+
+
+        private void Scan()
         {
             // PERF:
             // Physics2D.OverlapCircle is acceptable for early development.
             //
             // Potential cost:
-            // - Many objects scanning frequently can create physics query overhead.
+            // - Many active sensors scanning frequently can create physics query overhead.
             //
             // Future optimization:
             // - Use Physics2D.OverlapCircleNonAlloc()
-            // - Scan at intervals instead of every frame
             // - Centralize sensor updates for large numbers of entities
+            // - Batch queries when many enemies exist
 
+            DetectedObject = Physics2D.OverlapCircle(
+                transform.position,
+                _range,
+                _scanMask);
+        }
+
+
+        /// <summary>
+        /// Manual one-time scan.
+        ///
+        /// Useful for systems that do not need continuous sensing.
+        /// </summary>
+        public Collider2D Scan(LayerMask mask)
+        {
             return Physics2D.OverlapCircle(
                 transform.position,
                 _range,
-                mask
-            );
+                mask);
         }
 
 
@@ -70,8 +123,7 @@ namespace Game.Gameplay
         {
             Gizmos.DrawWireSphere(
                 transform.position,
-                _range
-            );
+                _range);
         }
 #endif
     }
