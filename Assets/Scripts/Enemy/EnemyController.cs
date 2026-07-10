@@ -29,7 +29,7 @@ namespace Game.Enemy
         [SerializeField]
         private LayerMask _targetMask;
 
-        public Vector3 SpawnPosition { get; private set; }
+        public Vector2 SpawnPosition { get; private set; }
 
         public Movement Movement => _movement;
         public Health Health => _health;

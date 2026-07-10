@@ -59,7 +59,7 @@ namespace Game.Enemy
                 return;
             }
 
-            Vector2 fromSpawn = _controller.transform.position - _controller.SpawnPosition;
+            Vector2 fromSpawn = (Vector2)_controller.transform.position - _controller.SpawnPosition;
 
             if (fromSpawn.sqrMagnitude > _leashRangeSquare)
             {
