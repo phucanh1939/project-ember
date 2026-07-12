@@ -28,7 +28,7 @@ The project should first resemble a typical professional Unity project before ev
 
 The project is divided into several layers.
 
-```
+```text
 Core
     ↓
 Gameplay
@@ -49,9 +49,30 @@ Examples:
 * Camera
 * Audio
 * Save / Load
+* Input
 * Utilities
 
 Core never contains gameplay logic.
+
+Core services are instantiated by a dedicated **Core.prefab** loaded from the Bootstrap scene.
+
+```text
+Bootstrap Scene
+        │
+        ▼
+Instantiate Core.prefab
+        │
+        ▼
+Core
+├── InputService
+├── SceneLoader
+├── Camera
+└── ...
+```
+
+The Core root has a dedicated `DontDestroy` component.
+
+Individual services should not call `DontDestroyOnLoad()` themselves.
 
 ---
 
@@ -67,7 +88,6 @@ Examples:
 * Combat
 * Interaction
 * Health
-* Future Gameplay systems
 
 These systems are shared by:
 
@@ -87,7 +107,7 @@ It contains:
 * PlayerStateMachine
 * Player States
 
-It does NOT implement movement or combat.
+It never implements movement or combat.
 
 Instead it uses Gameplay systems.
 
@@ -103,74 +123,354 @@ Gameplay systems execute actions.
 
 ---
 
-# Player Architecture
+# Character Architecture
 
-Player uses a State-Driven architecture.
+Every character follows the same architecture.
 
-```
-PlayerInput
-      ↓
-PlayerController
-      ↓
-PlayerStateMachine
-      ↓
+```text
+Controller
+    ↓
+State Machine
+    ↓
 Current State
-      ↓
+    ↓
 Gameplay Systems
 ```
 
-PlayerController is intentionally thin.
+Gameplay systems execute actions.
 
-The StateMachine decides behavior.
+Controllers make decisions.
 
-Gameplay systems execute behavior.
+---
+
+# Character Prefab Architecture
+
+Player and Enemy share the same prefab layout.
+
+```text
+Character
+│
+├── Controller
+├── StateMachine
+├── Movement
+├── Health
+├── Rigidbody2D
+├── Collider2D
+│
+└── Visual
+    ├── SpriteRenderer
+    ├── Animator
+    ├── CharacterAnimation
+    └── SpriteDirection
+```
+
+Player uses:
+
+```text
+PlayerController
+PlayerStateMachine
+```
+
+Enemy uses:
+
+```text
+EnemyController
+EnemyStateMachine
+```
 
 ---
 
 # Gameplay Component Philosophy
 
-Components such as:
+Gameplay systems belong under:
 
-* Movement
-* Combat
-* Interaction
-
-are **Gameplay systems**, not Player components.
-
-They belong under:
-
-```
+```text
 Scripts/Gameplay/
 ```
 
-Player, Enemy and NPC all reuse them.
+They are reusable by:
+
+* Player
+* Enemy
+* NPC
+
+Controllers should never duplicate gameplay logic.
 
 ---
 
-# Current Gameplay Components
+# Gameplay Components
 
-Implemented or designed:
+## Movement
 
-* Movement
-* Character Animation
-* Player Input
-* Interaction
-* Player Controller
-* Player State Machine
-
-Movement owns:
+Responsible for:
 
 * Rigidbody2D movement
 * Velocity
-* Facing Direction
+* FacingDirection
 
-Movement never reads input.
+Movement never:
+
+* Reads player input
+* Makes AI decisions
+* Plays animations
+
+Movement exposes:
+
+```text
+Velocity
+FacingDirection
+```
+
+Movement publishes gameplay events.
+
+Currently:
+
+```text
+OnFacingDirectionChanged
+```
+
+Presentation systems subscribe to these events.
+
+---
+
+## Health
+
+Responsible only for storing and modifying health.
+
+Future systems (combat, UI, death, etc.) will react through events when needed.
+
+---
+
+## CharacterAnimation
 
 CharacterAnimation observes Movement.
 
-PlayerController reads PlayerInput.
+Responsibilities:
 
-PlayerStateMachine controls behavior.
+* Update Animator parameters
+
+```text
+MoveX
+MoveY
+Speed
+```
+
+It never chooses animation clips directly.
+
+The Animator Controller determines which animation to play.
+
+---
+
+## SpriteDirection
+
+SpriteDirection is responsible only for sprite orientation.
+
+Responsibilities:
+
+* Listen to Movement.OnFacingDirectionChanged
+* Flip SpriteRenderer
+
+It should remain a focused component.
+
+Future visual features should become separate components.
+
+Examples:
+
+* CharacterVFX
+* EquipmentVisual
+* CharacterMaterialEffects
+
+---
+
+# Event-Driven Philosophy
+
+Gameplay owns state.
+
+Presentation reacts.
+
+Example:
+
+```text
+Movement
+        │
+        ▼
+OnFacingDirectionChanged
+        │
+        ▼
+SpriteDirection
+```
+
+Avoid polling where an event naturally exists.
+
+---
+
+# State Machine Architecture
+
+Player and Enemy use the same pattern.
+
+States receive their StateMachine through the constructor.
+
+```cpp
+new IdleState(this)
+```
+
+Base state stores:
+
+```text
+StateMachine
+Controller
+```
+
+Enter() performs state entry only.
+
+Dependencies should not be injected through Enter().
+
+---
+
+# Animation Architecture
+
+Gameplay never controls animations directly.
+
+Flow:
+
+```text
+Movement
+        │
+        ▼
+CharacterAnimation
+        │
+        ▼
+Animator Parameters
+        │
+        ▼
+Animator Controller
+        │
+        ▼
+Blend Trees
+        │
+        ▼
+Animation Clips
+```
+
+CharacterAnimation only updates:
+
+* MoveX
+* MoveY
+* Speed
+
+---
+
+# Animator Structure
+
+## Player
+
+```text
+Base Layer
+
+└── Locomotion
+```
+
+## Enemy
+
+```text
+Base Layer
+
+└── Locomotion
+```
+
+Locomotion is a **1D Blend Tree**.
+
+```
+Speed
+
+0
+↓
+
+Idle (2D Blend Tree)
+
+1
+↓
+
+Walk (2D Blend Tree)
+```
+
+Idle and Walk are **2D Freeform Directional Blend Trees**.
+
+Parameters:
+
+```text
+MoveX
+MoveY
+```
+
+Animation clips:
+
+```text
+IdleUp
+IdleDown
+IdleSide
+
+WalkUp
+WalkDown
+WalkSide
+```
+
+Horizontal movement uses `SpriteRenderer.flipX`.
+
+No Left animation clips are required.
+
+---
+
+# Enemy Animation Strategy
+
+Enemy animation logic is shared.
+
+```text
+Enemy.controller
+```
+
+Each enemy uses an Animator Override Controller.
+
+Example:
+
+```text
+Enemy.controller
+        │
+        ▼
+Slime.overrideController
+        │
+        ▼
+Slime Animation Clips
+```
+
+Characters with identical animation state machines should share one Animator Controller.
+
+Only enemies with different animation logic should receive a separate controller.
+
+---
+
+# Rigidbody2D Defaults
+
+Characters use:
+
+```text
+Body Type:
+    Dynamic
+
+Gravity Scale:
+    0
+
+Interpolate:
+    Interpolate
+
+Collision Detection:
+    Continuous
+
+Freeze Rotation Z:
+    Enabled
+```
+
+Movement directly controls velocity.
 
 ---
 
@@ -180,131 +480,137 @@ PlayerStateMachine controls behavior.
 Assets
 │
 ├── Art
-│   ├── Animations
-│   ├── Materials
-│   ├── Sprites
-│   └── Tiles
 │
 ├── Audio
-│   ├── Music
-│   ├── SFX
-│   └── Mixer
-│
-├── Documentation
-│   ├── 00-Architecture
-│   ├── 01-Core
-│   ├── 02-Player
-│   ├── 03-Combat
-│   └── 99-Optimization
-│
-├── Editor
-│
-├── Plugins
 │
 ├── Prefabs
-│   ├── Characters
+│   ├── Core
+│   │   └── Core.prefab
+│   │
+│   ├── Gameplay
+│   │   ├── Player.prefab
+│   │   └── Enemies
+│   │       └── Slime.prefab
+│   │
 │   ├── Environment
-│   ├── Items
 │   ├── Effects
 │   └── UI
-│
-├── Resources
 │
 ├── Scenes
 │
 ├── ScriptableObjects
-│   ├── Characters
-│   ├── Items
-│   ├── Skills
-│   └── Dialogue
 │
 ├── Scripts
 │   ├── Core
 │   ├── Gameplay
-│   │   ├── Characters
+│   │   ├── Character
+│   │   │   └── Components
 │   │   ├── Combat
-│   │   ├── Dialogue
-│   │   ├── Inventory
 │   │   └── World
 │   │
 │   ├── Player
 │   ├── Enemy
-│   ├── NPC
 │   └── UI
 │
-├── Settings
-│
-├── StreamingAssets
-│
-├── Tests
-│   ├── EditMode
-│   └── PlayMode
-│
-├── ThirdParty
-│
 └── UI
-    ├── Fonts
-    ├── Icons
-    ├── Prefabs
-    └── Sprites
 ```
+
+---
+
+# Naming Conventions
+
+Gameplay systems:
+
+```text
+Movement
+Health
+Interaction
+CharacterAnimation
+SpriteDirection
+```
+
+Controllers:
+
+```text
+PlayerController
+EnemyController
+```
+
+Base states:
+
+```text
+PlayerState
+EnemyState
+```
+
+Concrete states:
+
+```text
+IdleState
+MoveState
+PatrolState
+ChaseState
+AttackState
+DeadState
+```
+
+Namespaces provide context instead of prefixes.
 
 ---
 
 # Coding Style
 
-Preferred style:
+Principles:
 
 * Single Responsibility Principle
-* Small components
+* Small focused components
 * Self-documenting code
-* Extensive comments explaining architectural decisions
-* Performance notes marked with:
+* Explain architecture through comments
 
-```cpp
-// PERF:
-```
-
-Architecture notes marked with:
-
-```cpp
-// ARCH:
-```
-
-General explanations marked with:
+Comment conventions:
 
 ```cpp
 // NOTE:
 ```
 
-Documentation is as important as implementation.
+General explanation.
 
-Every major system should have its own design document.
+```cpp
+// ARCH:
+```
+
+Architecture decisions.
+
+```cpp
+// PERF:
+```
+
+Performance considerations and future optimizations.
+
+Performance comments should only be added where a genuine optimization concern exists.
 
 ---
 
 # Performance Plan
 
-The project intentionally starts with conventional Unity development.
+The project intentionally starts with conventional Unity architecture.
 
-Examples:
+Current technologies:
 
 * MonoBehaviour
 * Update()
 * Rigidbody2D
 * Animator
 
-Later, after gameplay is complete, systems will be profiled and gradually refactored.
-
-Potential optimizations include:
+Future optimization may include:
 
 * Object Pooling
 * Event-driven updates
-* Centralized update loop
+* Centralized Update Loop
 * Data-Oriented Programming
 * Unity Jobs
 * Burst
-* ECS-inspired processing where appropriate
+* ECS-inspired processing
 
 Optimization should always be driven by profiling.
 
@@ -312,84 +618,95 @@ Optimization should always be driven by profiling.
 
 # Development Roadmap
 
-- [ ] **Foundation** - The project starts and is easy to expand.
-  - [x] Project folder structure
-  - [x] Documentation
-  - [x] Bootstrap
-  - [x] Scene Management
-  - [ ] Input System
-  - [ ] Camera
-  - [ ] Test Scene
+* [x] **Foundation** - The project starts and is easy to expand.
 
-- [ ] **First Playable Character** - Walk around an empty map.
-  - [ ] Player prefab
-  - [ ] Player Controller
-  - [ ] Player State Machine
-  - [ ] Movement
-  - [ ] Animation
-  - [ ] Interaction
-  - [ ] Basic UI (HP)
+  * [x] Project folder structure
+  * [x] Documentation
+  * [x] Bootstrap
+  * [x] Scene Management
+  * [x] Input System
+  * [x] Camera
+  * [x] Test Scene
 
-- [ ] **First Enemy** - An enemy can detect and chase the player.
-  - [ ] Enemy prefab
-  - [ ] Enemy State Machine
-  - [ ] Idle
-  - [ ] Patrol
-  - [ ] Chase
-  - [ ] Enemy Animation
+* [x] **First Playable Character** - Walk around an empty map.
 
-- [ ] **First Combat Loop** - The player can kill enemies.
-  - [ ] Weapon
-  - [ ] Attack
-  - [ ] Health
-  - [ ] Damage
-  - [ ] Death
-  - [ ] Hit Effects
+  * [x] Player prefab
+  * [x] Player Controller
+  * [x] Player State Machine
+  * [x] Movement
+  * [x] Animation
+  * [x] Interaction
+  * [x] Basic UI (HP)
 
-- [ ] **First Dungeon** - A complete playable level.
-  - [ ] Tilemap
-  - [ ] Collision
-  - [ ] Enemy Spawners
-  - [ ] Exit Portal
+* [ ] **First Enemy** - An enemy can detect and chase the player.
 
-- [ ] **Loot Loop** - Defeat enemies to become stronger.
-  - [ ] Item Drops
-  - [ ] Item Pickup
-  - [ ] Inventory
-  - [ ] Equipment
+  * [x] Enemy prefab
+  * [x] Enemy State Machine
+  * [x] Idle
+  * [x] Patrolmileston
+  * [x] Chase
+  * [ ] Enemy Animation
 
-- [ ] **Character Progression** - Grow stronger over time.
-  - [ ] Experience
-  - [ ] Level System
-  - [ ] Character Stats
-  - [ ] Skills
+* [ ] **First Combat Loop** - The player can kill enemies.
 
-- [ ] **NPC & Town** - A safe hub for the player.
-  - [ ] NPC
-  - [ ] Dialogue
-  - [ ] Shop
-  - [ ] Stash
-  - [ ] Healing
+  * [ ] Weapon
+  * [ ] Attack
+  * [ ] Health Events
+  * [ ] Damage
+  * [ ] Death
+  * [ ] Hit Effects
 
-- [ ] **Quest System** - Give the player objectives.
-  - [ ] Quest Data
-  - [ ] Quest Tracking
-  - [ ] Rewards
+* [ ] **First Dungeon** - A complete playable level.
 
-- [ ] **Polish** - Improve the overall experience.
-  - [ ] Audio
-  - [ ] Visual Effects
-  - [ ] Better UI
-  - [ ] More Enemy Types
-  - [ ] Boss Fight
+  * [ ] Tilemap
+  * [ ] Collision
+  * [ ] Enemy Spawners
+  * [ ] Exit Portal
 
-- [ ] **Performance Optimization** - Improve scalability and performance.
-  - [ ] Object Pooling
-  - [ ] Event-driven Systems
-  - [ ] Reduce Allocations
-  - [ ] Centralized Update Loop
-  - [ ] Data-Oriented Refactoring
-  - [ ] Profiling & Optimization
+* [ ] **Loot Loop**
+
+  * [ ] Item Drops
+  * [ ] Item Pickup
+  * [ ] Inventory
+  * [ ] Equipment
+
+* [ ] **Character Progression**
+
+  * [ ] Experience
+  * [ ] Level System
+  * [ ] Character Stats
+  * [ ] Skills
+
+* [ ] **NPC & Town**
+
+  * [ ] NPC
+  * [ ] Dialogue
+  * [ ] Shop
+  * [ ] Stash
+  * [ ] Healing
+
+* [ ] **Quest System**
+
+  * [ ] Quest Data
+  * [ ] Quest Tracking
+  * [ ] Rewards
+
+* [ ] **Polish**
+
+  * [ ] Audio
+  * [ ] Visual Effects
+  * [ ] Better UI
+  * [ ] More Enemy Types
+  * [ ] Boss Fight
+
+* [ ] **Performance Optimization**
+
+  * [ ] Object Pooling
+  * [ ] Event-driven Systems
+  * [ ] Reduce Allocations
+  * [ ] Centralized Update Loop
+  * [ ] Data-Oriented Refactoring
+  * [ ] Profiling & Optimization
 
 Each milestone should leave the project in a playable state.
 
@@ -401,9 +718,406 @@ When helping with this project:
 
 * Explain architecture before implementation.
 * Prefer conventional Unity solutions first.
-* Mention where future optimizations could be applied, but do not implement them yet.
+* Mention future optimizations without implementing them prematurely.
 * Keep Gameplay systems generic and reusable.
 * Keep Player, Enemy and NPC focused on decision making.
 * Explain why design decisions are made, not just how.
 * Progress one feature at a time following the roadmap.
-* When writing code, include meaningful comments (`NOTE`, `ARCH`, `PERF`) to explain design choices and future optimization opportunities.
+* Include meaningful `NOTE`, `ARCH` and `PERF` comments where appropriate.
+* Keep components small and focused. Prefer introducing new components over expanding existing ones beyond a single responsibility.
+
+
+# Project Context Update - Enemy Architecture
+
+## Project Direction
+
+The enemy AI is being built with a traditional Unity OOP architecture first.
+
+Primary goals:
+
+- Flexible enemy behaviors.
+- Reusable states.
+- Data-driven enemy configuration.
+- Easy to extend from the Unity Editor.
+- Future-friendly toward data-oriented optimization.
+
+---
+
+# Runtime Architecture
+
+```
+EnemyController
+        |
+        v
+    EnemyBrain
+        |
+        v
+EnemyStateMachine
+        |
+        v
+    EnemyState
+```
+
+Responsibilities are clearly separated:
+
+- **EnemyController** owns gameplay components and shared runtime data.
+- **EnemyBrain** coordinates AI execution.
+- **EnemyStateMachine** manages state lifecycle.
+- **EnemyState** implements behavior.
+
+---
+
+# EnemyController
+
+The `EnemyController` is the central MonoBehaviour attached to every enemy.
+
+Responsibilities:
+
+- Own gameplay components.
+- Store shared runtime data.
+- Initialize the Brain.
+- Expose data required by states.
+
+Owns:
+
+```
+Movement
+Health
+Sensor
+Brain
+```
+
+Shared runtime data:
+
+```
+Target
+SpawnPosition
+TargetMask
+```
+
+The controller does **not** contain AI behavior.
+
+---
+
+# EnemyBrain
+
+Responsibilities:
+
+- Load EnemyAIConfig.
+- Create runtime states.
+- Register states into the state machine.
+- Start the initial state.
+- Update the state machine every frame.
+
+Current update flow:
+
+```
+Brain.Update()
+
+    |
+
+StateMachine.Update()
+```
+
+Future:
+
+```
+Brain.Update()
+
+    |
+
+Check Interrupts
+
+    |
+
+StateMachine.Update()
+```
+
+Interrupts (Stun, Dead, Knockback...) will be implemented later.
+
+The Brain will coordinate them instead of individual states.
+
+---
+
+# EnemyStateMachine
+
+Responsibilities:
+
+- Store runtime states.
+- Track the active state.
+- Handle Enter / Exit / Update.
+- Handle transitions.
+
+The state machine does **not**:
+
+- Create states.
+- Know enemy types.
+- Make gameplay decisions.
+
+---
+
+# EnemyState
+
+Every state receives:
+
+```
+EnemyStateMachine
+EnemyController
+```
+
+States use the controller to access:
+
+```
+Movement
+Health
+Sensor
+Target
+SpawnPosition
+```
+
+States request transitions through:
+
+```
+ChangeState(...)
+```
+
+---
+
+# EnemyAIConfig
+
+Enemy types are configured through ScriptableObjects.
+
+```
+EnemyBrain
+
+        |
+
+EnemyAIConfig
+
+        |
+
+StateDefinitions[]
+```
+
+Example:
+
+```
+Slime
+
+Idle
+Wander
+Chase
+Attack
+Return
+```
+
+No new Brain class is required for each enemy.
+
+---
+
+# StateDefinition
+
+A ScriptableObject that creates runtime states.
+
+Example:
+
+```
+IdleStateDefinition
+
+Create()
+
+↓
+
+new IdleState(...)
+```
+
+The asset is only configuration.
+
+Runtime behavior lives inside EnemyState.
+
+---
+
+# Current AI State Flow
+
+Current state graph:
+
+```
+Idle
+ |
+ +-- target detected --> Chase
+ |
+ +-- idle timeout -----> Wander
+
+
+Wander
+ |
+ +-- target detected --> Chase
+ |
+ +-- destination reached --> Idle
+
+
+Chase
+ |
+ +-- attack range ------> Attack
+ |
+ +-- target lost --------> Return
+ |
+ +-- leash exceeded -----> Return
+
+
+Attack
+ |
+ +-- target left range --> Chase
+ |
+ +-- target lost --------> Return
+
+
+Return
+ |
+ +-- reached spawn -----> Idle
+```
+
+Interrupt states are intentionally postponed until the normal behavior system is complete.
+
+---
+
+# Sensor
+
+Current Sensor responsibilities:
+
+- Detect nearby objects.
+- Manage scan frequency.
+- Store latest detected object.
+- Support multiple scan modes.
+
+Sensor does **not**:
+
+- Decide gameplay behavior.
+- Trigger state transitions.
+- Know what a detected object means.
+
+States decide how to use the detection result.
+
+Current modes:
+
+```
+Disabled
+Passive
+Active
+```
+
+Typical usage:
+
+```
+Idle
+    Sensor -> Passive
+
+Wander
+    Sensor -> Passive
+
+Chase
+    Uses Target
+
+Return
+    Uses SpawnPosition
+```
+
+Sensor is shared by all states.
+
+States configure the sensor in `Enter()`.
+
+---
+
+# Current Implementation Notes
+
+Current implementation intentionally keeps values inside states:
+
+```
+_attackRange
+_leashRange
+_wanderRadius
+_arriveDistance
+_idleDuration
+```
+
+Future:
+
+Move them into each StateDefinition so different enemy types can configure them from the editor.
+
+---
+
+# Current Folder Direction
+
+```
+Assets
+
+├── Gameplay
+│
+├── Enemy
+│   ├── Brain
+│   ├── Config
+│   ├── StateMachine
+│   ├── States
+│   └── EnemyController
+│
+└── ScriptableObjects
+    └── Enemy
+```
+
+---
+
+# Future Work
+
+Behavior:
+
+- AttackState
+- DeadState
+- Interrupt system
+- SearchState
+- PatrolState
+- FleeState
+
+AI:
+
+- Interrupt handling
+- Behavior priorities
+- Better target validation
+- More configurable AI
+
+Optimization:
+
+- NonAlloc physics queries.
+- Batched sensor updates.
+- Data-oriented processing.
+- Jobs/Burst where appropriate.
+
+---
+
+# Coding Style
+
+## Comments
+
+Comments should be:
+
+- Short.
+- Clean.
+- Explain **why**, not obvious implementation details.
+- Only document responsibilities, behavior, transitions, or future TODOs.
+
+Example state comment:
+
+```csharp
+/// <summary>
+/// Enemy pursuit state.
+///
+/// Behavior:
+/// - Move toward the current target.
+/// - Follow target until attack range or chase is abandoned.
+///
+/// Transitions:
+/// - Chase -> Attack: Target is within attack range.
+/// - Chase -> Return: Target lost or exceeds leash range.
+/// </summary>
+```
+
+Avoid long paragraphs inside code.
