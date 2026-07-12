@@ -32,21 +32,21 @@ namespace Game.Gameplay
 
         [SerializeField] private float _passiveScanInterval = 0.5f;
         [SerializeField] private float _activeScanInterval = 0.1f;
-
+        [SerializeField] private LayerMask _targetMask;
 
         public Collider2D DetectedObject { get; private set; }
-
         public SensorMode Mode { get; private set; }
-
-        private LayerMask _scanMask;
         private float _nextScanTime;
 
-
-        public void SetScanMask(LayerMask mask)
+#if UNITY_EDITOR
+        private void OnValidate()
         {
-            _scanMask = mask;
+            if (_targetMask == 0)
+            {
+                _targetMask = LayerMask.GetMask("Player");
+            }
         }
-
+#endif
 
         public void SetMode(SensorMode mode)
         {
@@ -97,10 +97,8 @@ namespace Game.Gameplay
             // - Centralize sensor updates for large numbers of entities
             // - Batch queries when many enemies exist
 
-            DetectedObject = Physics2D.OverlapCircle(
-                transform.position,
-                _range,
-                _scanMask);
+            DetectedObject = Physics2D.OverlapCircle(transform.position, _range, _targetMask);
+            Debug.Log($"Sensor detected with mask {_targetMask}: {DetectedObject?.name ?? "None"}");
         }
 
 
@@ -111,19 +109,14 @@ namespace Game.Gameplay
         /// </summary>
         public Collider2D Scan(LayerMask mask)
         {
-            return Physics2D.OverlapCircle(
-                transform.position,
-                _range,
-                mask);
+            return Physics2D.OverlapCircle(transform.position, _range, mask);
         }
 
 
 #if UNITY_EDITOR
-        private void OnDrawGizmosSelected()
+        private void OnDrawGizmos()
         {
-            Gizmos.DrawWireSphere(
-                transform.position,
-                _range);
+            Gizmos.DrawWireSphere(transform.position, _range);
         }
 #endif
     }

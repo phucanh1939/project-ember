@@ -24,18 +24,12 @@ namespace Game.Enemy
         [SerializeField] private Sensor _sensor;
         [SerializeField] private EnemyBrain _brain;
 
-
-        [Header("Target Settings")]
-        [SerializeField]
-        private LayerMask _targetMask;
-
         public Vector2 SpawnPosition { get; private set; }
 
         public Movement Movement => _movement;
         public Health Health => _health;
         public Sensor Sensor => _sensor;
         public EnemyBrain Brain => _brain;
-        public LayerMask TargetMask => _targetMask;
 
         public Transform Target { get; private set; }
 
@@ -47,11 +41,6 @@ namespace Game.Enemy
             _health = GetComponent<Health>();
             _sensor = GetComponent<Sensor>();
             _brain = GetComponent<EnemyBrain>();
-
-            if (_targetMask == 0)
-            {
-                _targetMask = LayerMask.GetMask("Player");
-            }
         }
 #endif
 

@@ -19,11 +19,11 @@
   - [x] Basic UI (HP)
 
 - [ ] **First Enemy** - An enemy can detect and chase the player.
-  - [ ] Enemy prefab
-  - [ ] Enemy State Machine
-  - [ ] Idle
-  - [ ] Patrol
-  - [ ] Chase
+  - [x] Enemy prefab
+  - [x] Enemy State Machine
+  - [x] Idle
+  - [x] Patrol
+  - [x] Chase
   - [ ] Enemy Animation
 
 - [ ] **First Combat Loop** - The player can kill enemies.

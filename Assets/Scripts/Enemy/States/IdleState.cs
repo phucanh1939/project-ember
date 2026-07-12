@@ -3,6 +3,17 @@ using Game.Gameplay;
 
 namespace Game.Enemy
 {
+    /// <summary>
+    /// Enemy default inactive state.
+    ///
+    /// Behavior:
+    /// - Enemy stays in place.
+    /// - Enable Sensor to detect possible targets.
+    ///
+    /// Transitions:
+    /// - Idle -> Chase: Target detected by Sensor.
+    /// - Idle -> Wander: Idle duration has elapsed.
+    /// </summary>
     public class IdleState : EnemyState
     {
         private readonly float _minIdleTime = 2f;
@@ -22,12 +33,8 @@ namespace Game.Enemy
         public override void Enter()
         {
             _controller.Movement.StopMovement();
-
             _controller.Sensor.SetMode(SensorMode.Passive);
-
-            _idleEndTime = Time.time + Random.Range(
-                _minIdleTime,
-                _maxIdleTime);
+            _idleEndTime = Time.time + Random.Range(_minIdleTime, _maxIdleTime);
         }
 
 

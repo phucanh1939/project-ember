@@ -3,6 +3,17 @@ using Game.Gameplay;
 
 namespace Game.Enemy
 {
+    /// <summary>
+    /// Enemy roaming state.
+    ///
+    /// Behavior:
+    /// - Move toward a random position around spawn location.
+    /// - Enable Sensor to detect possible targets.
+    ///
+    /// Transitions:
+    /// - Wander -> Chase: Target detected by Sensor.
+    /// - Wander -> Idle: Destination reached.
+    /// </summary>
     public class WanderState : EnemyState
     {
         // TODO: Move these values to WanderStateDefinition.

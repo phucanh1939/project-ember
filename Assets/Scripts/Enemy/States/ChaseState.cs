@@ -3,26 +3,15 @@ using UnityEngine;
 namespace Game.Enemy
 {
     /// <summary>
-    /// Enemy state responsible for pursuing the current target.
+    /// Enemy pursuit state.
     ///
-    /// Responsibilities:
-    /// - Move the enemy toward the current target.
-    /// - Check whether the target is within attack range.
-    /// - Stop chasing when the target is lost or too far from home.
-    /// - Transition to AttackState when the enemy can attack.
-    /// - Transition to ReturnState when the enemy abandons the chase.
+    /// Behavior:
+    /// - Move toward the current target.
+    /// - Follow target until attack range or chase is abandoned.
     ///
-    /// This state does NOT:
-    /// - Find new targets.
-    /// - Perform attacks.
-    /// - Handle damage or combat logic.
-    ///
-    /// Target acquisition is handled by:
-    /// - IdleState
-    /// - WanderState
-    /// - Sensor
-    ///
-    /// The target is provided through EnemyController.
+    /// Transitions:
+    /// - Chase -> Attack: Target is within attack range.
+    /// - Chase -> Return: Target lost or exceeds leash range.
     /// </summary>
     public class ChaseState : EnemyState
     {
