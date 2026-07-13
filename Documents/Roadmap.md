@@ -27,10 +27,10 @@
   - [x] Enemy Animation
 
 - [ ] **First Combat Loop** - The player can kill enemies.
-  - [ ] Weapon
-  - [ ] Attack
-  - [ ] Health
-  - [ ] Damage
+  - [x] Hitbox & Hurtbox
+  - [x] Attack
+  - [x] Health
+  - [x] Damage
   - [ ] Death
   - [ ] Hit Effects
 

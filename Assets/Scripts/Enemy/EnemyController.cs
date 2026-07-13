@@ -13,22 +13,25 @@ namespace Game.Enemy
     /// The controller stores shared data required by states.
     /// </summary>
     [RequireComponent(typeof(Movement))]
-    [RequireComponent(typeof(Health))]
     [RequireComponent(typeof(Sensor))]
+    [RequireComponent(typeof(Health))]
+    [RequireComponent(typeof(Attack))]
     [RequireComponent(typeof(EnemyBrain))]
     public class EnemyController : MonoBehaviour
     {
         [Header("Components")]
         [SerializeField] private Movement _movement;
-        [SerializeField] private Health _health;
         [SerializeField] private Sensor _sensor;
+        [SerializeField] private Health _health;
+        [SerializeField] private Attack _attack;
         [SerializeField] private EnemyBrain _brain;
 
         public Vector2 SpawnPosition { get; private set; }
 
         public Movement Movement => _movement;
-        public Health Health => _health;
         public Sensor Sensor => _sensor;
+        public Health Health => _health;
+        public Attack Attack => _attack;
         public EnemyBrain Brain => _brain;
 
         public Transform Target { get; private set; }

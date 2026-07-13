@@ -3,39 +3,38 @@ using UnityEngine;
 namespace Game.Enemy
 {
     /// <summary>
-    /// Enemy combat state.
+    /// Enemy attack state.
     ///
     /// Behavior:
-    /// - Perform attacks against the current target.
-    /// - Control attack timing and cooldown.
+    /// - Starts an attack against the current target.
+    /// - Waits until the attack finishes.
     ///
     /// Transitions:
-    /// - Attack -> Chase: Target leaves attack range.
-    /// - Attack -> Return: Target lost or exceeds leash range.
+    /// - Attack -> Chase: Attack finished.
+    /// - Attack -> Other: Forced interruption.
     /// </summary>
     public class AttackState : EnemyState
     {
-
-        public AttackState(
-            EnemyStateMachine stateMachine,
-            EnemyController controller)
+        public AttackState(EnemyStateMachine stateMachine, EnemyController controller)
             : base(stateMachine, controller)
         {
         }
 
-
         public override void Enter()
         {
+            _controller.Attack.OnAttackEnded += HandleAttackEnded;
+            _controller.Attack.StartAttack();
         }
-
-
-        public override void Update()
-        {
-        }
-
 
         public override void Exit()
         {
+            _controller.Attack.OnAttackEnded -= HandleAttackEnded;
+            _controller.Attack.CancelAttackIfActive();
+        }
+
+        private void HandleAttackEnded()
+        {
+            ChangeState(StateId.Chase);
         }
     }
 }

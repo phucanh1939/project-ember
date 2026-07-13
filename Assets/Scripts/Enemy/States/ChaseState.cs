@@ -15,12 +15,11 @@ namespace Game.Enemy
     /// </summary>
     public class ChaseState : EnemyState
     {
-        // TODO Attack range and leash range should be configurable per enemy type.
-        private const float _attackRange = 1.5f;
-        private const float _attackRangeSquare = _attackRange * _attackRange;
-        private const float _leashRange = 10f;
-        private const float _leashRangeSquare = _leashRange * _leashRange;
-
+        // TODO: Move these values to enemy configuration.
+        private const float AttackRange = 1.5f;
+        private const float AttackRangeSquare = AttackRange * AttackRange;
+        private const float LeashRange = 10f;
+        private const float LeashRangeSquare = LeashRange * LeashRange;
 
         public ChaseState(
             EnemyStateMachine stateMachine,
@@ -29,53 +28,57 @@ namespace Game.Enemy
         {
         }
 
-
         public override void Enter()
         {
-            // Reset previous movement command when entering this state.
-            // Prevents leftover movement from the previous state during transitions.
             _controller.Movement.StopMovement();
         }
 
-
         public override void Update()
         {
-            Transform target = _controller.Target;
-
-            if (target == null)
+            if (ShouldReturn())
             {
                 ChangeState(StateId.Return);
                 return;
             }
 
-            Vector2 fromSpawn = (Vector2)_controller.transform.position - _controller.SpawnPosition;
-
-            if (fromSpawn.sqrMagnitude > _leashRangeSquare)
-            {
-                ChangeState(StateId.Return);
-                return;
-            }
-
-
-            Vector2 toTarget = target.position - _controller.transform.position;
-
-
-            if (toTarget.sqrMagnitude <= _attackRangeSquare)
+            if (ShouldAttack())
             {
                 ChangeState(StateId.Attack);
                 return;
             }
 
-
-            _controller.Movement.SetMoveDirection(toTarget.normalized);
+            MoveToTarget();
         }
-
 
         public override void Exit()
         {
-            // Clear movement command when leaving this state.
-            // Prevents the enemy from continuing to move after this state is no longer active.
             _controller.Movement.StopMovement();
+        }
+
+        private bool ShouldReturn()
+        {
+            Transform target = _controller.Target;
+
+            if (target == null)
+                return true;
+
+            Vector2 fromSpawn = (Vector2)_controller.transform.position - _controller.SpawnPosition;
+
+            return fromSpawn.sqrMagnitude > LeashRangeSquare;
+        }
+
+        private bool ShouldAttack()
+        {
+            Vector2 toTarget = _controller.Target.position - _controller.transform.position;
+
+            return toTarget.sqrMagnitude <= AttackRangeSquare;
+        }
+
+        private void MoveToTarget()
+        {
+            Vector2 direction = _controller.Target.position - _controller.transform.position;
+
+            _controller.Movement.SetMoveDirection(direction.normalized);
         }
     }
 }
