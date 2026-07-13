@@ -1,3 +1,4 @@
+using Game.Core;
 using UnityEngine;
 
 namespace Game.Gameplay.Enemy
@@ -10,7 +11,7 @@ namespace Game.Gameplay.Enemy
             SetId(StateId.Attack);
         }
 
-        public override EnemyState Create(EnemyStateMachine stateMachine, EnemyController controller)
+        public override EnemyState Create(StateMachine<StateId> stateMachine, EnemyController controller)
         {
             return new AttackState(stateMachine, controller);
         }

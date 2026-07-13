@@ -33,6 +33,6 @@ namespace Game.Gameplay.Player
         /// <summary>
         /// Enemy is dead and no longer performs actions.
         /// </summary>
-        Dead
+        Dead,
     }
 }

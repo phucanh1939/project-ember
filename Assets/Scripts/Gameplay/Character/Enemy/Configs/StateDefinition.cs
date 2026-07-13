@@ -1,3 +1,4 @@
+using Game.Core;
 using UnityEngine;
 
 namespace Game.Gameplay.Enemy
@@ -25,6 +26,6 @@ namespace Game.Gameplay.Enemy
             _id = id;
         }
 
-        public abstract EnemyState Create(EnemyStateMachine stateMachine, EnemyController controller);
+        public abstract EnemyState Create(StateMachine<StateId> stateMachine, EnemyController controller);
     }
 }

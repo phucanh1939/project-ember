@@ -1,3 +1,4 @@
+using Game.Core;
 using UnityEngine;
 
 namespace Game.Gameplay.Player
@@ -10,8 +11,7 @@ namespace Game.Gameplay.Player
     /// </summary>
     public class MoveState : PlayerState
     {
-        public MoveState(PlayerStateMachine stateMachine, PlayerController controller)
-            : base(stateMachine, controller)
+        public MoveState(StateMachine<StateId> stateMachine, PlayerController controller) : base(stateMachine, controller)
         {
         }
 

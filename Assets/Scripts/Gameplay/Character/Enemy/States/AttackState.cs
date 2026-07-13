@@ -1,3 +1,4 @@
+using Game.Core;
 using UnityEngine;
 
 namespace Game.Gameplay.Enemy
@@ -15,8 +16,7 @@ namespace Game.Gameplay.Enemy
     /// </summary>
     public class AttackState : EnemyState
     {
-        public AttackState(EnemyStateMachine stateMachine, EnemyController controller)
-            : base(stateMachine, controller)
+        public AttackState(StateMachine<StateId> stateMachine, EnemyController controller) : base(stateMachine, controller)
         {
         }
 
@@ -34,7 +34,7 @@ namespace Game.Gameplay.Enemy
 
         private void HandleAttackEnded()
         {
-            ChangeState(StateId.Chase);
+            _stateMachine.ChangeState(StateId.Chase);
         }
     }
 }

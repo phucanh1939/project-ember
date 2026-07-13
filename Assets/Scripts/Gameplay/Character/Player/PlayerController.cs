@@ -15,6 +15,8 @@ namespace Game.Gameplay.Player
     [RequireComponent(typeof(Movement))]
     [RequireComponent(typeof(Health))]
     [RequireComponent(typeof(Attack))]
+    [RequireComponent(typeof(StatusEffect))]
+    [RequireComponent(typeof(PlayerBehavior))]
     public class PlayerController : MonoBehaviour
     {
         [Header("Components")]
@@ -22,13 +24,15 @@ namespace Game.Gameplay.Player
         [SerializeField] private Movement _movement;
         [SerializeField] private Health _health;
         [SerializeField] private Attack _attack;
-        
-        private PlayerStateMachine _stateMachine;
+        [SerializeField] private StatusEffect _statusEffect;
+        [SerializeField] private PlayerBehavior _behavior;
 
         public PlayerInput Input => _playerInput;
         public Movement Movement => _movement;
         public Health Health => _health;
         public Attack Attack => _attack;
+        public StatusEffect StatusEffect => _statusEffect;
+        public PlayerBehavior PlayerBehavior => _behavior;
 
         private void OnValidate()
         {
@@ -36,16 +40,13 @@ namespace Game.Gameplay.Player
             _movement = GetComponent<Movement>();
             _health = GetComponent<Health>();
             _attack = GetComponent<Attack>();
+            _statusEffect = GetComponent<StatusEffect>();
+            _behavior = GetComponent<PlayerBehavior>();
         }
 
         private void Awake()
         {
-            _stateMachine = new PlayerStateMachine(this);
-        }
-
-        private void Update()
-        {
-            _stateMachine.Update();
+            _behavior.Initialize(this);
         }
     }
 

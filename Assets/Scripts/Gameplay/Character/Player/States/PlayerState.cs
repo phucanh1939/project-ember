@@ -1,21 +1,15 @@
+using Game.Core;
+
 namespace Game.Gameplay.Player
 {
-    public abstract class PlayerState
+    public abstract class PlayerState : State<StateId>
     {
-        protected PlayerStateMachine _stateMachine;
         protected PlayerController _controller;
 
-        protected PlayerState(PlayerStateMachine stateMachine, PlayerController controller)
+        protected PlayerState(StateMachine<StateId> stateMachine, PlayerController controller) : base(stateMachine)
         {
-            _stateMachine = stateMachine;
             _controller = controller;
         }
-
-        public virtual void Enter() { }
-
-        public virtual void Exit() { }
-
-        public virtual void Update() { }
 
         protected bool TryAttack()
         {

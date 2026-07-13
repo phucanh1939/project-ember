@@ -1,3 +1,4 @@
+using Game.Core;
 using UnityEngine;
 
 namespace Game.Gameplay.Player
@@ -10,8 +11,7 @@ namespace Game.Gameplay.Player
     /// </summary>
     public class IdleState : PlayerState
     {
-        public IdleState(PlayerStateMachine stateMachine, PlayerController controller)
-            : base(stateMachine, controller)
+        public IdleState(StateMachine<StateId> stateMachine, PlayerController controller) : base(stateMachine, controller)
         {
         }
 
@@ -22,6 +22,7 @@ namespace Game.Gameplay.Player
 
         public override void Update()
         {
+            // Debug.Log("_____ IDLE: " + _controller.Input.Move.x + ", " + _controller.Input.Move.y);
             if (TryAttack()) return;
 
             if (_controller.Input.Move != Vector2.zero)

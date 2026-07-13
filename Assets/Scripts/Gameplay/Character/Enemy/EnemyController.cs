@@ -16,7 +16,8 @@ namespace Game.Gameplay.Enemy
     [RequireComponent(typeof(Sensor))]
     [RequireComponent(typeof(Health))]
     [RequireComponent(typeof(Attack))]
-    [RequireComponent(typeof(EnemyBrain))]
+    [RequireComponent(typeof(StatusEffect))]
+    [RequireComponent(typeof(EnemyBehavior))]
     public class EnemyController : MonoBehaviour
     {
         [Header("Components")]
@@ -24,7 +25,8 @@ namespace Game.Gameplay.Enemy
         [SerializeField] private Sensor _sensor;
         [SerializeField] private Health _health;
         [SerializeField] private Attack _attack;
-        [SerializeField] private EnemyBrain _brain;
+        [SerializeField] private StatusEffect _statusEffect;
+        [SerializeField] private EnemyBehavior _behavior;
 
         public Vector2 SpawnPosition { get; private set; }
 
@@ -32,7 +34,7 @@ namespace Game.Gameplay.Enemy
         public Sensor Sensor => _sensor;
         public Health Health => _health;
         public Attack Attack => _attack;
-        public EnemyBrain Brain => _brain;
+        public StatusEffect StatusEffect => _statusEffect;
 
         public Transform Target { get; private set; }
 
@@ -43,14 +45,15 @@ namespace Game.Gameplay.Enemy
             _movement = GetComponent<Movement>();
             _health = GetComponent<Health>();
             _sensor = GetComponent<Sensor>();
-            _brain = GetComponent<EnemyBrain>();
+            _statusEffect = GetComponent<StatusEffect>();
+            _behavior = GetComponent<EnemyBehavior>();
         }
 #endif
 
         private void Awake()
         {
             SpawnPosition = transform.position;
-            _brain.Initialize(this);
+            _behavior.Initialize(this);
         }
 
 

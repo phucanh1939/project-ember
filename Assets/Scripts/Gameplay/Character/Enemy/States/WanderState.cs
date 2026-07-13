@@ -1,5 +1,6 @@
 using UnityEngine;
 using Game.Gameplay;
+using Game.Core;
 
 namespace Game.Gameplay.Enemy
 {
@@ -24,21 +25,14 @@ namespace Game.Gameplay.Enemy
 
         private Vector2 _destination;
 
-
-        public WanderState(
-            EnemyStateMachine stateMachine,
-            EnemyController controller)
-            : base(stateMachine, controller)
+        public WanderState(StateMachine<StateId> stateMachine, EnemyController controller) : base(stateMachine, controller)
         {
         }
-
 
         public override void Enter()
         {
             _controller.Sensor.SetMode(SensorMode.Passive);
-
             Vector2 randomOffset = Random.insideUnitCircle * WanderRadius;
-
             _destination = (Vector2)_controller.SpawnPosition + randomOffset;
         }
 
@@ -50,7 +44,7 @@ namespace Game.Gameplay.Enemy
             if (target != null)
             {
                 _controller.SetTarget(target.transform);
-                ChangeState(StateId.Chase);
+                _stateMachine.ChangeState(StateId.Chase);
                 return;
             }
 
@@ -58,13 +52,12 @@ namespace Game.Gameplay.Enemy
 
             if (direction.sqrMagnitude <= ArriveDistanceSqr)
             {
-                ChangeState(StateId.Idle);
+                _stateMachine.ChangeState(StateId.Idle);
                 return;
             }
 
             _controller.Movement.SetMoveDirection(direction.normalized);
         }
-
 
         public override void Exit()
         {

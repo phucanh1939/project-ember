@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Game.Gameplay
@@ -18,15 +19,15 @@ namespace Game.Gameplay
     /// </summary>
     public class Health : MonoBehaviour
     {
-        [SerializeField]
-        [Min(1)]
-        private int maxHealth = 100;
+        [SerializeField] private int maxHealth = 100;
 
         public int MaxHealth => maxHealth;
 
         public int CurrentHealth { get; private set; }
 
         public bool IsAlive => CurrentHealth > 0;
+        public event Action OnDeath;
+
 
         private void Awake()
         {
@@ -62,7 +63,7 @@ namespace Game.Gameplay
 
         private void Die()
         {
-            Debug.Log($"{name} died");
+            OnDeath?.Invoke();
         }
     }
 }

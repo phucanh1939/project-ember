@@ -98,7 +98,6 @@ namespace Game.Gameplay
             // - Batch queries when many enemies exist
 
             DetectedObject = Physics2D.OverlapCircle(transform.position, _range, _targetMask);
-            Debug.Log($"Sensor detected with mask {_targetMask}: {DetectedObject?.name ?? "None"}");
         }
 
 

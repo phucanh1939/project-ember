@@ -1,3 +1,4 @@
+using Game.Core;
 using UnityEngine;
 
 namespace Game.Gameplay.Enemy
@@ -21,10 +22,7 @@ namespace Game.Gameplay.Enemy
         private const float LeashRange = 10f;
         private const float LeashRangeSquare = LeashRange * LeashRange;
 
-        public ChaseState(
-            EnemyStateMachine stateMachine,
-            EnemyController controller)
-            : base(stateMachine, controller)
+        public ChaseState(StateMachine<StateId> stateMachine, EnemyController controller) : base(stateMachine, controller)
         {
         }
 
@@ -37,13 +35,13 @@ namespace Game.Gameplay.Enemy
         {
             if (ShouldReturn())
             {
-                ChangeState(StateId.Return);
+                _stateMachine.ChangeState(StateId.Return);
                 return;
             }
 
             if (ShouldAttack())
             {
-                ChangeState(StateId.Attack);
+                _stateMachine.ChangeState(StateId.Attack);
                 return;
             }
 

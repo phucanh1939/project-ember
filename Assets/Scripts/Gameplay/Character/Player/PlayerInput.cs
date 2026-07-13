@@ -40,6 +40,9 @@ namespace Game.Gameplay.Player
             // IMPORTANT:
             // Consume one-frame inputs so they are not reused
             input.ConsumeInputs();
+
+            if (AttackPressed) Debug.Log("------- AttackPressed: " + AttackPressed);
+
         }
     }
 }

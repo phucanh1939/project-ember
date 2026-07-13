@@ -1,5 +1,6 @@
 using UnityEngine;
 using Game.Gameplay;
+using Game.Core;
 
 namespace Game.Gameplay.Enemy
 {
@@ -21,14 +22,9 @@ namespace Game.Gameplay.Enemy
 
         private float _idleEndTime;
 
-
-        public IdleState(
-            EnemyStateMachine stateMachine,
-            EnemyController controller)
-            : base(stateMachine, controller)
+        public IdleState(StateMachine<StateId> stateMachine, EnemyController controller) : base(stateMachine, controller)
         {
         }
-
 
         public override void Enter()
         {
@@ -37,28 +33,33 @@ namespace Game.Gameplay.Enemy
             _idleEndTime = Time.time + Random.Range(_minIdleTime, _maxIdleTime);
         }
 
-
         public override void Update()
         {
-            Collider2D target = _controller.Sensor.DetectedObject;
+            var target = _controller.Sensor.DetectedObject;
 
-            if (target != null)
+            if (ShouldChase(target))
             {
                 _controller.SetTarget(target.transform);
-                ChangeState(StateId.Chase);
+                _stateMachine.ChangeState(StateId.Chase);
                 return;
             }
 
-
-            if (Time.time >= _idleEndTime)
+            if (ShouldWander())
             {
-                ChangeState(StateId.Wander);
+                _stateMachine.ChangeState(StateId.Wander);
+                return;
             }
         }
 
-
-        public override void Exit()
+        private bool ShouldChase(Collider2D target)
         {
+            return target != null;
         }
+
+        private bool ShouldWander()
+        {
+            return Time.time >= _idleEndTime;
+        }
+
     }
 }

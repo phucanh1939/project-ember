@@ -1,3 +1,4 @@
+using Game.Core;
 using UnityEngine;
 
 namespace Game.Gameplay.Player
@@ -9,8 +10,7 @@ namespace Game.Gameplay.Player
     /// </summary>
     public class AttackState : PlayerState
     {
-        public AttackState(PlayerStateMachine stateMachine, PlayerController controller)
-            : base(stateMachine, controller)
+        public AttackState(StateMachine<StateId> stateMachine, PlayerController controller) : base(stateMachine, controller)
         {
         }
 
