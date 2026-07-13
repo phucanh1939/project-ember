@@ -166,6 +166,11 @@ Avoid classes that perform unrelated tasks.
 
 Use Unity callbacks consistently.
 
+## OnValidate()
+
+Initialize internal references (if possible).
+- GetComponent()
+
 ## Awake()
 
 Initialize internal references.

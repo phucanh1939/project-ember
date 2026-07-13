@@ -40,23 +40,17 @@ If the file can be reused by multiple features (for example, both Player and Ene
 ```text
 Assets
 │
+│── Animations
 ├── Art
-│   ├── Animations
 │   ├── Materials
 │   ├── Sprites
 │   └── Tiles
+|   └── Fonts
 │
 ├── Audio
 │   ├── Music
 │   ├── SFX
 │   └── Mixer
-│
-├── Documentation
-│   ├── 00-Architecture
-│   ├── 01-Core
-│   ├── 02-Player
-│   ├── 03-Combat
-│   └── 99-Optimization
 │
 ├── Editor
 │
@@ -102,12 +96,6 @@ Assets
 │   └── PlayMode
 │
 ├── ThirdParty
-│
-└── UI
-    ├── Fonts
-    ├── Icons
-    ├── Prefabs
-    └── Sprites
 ```
 
 ---
@@ -119,5 +107,4 @@ Assets
 - Put reusable gameplay systems in `Scripts/Gameplay`.
 - Put feature-specific logic in its feature folder (`Player`, `Enemy`, `NPC`, etc.).
 - Keep runtime code separate from assets.
-- Keep project documentation inside `Documentation`.
 - Design the folder structure so it can grow without major reorganization.
