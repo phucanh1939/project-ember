@@ -5,62 +5,18 @@ namespace Game.Gameplay
     /// <summary>
     /// Updates the character's Animator based on gameplay state.
     ///
-    /// ------------------------------------------------------------------
-    /// Required Unity Setup
-    /// ------------------------------------------------------------------
-    ///
-    /// Animator Parameters:
-    ///
-    ///     MoveX   (Float)
-    ///     MoveY   (Float)
-    ///     Speed   (Float)
-    ///
-    /// Expected Animator Layout:
-    ///
-    ///                 Any State
-    ///                     │
-    ///                     ▼
-    ///               Blend Tree (Locomotion)
-    ///
-    /// The Blend Tree should use:
-    ///
-    ///     Parameter:
-    ///         Speed
-    ///
-    ///     Threshold:
-    ///         0 = Idle
-    ///         1 = Walking
-    ///
-    /// Inside each motion (Idle / Walk), use a 2D Freeform Directional
-    /// Blend Tree driven by:
-    ///
-    ///     MoveX
-    ///     MoveY
-    ///
-    /// This allows the character to:
-    ///
-    /// - Face Up
-    /// - Face Down
-    /// - Face Left
-    /// - Face Right
-    /// - Transition smoothly while moving.
-    ///
-    /// ------------------------------------------------------------------
-    /// Responsibility
-    /// ------------------------------------------------------------------
-    ///
-    /// This component observes gameplay components such as Movement.
-    /// It never changes gameplay itself.
     /// </summary>
     [RequireComponent(typeof(Animator))]
     public class CharacterAnimation : MonoBehaviour
     {
         [SerializeField] private Animator _animator;
         [SerializeField] private Movement _movement;
+        [SerializeField] private Attack _attack;
 
         private static readonly int MoveXHash = Animator.StringToHash("MoveX");
         private static readonly int MoveYHash = Animator.StringToHash("MoveY");
         private static readonly int SpeedHash = Animator.StringToHash("Speed");
+        private static readonly int IsAttackingHash = Animator.StringToHash("IsAttacking");
 
         private void OnValidate()
         {
@@ -75,6 +31,8 @@ namespace Game.Gameplay
             _animator.SetFloat(MoveXHash, facing.x);
             _animator.SetFloat(MoveYHash, facing.y);
             _animator.SetFloat(SpeedHash, velocity.sqrMagnitude);
+
+            _animator.SetBool(IsAttackingHash, _attack.IsAttacking);
         }
 
         // ARCH:

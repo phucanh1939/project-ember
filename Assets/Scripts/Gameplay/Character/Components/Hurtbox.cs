@@ -10,11 +10,6 @@ namespace Game.Gameplay
     /// - Receives damage through IDamageable.
     /// - Forwards damage to the owning Health component.
     ///
-    /// This component does not:
-    /// - Calculate damage.
-    /// - Decide who can attack.
-    /// - Handle death.
-    ///
     /// </summary>
     [RequireComponent(typeof(Collider2D))]
     public class Hurtbox : MonoBehaviour, IDamageable
@@ -39,24 +34,5 @@ namespace Game.Gameplay
 
             _health.TakeDamage(damage);
         }
-
-#if UNITY_EDITOR
-        private void OnDrawGizmos()
-        {
-            if (_collider == null)
-                return;
-
-            Gizmos.matrix = transform.localToWorldMatrix;
-
-            if (_collider is BoxCollider2D box)
-            {
-                Gizmos.DrawWireCube(box.offset, box.size);
-            }
-            else if (_collider is CircleCollider2D circle)
-            {
-                Gizmos.DrawWireSphere(circle.offset, circle.radius);
-            }
-        }
-#endif
     }
 }

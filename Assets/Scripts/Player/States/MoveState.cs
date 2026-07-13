@@ -10,18 +10,20 @@ namespace Game.Player
     /// </summary>
     public class MoveState : PlayerState
     {
-        public MoveState(PlayerStateMachine stateMachine)
-            : base(stateMachine)
+        public MoveState(PlayerStateMachine stateMachine, PlayerController controller)
+            : base(stateMachine, controller)
         {
         }
 
         public override void Update()
         {
-            Controller.Movement.SetMoveDirection(Controller.Input.Move);
+            _controller.Movement.SetMoveDirection(_controller.Input.Move);
 
-            if (Controller.Input.Move == Vector2.zero)
+            if (TryAttack()) return;
+
+            if (_controller.Input.Move == Vector2.zero)
             {
-                StateMachine.ChangeState(StateMachine.IdleState);
+                _stateMachine.ChangeState(StateId.Idle);
             }
         }
     }

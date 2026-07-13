@@ -15,6 +15,7 @@ namespace Game.Player
     [RequireComponent(typeof(PlayerInput))]
     [RequireComponent(typeof(Movement))]
     [RequireComponent(typeof(Health))]
+    [RequireComponent(typeof(Attack))]
     [RequireComponent(typeof(PlayerStateMachine))]
     public class PlayerController : MonoBehaviour
     {
@@ -22,23 +23,26 @@ namespace Game.Player
         [SerializeField] private PlayerInput _playerInput;
         [SerializeField] private Movement _movement;
         [SerializeField] private Health _health;
-        [SerializeField] private PlayerStateMachine _stateMachine;
+        [SerializeField] private Attack _attack;
+        
+        private PlayerStateMachine _stateMachine;
 
         public PlayerInput Input => _playerInput;
         public Movement Movement => _movement;
         public Health Health => _health;
+        public Attack Attack => _attack;
 
         private void OnValidate()
         {
             _playerInput = GetComponent<PlayerInput>();
             _movement = GetComponent<Movement>();
             _health = GetComponent<Health>();
-            _stateMachine = GetComponent<PlayerStateMachine>();
+            _attack = GetComponent<Attack>();
         }
 
         private void Awake()
         {
-            _stateMachine.Initialize(this);
+            _stateMachine = new PlayerStateMachine(this);
         }
     }
 

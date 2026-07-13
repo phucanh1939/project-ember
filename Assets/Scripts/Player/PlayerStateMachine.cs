@@ -1,52 +1,69 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Game.Player
 {
     /// <summary>
-    /// PlayerStateMachine manages the player's current state and transitions between states.
+    /// Executes player states.
     ///
-    /// The PlayerStateMachine is initialized by the PlayerController and delegates gameplay decisions
-    /// to the current player state.
+    /// Responsibilities:
+    /// - Store available states.
+    /// - Switch active state.
+    /// - Manage state lifecycle.
+    ///
+    /// This class does NOT:
+    /// - Create gameplay decisions.
+    /// - Handle player behavior.
+    ///
+    /// Player states define behavior.
     /// </summary>
-    public class PlayerStateMachine : MonoBehaviour
+    public class PlayerStateMachine
     {
-        private PlayerController _controller;
+        private readonly Dictionary<StateId, PlayerState> _states = new();
 
-        private IdleState _idleState;
-        private MoveState _moveState;
+        private PlayerState _currentState;
 
-        public PlayerState CurrentState { get; private set; }
+        public PlayerState CurrentState => _currentState;
 
-        public void Initialize(PlayerController controller)
+        public PlayerStateMachine(PlayerController controller)
         {
-            _controller = controller;
-
-            _idleState = new IdleState(this);
-            _moveState = new MoveState(this);
-
-            ChangeState(_idleState);
+            AddState(StateId.Idle, new IdleState(this, controller));
+            AddState(StateId.Move, new MoveState(this, controller));
+            AddState(StateId.Attack, new AttackState(this, controller));
+            ChangeState(StateId.Idle);
         }
 
-        public void ChangeState(PlayerState nextState)
+        public void AddState(StateId id, PlayerState state)
         {
-            if (CurrentState == nextState)
+            _states.Add(id, state);
+        }
+
+        public void ChangeState(StateId id)
+        {
+            if (!_states.TryGetValue(id, out PlayerState nextState))
+            {
+                Debug.LogError($"State {id} is not registered.");
+                return;
+            }
+
+            if (_currentState == nextState)
                 return;
 
-            CurrentState?.Exit();
+            _currentState?.Exit();
 
-            CurrentState = nextState;
+            _currentState = nextState;
 
-            CurrentState.Enter();
+            _currentState.Enter();
         }
 
-        private void Update()
+        public void Update()
         {
-            CurrentState?.Update();
+            _currentState?.Update();
         }
 
-        public PlayerController Controller => _controller;
-
-        public IdleState IdleState => _idleState;
-        public MoveState MoveState => _moveState;
+        public bool HasState(StateId id)
+        {
+            return _states.ContainsKey(id);
+        }
     }
 }

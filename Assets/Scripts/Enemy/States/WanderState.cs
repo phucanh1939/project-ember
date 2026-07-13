@@ -54,7 +54,6 @@ namespace Game.Enemy
                 return;
             }
 
-
             Vector2 direction = _destination - (Vector2)_controller.transform.position;
 
             if (direction.sqrMagnitude <= ArriveDistanceSqr)
@@ -62,7 +61,6 @@ namespace Game.Enemy
                 ChangeState(StateId.Idle);
                 return;
             }
-
 
             _controller.Movement.SetMoveDirection(direction.normalized);
         }

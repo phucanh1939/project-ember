@@ -10,18 +10,23 @@ namespace Game.Player
     /// </summary>
     public class IdleState : PlayerState
     {
-        public IdleState(PlayerStateMachine stateMachine)
-            : base(stateMachine)
+        public IdleState(PlayerStateMachine stateMachine, PlayerController controller)
+            : base(stateMachine, controller)
         {
+        }
+
+        public override void Enter()
+        {
+            _controller.Movement.StopMovement();
         }
 
         public override void Update()
         {
-            Controller.Movement.StopMovement();
+            if (TryAttack()) return;
 
-            if (Controller.Input.Move != Vector2.zero)
+            if (_controller.Input.Move != Vector2.zero)
             {
-                StateMachine.ChangeState(StateMachine.MoveState);
+                _stateMachine.ChangeState(StateId.Move);
             }
         }
     }

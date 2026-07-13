@@ -2,13 +2,13 @@ namespace Game.Player
 {
     public abstract class PlayerState
     {
-        protected PlayerStateMachine StateMachine { get; }
+        protected PlayerStateMachine _stateMachine;
+        protected PlayerController _controller;
 
-        protected PlayerController Controller => StateMachine.Controller;
-
-        protected PlayerState(PlayerStateMachine stateMachine)
+        protected PlayerState(PlayerStateMachine stateMachine, PlayerController controller)
         {
-            StateMachine = stateMachine;
+            _stateMachine = stateMachine;
+            _controller = controller;
         }
 
         public virtual void Enter() { }
@@ -16,5 +16,14 @@ namespace Game.Player
         public virtual void Exit() { }
 
         public virtual void Update() { }
+
+        protected bool TryAttack()
+        {
+            if (!_controller.Input.AttackPressed)
+                return false;
+
+            _stateMachine.ChangeState(StateId.Attack);
+            return true;
+        }
     }
 }
