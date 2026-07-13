@@ -36,12 +36,17 @@ namespace Game.Gameplay
         /// <summary>
         /// Reduces health by the specified amount.
         /// </summary>
-        public void TakeDamage(int amount)
+        public void TakeDamage(DamageData damageData)
         {
             if (!IsAlive)
                 return;
 
-            CurrentHealth = Mathf.Max(CurrentHealth - amount, 0);
+            CurrentHealth = Mathf.Max(CurrentHealth - damageData.Amount, 0);
+
+            if (CurrentHealth <= 0)
+            {
+                Die();
+            }
         }
 
         /// <summary>
@@ -53,6 +58,11 @@ namespace Game.Gameplay
                 return;
 
             CurrentHealth = Mathf.Min(CurrentHealth + amount, maxHealth);
+        }
+
+        private void Die()
+        {
+            Debug.Log($"{name} died");
         }
     }
 }
