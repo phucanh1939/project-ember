@@ -22,7 +22,6 @@ namespace Game.Gameplay.Player
 
         public override void Update()
         {
-            // Debug.Log("_____ IDLE: " + _controller.Input.Move.x + ", " + _controller.Input.Move.y);
             if (TryAttack()) return;
 
             if (_controller.Input.Move != Vector2.zero)

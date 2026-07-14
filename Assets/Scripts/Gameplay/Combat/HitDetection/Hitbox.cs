@@ -16,7 +16,7 @@ namespace Game.Gameplay
     [RequireComponent(typeof(Collider2D))]
     public class Hitbox : MonoBehaviour
     {
-        [SerializeField] private Collider2D _collider;
+        [SerializeField] private BoxCollider2D _collider;
 
         // Stores targets that have already been hit during the current attack.
         // PERF:
@@ -30,7 +30,7 @@ namespace Game.Gameplay
 
         private void OnValidate()
         {
-            _collider = GetComponent<Collider2D>();
+            _collider = GetComponent<BoxCollider2D>();
 
             if (_collider != null)
                 _collider.isTrigger = true;
@@ -44,6 +44,12 @@ namespace Game.Gameplay
         public void SetDamage(DamageData damage)
         {
             _damage = damage;
+        }
+
+        public void Setup(HitboxDefinition definition)
+        {
+            _collider.offset = definition.Offset;
+            _collider.size = definition.Size;
         }
 
         public void Enable()
