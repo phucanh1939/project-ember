@@ -3,6 +3,9 @@ using Game.Core;
 
 namespace Game.Gameplay
 {
+    /// <summary>
+    /// Transitions character states in response to health and status events.
+    /// </summary>
     public class CharacterStateInterruptor<TStateId>
     where TStateId : Enum
     {

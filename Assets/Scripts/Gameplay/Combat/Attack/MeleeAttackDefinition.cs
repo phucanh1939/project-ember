@@ -3,6 +3,9 @@ using UnityEngine;
 namespace Game.Gameplay
 {
     [CreateAssetMenu(menuName = "Game/Combat/Attack/Melee Attack")]
+    /// <summary>
+    /// Executes an attack by enabling the attacker's hitbox.
+    /// </summary>
     public class MeleeAttackDefinition : AttackDefinition
     {
         [SerializeField] private HitboxDefinition _hitbox;

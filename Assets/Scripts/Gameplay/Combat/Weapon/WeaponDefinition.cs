@@ -3,6 +3,9 @@ using UnityEngine;
 namespace Game.Gameplay
 {
     [CreateAssetMenu(menuName = "Game/Weapon")]
+    /// <summary>
+    /// Defines a weapon's base damage and basic attack.
+    /// </summary>
     public class WeaponDefinition : ScriptableObject
     {
         [Header("Weapon Info")]

@@ -2,6 +2,9 @@ using UnityEngine;
 
 namespace Game.Gameplay
 {
+    /// <summary>
+    /// Stores the weapon currently equipped by a character.
+    /// </summary>
     public class WeaponHolder : MonoBehaviour
     {
         [SerializeField]

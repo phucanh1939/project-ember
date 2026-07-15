@@ -4,6 +4,9 @@ using UnityEngine;
 namespace Game.Gameplay.Enemy
 {
     [CreateAssetMenu(fileName = "Attack", menuName = "Game/Enemy/State/Attack")]
+    /// <summary>
+    /// Creates the runtime enemy attack state.
+    /// </summary>
     public class AttackStateDefinition : StateDefinition
     {
         private void OnEnable()

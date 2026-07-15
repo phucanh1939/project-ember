@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace Game.Gameplay.Enemy
 {
+    /// <summary>
+    /// Owns the configured state machine and interrupts for an enemy.
+    /// </summary>
     public class EnemyBehavior : MonoBehaviour
     {
         [SerializeField] private EnemyAIConfig _config;

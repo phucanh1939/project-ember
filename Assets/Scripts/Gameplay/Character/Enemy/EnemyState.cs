@@ -2,6 +2,9 @@ using Game.Core;
 
 namespace Game.Gameplay.Enemy
 {
+    /// <summary>
+    /// Provides shared controller access for enemy states.
+    /// </summary>
     public abstract class EnemyState : State<StateId>
     {
         protected EnemyController _controller;

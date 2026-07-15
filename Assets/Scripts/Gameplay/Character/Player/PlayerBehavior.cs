@@ -4,6 +4,9 @@ using UnityEngine;
 namespace Game.Gameplay.Player
 {
     [RequireComponent(typeof(PlayerController))]
+    /// <summary>
+    /// Owns the player's state machine and interrupt handling.
+    /// </summary>
     public class PlayerBehavior : MonoBehaviour
     {
         protected PlayerController _controller;

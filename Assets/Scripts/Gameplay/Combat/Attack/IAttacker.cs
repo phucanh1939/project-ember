@@ -2,6 +2,9 @@ using UnityEngine;
 
 namespace Game.Gameplay
 {
+    /// <summary>
+    /// Exposes character data required to execute an attack.
+    /// </summary>
     public interface IAttacker
     {
         Transform Transform { get; }

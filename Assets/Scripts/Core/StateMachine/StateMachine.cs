@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace Game.Core
 {
+    /// <summary>
+    /// Manages transitions and updates for a set of states.
+    /// </summary>
     public class StateMachine<TStateId> where TStateId : Enum
     {
         private readonly Dictionary<TStateId, State<TStateId>> _states = new();
@@ -17,7 +20,6 @@ namespace Game.Core
 
         public void ChangeState(TStateId id)
         {
-            Debug.Log("------- CHANGE STATE: " +id);
             if (!_states.TryGetValue(id, out var next))
                 return;
 

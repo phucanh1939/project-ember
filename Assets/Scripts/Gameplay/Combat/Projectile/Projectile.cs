@@ -3,6 +3,9 @@ using UnityEngine;
 namespace Game.Gameplay
 {
     [RequireComponent(typeof(Collider2D))]
+    /// <summary>
+    /// Moves forward and damages the first hurtbox it reaches.
+    /// </summary>
     public class Projectile : MonoBehaviour
     {
         [Header("Settings")]

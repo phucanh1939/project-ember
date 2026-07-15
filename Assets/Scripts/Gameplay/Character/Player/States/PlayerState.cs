@@ -2,6 +2,9 @@ using Game.Core;
 
 namespace Game.Gameplay.Player
 {
+    /// <summary>
+    /// Provides shared controller access and transitions for player states.
+    /// </summary>
     public abstract class PlayerState : State<StateId>
     {
         protected PlayerController _controller;

@@ -4,7 +4,6 @@ namespace Game.Gameplay
 {
     /// <summary>
     /// Updates the character's Animator based on gameplay state.
-    ///
     /// </summary>
     [RequireComponent(typeof(Animator))]
     public class CharacterAnimation : MonoBehaviour

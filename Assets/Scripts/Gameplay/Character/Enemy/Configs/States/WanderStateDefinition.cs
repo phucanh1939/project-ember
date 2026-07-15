@@ -4,6 +4,9 @@ using UnityEngine;
 namespace Game.Gameplay.Enemy
 {
     [CreateAssetMenu(fileName = "Wander", menuName = "Game/Enemy/State/Wander")]
+    /// <summary>
+    /// Creates the runtime enemy wander state.
+    /// </summary>
     public class WanderStateDefinition : StateDefinition
     {
         private void OnEnable()

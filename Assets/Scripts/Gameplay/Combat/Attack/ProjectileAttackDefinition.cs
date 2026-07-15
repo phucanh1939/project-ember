@@ -3,6 +3,9 @@ using UnityEngine;
 namespace Game.Gameplay
 {
     [CreateAssetMenu(menuName = "Game/Combat/Attack/Projectile Attack")]
+    /// <summary>
+    /// Executes an attack by spawning a projectile.
+    /// </summary>
     public class ProjectileAttackDefinition : AttackDefinition
     {
         [SerializeField] private Projectile _projectilePrefab;
