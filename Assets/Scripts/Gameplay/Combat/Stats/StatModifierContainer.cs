@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Game.Gameplay
 {
     /// <summary>
-    /// Stores the active runtime modifiers for a character.
+    /// Stores active runtime stat modifiers from different gameplay systems.
     /// </summary>
     public class StatModifierContainer : MonoBehaviour
     {
@@ -21,10 +21,15 @@ namespace Game.Gameplay
             _modifiers.Remove(modifier);
         }
 
+        public void RemoveSource(StatModifierSource source)
+        {
+            _modifiers.RemoveAll(x => x.Source == source);
+        }
+
         public IEnumerable<StatModifier> GetModifiers(StatType type)
         {
             // PERF: Index modifiers by StatType if characters accumulate many active modifiers.
-            return _modifiers.Where(x => x.Type == type);
+            return _modifiers.Where(x => x.StatType == type);
         }
 
         public void Clear()
