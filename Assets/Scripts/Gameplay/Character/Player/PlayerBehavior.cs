@@ -9,42 +9,33 @@ namespace Game.Gameplay.Player
     /// </summary>
     public class PlayerBehavior : MonoBehaviour
     {
+        [SerializeField] private StateInterruptDefinition _interruptDefinition;
         protected PlayerController _controller;
-        protected StateMachine<StateId> _stateMachine;
-        protected CharacterStateInterruptor<StateId> _interruptor;
+        protected StateMachine<CharacterStateId> _stateMachine;
+        protected StateInterruptor _interruptor;
 
         public void Initialize(PlayerController controller)
         {
             _controller = controller;
-            _stateMachine = new StateMachine<StateId>();
+            _stateMachine = new StateMachine<CharacterStateId>();
 
             InitializeStates();
             InitializeInterruptor();
 
-            _stateMachine.ChangeState(StateId.Idle);
+            _stateMachine.ChangeState(CharacterStateId.Idle);
         }
 
         private void InitializeStates()
         {
-            _stateMachine.AddState(StateId.Idle, new IdleState(_stateMachine, _controller));
-            _stateMachine.AddState(StateId.Move, new MoveState(_stateMachine, _controller));
-            _stateMachine.AddState(StateId.Attack, new AttackState(_stateMachine, _controller));
-            _stateMachine.AddState(StateId.Dead, new DeadState(_stateMachine, _controller));
+            _stateMachine.AddState(CharacterStateId.Idle, new IdleState(_stateMachine, _controller));
+            _stateMachine.AddState(CharacterStateId.Move, new MoveState(_stateMachine, _controller));
+            _stateMachine.AddState(CharacterStateId.Attack, new AttackState(_stateMachine, _controller));
+            _stateMachine.AddState(CharacterStateId.Dead, new DeadState(_stateMachine, _controller));
         }
 
         private void InitializeInterruptor()
         {
-            var interruptStates = new CharacterInterruptStates<StateId>
-            {
-                Dead = StateId.Dead
-            };
-
-            _interruptor = new CharacterStateInterruptor<StateId>(
-                _stateMachine,
-                _controller.Health,
-                _controller.StatusEffect,
-                interruptStates
-            );
+            _interruptor = new StateInterruptor(_interruptDefinition, _stateMachine);
         }
 
         private void Update()

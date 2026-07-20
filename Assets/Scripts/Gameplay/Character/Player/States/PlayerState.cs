@@ -5,11 +5,11 @@ namespace Game.Gameplay.Player
     /// <summary>
     /// Provides shared controller access and transitions for player states.
     /// </summary>
-    public abstract class PlayerState : State<StateId>
+    public abstract class PlayerState : State<CharacterStateId>
     {
         protected PlayerController _controller;
 
-        protected PlayerState(StateMachine<StateId> stateMachine, PlayerController controller) : base(stateMachine)
+        protected PlayerState(StateMachine<CharacterStateId> stateMachine, PlayerController controller) : base(stateMachine)
         {
             _controller = controller;
         }
@@ -19,7 +19,7 @@ namespace Game.Gameplay.Player
             if (!_controller.Input.AttackPressed)
                 return false;
 
-            _stateMachine.ChangeState(StateId.Attack);
+            _stateMachine.ChangeState(CharacterStateId.Attack);
             return true;
         }
     }

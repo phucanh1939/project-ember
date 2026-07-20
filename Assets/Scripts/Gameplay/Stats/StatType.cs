@@ -9,6 +9,7 @@ namespace Game.Gameplay
         AttackDamage,
         Armor,
         AttackSpeed,
+        MoveSpeed,
 
         Count, // This must be the last item, will be used as Number of Stat Type
     }

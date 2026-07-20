@@ -11,7 +11,7 @@ namespace Game.Gameplay.Player
     /// </summary>
     public class MoveState : PlayerState
     {
-        public MoveState(StateMachine<StateId> stateMachine, PlayerController controller) : base(stateMachine, controller)
+        public MoveState(StateMachine<CharacterStateId> stateMachine, PlayerController controller) : base(stateMachine, controller)
         {
         }
 
@@ -23,7 +23,7 @@ namespace Game.Gameplay.Player
 
             if (_controller.Input.Move == Vector2.zero)
             {
-                _stateMachine.ChangeState(StateId.Idle);
+                _stateMachine.ChangeState(CharacterStateId.Idle);
             }
         }
     }

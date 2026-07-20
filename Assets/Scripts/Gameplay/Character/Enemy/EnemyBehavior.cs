@@ -8,24 +8,25 @@ namespace Game.Gameplay.Enemy
     /// </summary>
     public class EnemyBehavior : MonoBehaviour
     {
-        [SerializeField] private EnemyAIConfig _config;
+        [SerializeField] private EnemyBehaviorDefinition _behaviorDefinition;
+        [SerializeField] private StateInterruptDefinition _interruptDefinition;
 
         protected EnemyController _controller;
-        protected StateMachine<StateId> _stateMachine;
-        protected CharacterStateInterruptor<StateId> _interruptor;
+        protected StateMachine<CharacterStateId> _stateMachine;
+        protected StateInterruptor _interruptor;
 
         public void Initialize(EnemyController controller)
         {
             _controller = controller;
-            _stateMachine = new StateMachine<StateId>();
+            _stateMachine = new StateMachine<CharacterStateId>();
             InitializeStates();
             InitializeInterruptor();
-            _stateMachine.ChangeState(_config.InitialState);
+            _stateMachine.ChangeState(_behaviorDefinition.InitialState);
         }
 
         private void InitializeStates()
         {
-            foreach (var definition in _config.States)
+            foreach (var definition in _behaviorDefinition.States)
             {
                 _stateMachine.AddState(definition.Id, definition.Create(_stateMachine, _controller));
             }
@@ -33,19 +34,7 @@ namespace Game.Gameplay.Enemy
 
         private void InitializeInterruptor()
         {
-            var interruptStates = new CharacterInterruptStates<StateId>
-            {
-                Dead = StateId.Dead,
-                // Stunned = StateId.Stunned,
-                // Knockback = StateId.Knockback
-            };
-
-            _interruptor = new CharacterStateInterruptor<StateId>(
-                _stateMachine,
-                _controller.Health,
-                _controller.StatusEffect,
-                interruptStates
-            );
+            _interruptor = new StateInterruptor(_interruptDefinition, _stateMachine);
         }
 
         private void Update()

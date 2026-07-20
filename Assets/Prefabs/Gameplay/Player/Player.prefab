@@ -344,11 +344,13 @@ GameObject:
   - component: {fileID: 7052377005609142114}
   - component: {fileID: 1378066745572758254}
   - component: {fileID: 8482268771512987471}
-  - component: {fileID: 7856648011435850319}
   - component: {fileID: 5057654047578086988}
   - component: {fileID: 5191750035185619370}
   - component: {fileID: 8681674895621090130}
   - component: {fileID: 7966760137008007590}
+  - component: {fileID: 5305364171232619528}
+  - component: {fileID: 8693551508542046015}
+  - component: {fileID: 3035159859346727423}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -459,7 +461,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f437f3b9fc3bc4bc9b38bc3c9c540279, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Movement
-  _moveSpeed: 5
+  _rigidbody: {fileID: 5558214803300182548}
 --- !u!114 &1378066745572758254
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -472,7 +474,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25ea74e49861c48d9bd8f6ab55909cd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Game.Gameplay.Health
-  maxHealth: 100
 --- !u!114 &8482268771512987471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -485,20 +486,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70962293f29394a958a332da3d7f9ca4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Game.Gameplay.Attack
-  _hitbox: {fileID: 7195231799658964080}
-  _damage: 10
---- !u!114 &7856648011435850319
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6618215085509767278}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 58e00eebca7e1404191073e78d6c783a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Game.Gameplay.StatusEffect
+  _weaponHolder: {fileID: 3035159859346727423}
 --- !u!114 &5057654047578086988
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -523,6 +511,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23f77f61d315b47bd91a2522e384fcde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Game.Gameplay.Player.PlayerBehavior
+  _interruptDefinition: {fileID: 0}
 --- !u!114 &8681674895621090130
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -537,9 +526,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   _playerInput: {fileID: 5057654047578086988}
   _movement: {fileID: 7052377005609142114}
+  _stats: {fileID: 8693551508542046015}
+  _statModiferContainer: {fileID: 5305364171232619528}
   _health: {fileID: 1378066745572758254}
   _attack: {fileID: 8482268771512987471}
-  _statusEffect: {fileID: 7856648011435850319}
   _behavior: {fileID: 5191750035185619370}
 --- !u!114 &7966760137008007590
 MonoBehaviour:
@@ -554,6 +544,45 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Game.Player.PlayerInstaller
   playerInput: {fileID: 5057654047578086988}
+--- !u!114 &5305364171232619528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6618215085509767278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a05cce1ef62f4f0eaf0ccac73627c2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Game.Gameplay.StatModifierContainer
+--- !u!114 &8693551508542046015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6618215085509767278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0acf10dbb73d3482ebec8f6f5b7b306e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Game.Gameplay.CharacterStats
+  _definition: {fileID: 0}
+  _modifierContainer: {fileID: 5305364171232619528}
+--- !u!114 &3035159859346727423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6618215085509767278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d35576856ea324a2d97e071cbe99d51b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Game.Gameplay.WeaponHolder
+  _startingWeapon: {fileID: 0}
 --- !u!1 &7772063299678477816
 GameObject:
   m_ObjectHideFlags: 0

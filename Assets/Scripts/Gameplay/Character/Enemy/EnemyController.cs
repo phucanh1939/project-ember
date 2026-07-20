@@ -16,7 +16,6 @@ namespace Game.Gameplay.Enemy
     [RequireComponent(typeof(Sensor))]
     [RequireComponent(typeof(Health))]
     [RequireComponent(typeof(Attack))]
-    [RequireComponent(typeof(StatusEffect))]
     [RequireComponent(typeof(EnemyBehavior))]
     public class EnemyController : MonoBehaviour
     {
@@ -25,7 +24,6 @@ namespace Game.Gameplay.Enemy
         [SerializeField] private Sensor _sensor;
         [SerializeField] private Health _health;
         [SerializeField] private Attack _attack;
-        [SerializeField] private StatusEffect _statusEffect;
         [SerializeField] private EnemyBehavior _behavior;
 
         public Vector2 SpawnPosition { get; private set; }
@@ -34,7 +32,6 @@ namespace Game.Gameplay.Enemy
         public Sensor Sensor => _sensor;
         public Health Health => _health;
         public Attack Attack => _attack;
-        public StatusEffect StatusEffect => _statusEffect;
 
         public Transform Target { get; private set; }
 
@@ -45,7 +42,6 @@ namespace Game.Gameplay.Enemy
             _movement = GetComponent<Movement>();
             _health = GetComponent<Health>();
             _sensor = GetComponent<Sensor>();
-            _statusEffect = GetComponent<StatusEffect>();
             _behavior = GetComponent<EnemyBehavior>();
         }
 #endif

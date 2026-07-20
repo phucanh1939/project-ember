@@ -11,7 +11,7 @@ namespace Game.Gameplay.Player
     /// </summary>
     public class DeadState : PlayerState
     {
-        public DeadState(StateMachine<StateId> stateMachine, PlayerController controller) : base(stateMachine, controller)
+        public DeadState(StateMachine<CharacterStateId> stateMachine, PlayerController controller) : base(stateMachine, controller)
         {
         }
 

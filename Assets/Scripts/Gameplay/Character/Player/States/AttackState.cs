@@ -10,7 +10,7 @@ namespace Game.Gameplay.Player
     /// </summary>
     public class AttackState : PlayerState
     {
-        public AttackState(StateMachine<StateId> stateMachine, PlayerController controller) : base(stateMachine, controller)
+        public AttackState(StateMachine<CharacterStateId> stateMachine, PlayerController controller) : base(stateMachine, controller)
         {
         }
 
@@ -28,7 +28,7 @@ namespace Game.Gameplay.Player
 
         private void HandleAttackEnded()
         {
-            _stateMachine.ChangeState(StateId.Idle);
+            _stateMachine.ChangeState(CharacterStateId.Idle);
         }
     }
 }
