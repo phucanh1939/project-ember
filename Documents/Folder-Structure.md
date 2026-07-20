@@ -19,9 +19,6 @@ we prefer:
 ```text
 Scripts
 ├── Gameplay
-├── Player
-├── Enemy
-├── NPC
 └── Core
 ```
 
@@ -40,74 +37,45 @@ If the file can be reused by multiple features (for example, both Player and Ene
 ```text
 Assets
 │
+│── Animations
+│
 ├── Art
-│   ├── Animations
 │   ├── Materials
 │   ├── Sprites
-│   └── Tiles
+│   ├── Tiles
+|   └── Fonts
 │
 ├── Audio
-│   ├── Music
-│   ├── SFX
-│   └── Mixer
-│
-├── Documentation
-│   ├── 00-Architecture
-│   ├── 01-Core
-│   ├── 02-Player
-│   ├── 03-Combat
-│   └── 99-Optimization
 │
 ├── Editor
 │
 ├── Plugins
 │
 ├── Prefabs
-│   ├── Characters
-│   ├── Environment
-│   ├── Items
-│   ├── Effects
-│   └── UI
 │
 ├── Resources
 │
 ├── Scenes
 │
 ├── ScriptableObjects
-│   ├── Characters
-│   ├── Items
-│   ├── Skills
-│   └── Dialogue
 │
 ├── Scripts
 │   ├── Core
-│   ├── Gameplay
-│   │   ├── Characters
-│   │   ├── Combat
-│   │   ├── Dialogue
-│   │   ├── Inventory
-│   │   └── World
-│   │
-│   ├── Player
-│   ├── Enemy
-│   ├── NPC
-│   └── UI
+│   └── Gameplay
+│       ├── Character
+│       ├── Combat
+│       ├── Detection
+│       ├── Interaction
+│       ├── Movement
+│       └── Inventory
 │
 ├── Settings
 │
 ├── StreamingAssets
 │
 ├── Tests
-│   ├── EditMode
-│   └── PlayMode
 │
 ├── ThirdParty
-│
-└── UI
-    ├── Fonts
-    ├── Icons
-    ├── Prefabs
-    └── Sprites
 ```
 
 ---
@@ -117,7 +85,5 @@ Assets
 - Organize by feature, not script type.
 - Keep related files together.
 - Put reusable gameplay systems in `Scripts/Gameplay`.
-- Put feature-specific logic in its feature folder (`Player`, `Enemy`, `NPC`, etc.).
 - Keep runtime code separate from assets.
-- Keep project documentation inside `Documentation`.
 - Design the folder structure so it can grow without major reorganization.

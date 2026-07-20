@@ -18,19 +18,19 @@
   - [x] Interaction
   - [x] Basic UI (HP)
 
-- [ ] **First Enemy** - An enemy can detect and chase the player.
+- [x] **First Enemy** - An enemy can detect and chase the player.
   - [x] Enemy prefab
   - [x] Enemy State Machine
   - [x] Idle
   - [x] Patrol
   - [x] Chase
-  - [ ] Enemy Animation
+  - [x] Enemy Animation
 
 - [ ] **First Combat Loop** - The player can kill enemies.
-  - [ ] Weapon
-  - [ ] Attack
-  - [ ] Health
-  - [ ] Damage
+  - [x] Hitbox & Hurtbox
+  - [x] Attack
+  - [x] Health
+  - [x] Damage
   - [ ] Death
   - [ ] Hit Effects
 

@@ -16,10 +16,10 @@ TagManager:
   - Environment
   - Projectile
   - Interactable
-  - 
-  - 
-  - 
-  - 
+  - PlayerHitbox
+  - EnemyHitbox
+  - PlayerHurtbox
+  - EnemyHurtbox
   - 
   - 
   - 
