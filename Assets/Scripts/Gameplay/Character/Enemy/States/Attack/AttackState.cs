@@ -1,4 +1,5 @@
 using Game.Core;
+using Game.Gameplay.Player;
 using UnityEngine;
 
 namespace Game.Gameplay.Enemy

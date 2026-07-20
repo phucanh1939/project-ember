@@ -16,5 +16,6 @@ namespace Game.Gameplay
         Health Health { get; }
         StatModifierContainer StatModifierContainer { get; }
         StatusEffectController StatusEffectController { get; }
+        CharacterBehavior Behavior { get; }
     }
 }

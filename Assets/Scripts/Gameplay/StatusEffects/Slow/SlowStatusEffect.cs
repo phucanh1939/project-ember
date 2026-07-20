@@ -19,12 +19,12 @@ namespace Game.Gameplay
             StatModifierSource.StatusEffect,
             -_definition.SlowPercent);
 
-        context.Target.StatModifierContainer.AddModifier(_modifier);
+        _context.Target.StatModifierContainer.AddModifier(_modifier);
     }
 
     protected override void OnExpire()
     {
-        context.Target.StatModifierContainer.RemoveModifier(_modifier);
+        _context.Target.StatModifierContainer.RemoveModifier(_modifier);
     }
 }
 }

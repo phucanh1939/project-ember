@@ -7,28 +7,29 @@ namespace Game.Gameplay
     /// </summary>
     public abstract class StatusEffect
     {
-        protected EffectContext context;
+        protected EffectContext _context;
+        protected float _remainingTime;
 
-        protected float remainingTime;
+        public bool IsExpired => _remainingTime <= 0;
 
         protected StatusEffect(EffectContext context)
         {
-            this.context = context;
+            _context = context;
         }
 
         public void Initialize(float duration)
         {
-            remainingTime = duration;
+            _remainingTime = duration;
             OnApply();
         }
 
         public void Update(float deltaTime)
         {
-            remainingTime -= deltaTime;
+            _remainingTime -= deltaTime;
 
             OnUpdate(deltaTime);
 
-            if (remainingTime <= 0)
+            if (_remainingTime <= 0)
                 OnExpire();
         }
 
@@ -43,7 +44,5 @@ namespace Game.Gameplay
         protected virtual void OnExpire()
         {
         }
-
-        public bool IsExpired => remainingTime <= 0;
     }
 }

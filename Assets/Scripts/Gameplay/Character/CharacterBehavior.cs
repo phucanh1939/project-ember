@@ -14,6 +14,8 @@ namespace Game.Gameplay
         protected StateMachine<CharacterStateId> _stateMachine;
         protected StateInterruptor _interruptor;
 
+        public StateInterruptor StateInterruptor => _interruptor;
+
         public void Initialize(CharacterController controller)
         {
             _stateMachine = new StateMachine<CharacterStateId>();

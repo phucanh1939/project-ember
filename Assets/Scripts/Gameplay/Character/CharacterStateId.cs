@@ -46,6 +46,11 @@ namespace Game.Gameplay
         /// Returning to original position after losing target.
         /// </summary>
         Return,
+        
+        /// <summary>
+        /// Interrupt by effect
+        /// </summary>
+        Stunned,
 
         /// <summary>
         /// Enemy is dead and no longer performs actions.

@@ -20,7 +20,7 @@ namespace Game.Gameplay
 
             _tickTimer = _definition.TickInterval;
 
-            context.Target.Health.TakeDamage(new DamageData(_definition.DamagePerTick));
+            _context.Target.Health.TakeDamage(new DamageData(_definition.DamagePerTick));
         }
     }
 }
