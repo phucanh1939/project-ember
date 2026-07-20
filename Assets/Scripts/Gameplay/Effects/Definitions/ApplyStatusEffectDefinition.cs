@@ -7,9 +7,9 @@ namespace Game.Gameplay
     {
         [SerializeField] private StatusEffectDefinition _status;
 
-        public override Effect CreateEffect()
+        public override void Execute(EffectContext context)
         {
-            return new ApplyStatusEffect(_status);
+            context.Target.StatusEffectController.Add(_status, context);
         }
     }
 }

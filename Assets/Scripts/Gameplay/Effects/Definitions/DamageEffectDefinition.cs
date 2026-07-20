@@ -5,11 +5,11 @@ namespace Game.Gameplay
     [CreateAssetMenu(menuName = "Gameplay/Effects/Damage")]
     public class DamageEffectDefinition : EffectDefinition
     {
-        [SerializeField] private float _damage;
+        [SerializeField] private DamageData _damage;
 
-        public override Effect CreateEffect()
+        public override void Execute(EffectContext context)
         {
-            return new DamageEffect(_damage);
+            context.Target.Health.TakeDamage(_damage);
         }
     }
 }
