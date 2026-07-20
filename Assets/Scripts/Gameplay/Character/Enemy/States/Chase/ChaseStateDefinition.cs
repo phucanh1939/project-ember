@@ -4,19 +4,16 @@ using UnityEngine;
 namespace Game.Gameplay.Enemy
 {
     [CreateAssetMenu(fileName = "Chase", menuName = "Game/Enemy/State/Chase")]
-    /// <summary>
-    /// Creates the runtime enemy chase state.
-    /// </summary>
-    public class ChaseStateDefinition : StateDefinition
+    public class ChaseStateDefinition : CharacterStateDefinition
     {
         private void OnEnable()
         {
             SetId(CharacterStateId.Chase);
         }
 
-        public override EnemyState Create(StateMachine<CharacterStateId> stateMachine, EnemyController controller)
+        public override CharacterState Create(StateMachine<CharacterStateId> stateMachine, CharacterController controller)
         {
-            return new ChaseState(stateMachine, controller);
+            return new ChaseState(stateMachine, (EnemyController)controller);
         }
     }
 }

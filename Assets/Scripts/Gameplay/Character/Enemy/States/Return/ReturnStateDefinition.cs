@@ -1,22 +1,20 @@
 using Game.Core;
 using UnityEngine;
+using Game.Gameplay;
 
 namespace Game.Gameplay.Enemy
 {
     [CreateAssetMenu(fileName = "Return", menuName = "Game/Enemy/State/Return")]
-    /// <summary>
-    /// Creates the runtime enemy return state.
-    /// </summary>
-    public class ReturnStateDefinition : StateDefinition
+    public class ReturnStateDefinition : CharacterStateDefinition
     {
         private void OnEnable()
         {
             SetId(CharacterStateId.Return);
         }
 
-        public override EnemyState Create(StateMachine<CharacterStateId> stateMachine, EnemyController controller)
+        public override CharacterState Create(StateMachine<CharacterStateId> stateMachine, CharacterController controller)
         {
-            return new ReturnState(stateMachine, controller);
+            return new ReturnState(stateMachine, (EnemyController)controller);
         }
     }
 }

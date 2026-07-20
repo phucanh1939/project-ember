@@ -7,16 +7,16 @@ namespace Game.Gameplay.Enemy
     /// <summary>
     /// Creates the runtime enemy wander state.
     /// </summary>
-    public class WanderStateDefinition : StateDefinition
+    public class WanderStateDefinition : CharacterStateDefinition
     {
         private void OnEnable()
         {
             SetId(CharacterStateId.Wander);
         }
 
-        public override EnemyState Create(StateMachine<CharacterStateId> stateMachine, EnemyController controller)
+        public override CharacterState Create(StateMachine<CharacterStateId> stateMachine, CharacterController controller)
         {
-            return new WanderState(stateMachine, controller);
+            return new WanderState(stateMachine, (EnemyController)controller);
         }
     }
 }

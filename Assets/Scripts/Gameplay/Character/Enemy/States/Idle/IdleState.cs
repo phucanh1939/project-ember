@@ -1,5 +1,4 @@
 using UnityEngine;
-using Game.Gameplay;
 using Game.Core;
 
 namespace Game.Gameplay.Enemy
@@ -28,18 +27,18 @@ namespace Game.Gameplay.Enemy
 
         public override void Enter()
         {
-            _controller.Movement.StopMovement();
-            _controller.Sensor.SetMode(SensorMode.Passive);
+            _enemyController.Movement.StopMovement();
+            _enemyController.Sensor.SetMode(SensorMode.Passive);
             _idleEndTime = Time.time + Random.Range(_minIdleTime, _maxIdleTime);
         }
 
         public override void Update()
         {
-            var target = _controller.Sensor.DetectedObject;
+            var target = _enemyController.Sensor.DetectedObject;
 
             if (ShouldChase(target))
             {
-                _controller.SetTarget(target.transform);
+                _enemyController.SetTarget(target.transform);
                 _stateMachine.ChangeState(CharacterStateId.Chase);
                 return;
             }

@@ -28,7 +28,7 @@ namespace Game.Gameplay.Enemy
 
         public override void Enter()
         {
-            _controller.Movement.StopMovement();
+            _enemyController.Movement.StopMovement();
         }
 
         public override void Update()
@@ -50,33 +50,33 @@ namespace Game.Gameplay.Enemy
 
         public override void Exit()
         {
-            _controller.Movement.StopMovement();
+            _enemyController.Movement.StopMovement();
         }
 
         private bool ShouldReturn()
         {
-            Transform target = _controller.Target;
+            Transform target = _enemyController.Target;
 
             if (target == null)
                 return true;
 
-            Vector2 fromSpawn = (Vector2)_controller.transform.position - _controller.SpawnPosition;
+            Vector2 fromSpawn = (Vector2)_enemyController.transform.position - _enemyController.SpawnPosition;
 
             return fromSpawn.sqrMagnitude > LeashRangeSquare;
         }
 
         private bool ShouldAttack()
         {
-            Vector2 toTarget = _controller.Target.position - _controller.transform.position;
+            Vector2 toTarget = _enemyController.Target.position - _enemyController.transform.position;
 
             return toTarget.sqrMagnitude <= AttackRangeSquare;
         }
 
         private void MoveToTarget()
         {
-            Vector2 direction = _controller.Target.position - _controller.transform.position;
+            Vector2 direction = _enemyController.Target.position - _enemyController.transform.position;
 
-            _controller.Movement.SetMoveDirection(direction.normalized);
+            _enemyController.Movement.SetMoveDirection(direction.normalized);
         }
     }
 }

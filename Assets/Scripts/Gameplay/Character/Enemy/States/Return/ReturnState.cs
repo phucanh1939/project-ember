@@ -25,14 +25,13 @@ namespace Game.Gameplay.Enemy
 
         public override void Enter()
         {
-            _controller.SetTarget(null);
-
-            _controller.Movement.StopMovement();
+            _enemyController.SetTarget(null);
+            _enemyController.Movement.StopMovement();
         }
 
         public override void Update()
         {
-            Vector2 direction = _controller.SpawnPosition - (Vector2)_controller.transform.position;
+            Vector2 direction = _enemyController.SpawnPosition - (Vector2)_enemyController.transform.position;
 
             // TODO cache squared distance _arriveDistance * _arriveDistance
             if (direction.sqrMagnitude <= _arriveDistance * _arriveDistance)
@@ -41,12 +40,12 @@ namespace Game.Gameplay.Enemy
                 return;
             }
 
-            _controller.Movement.SetMoveDirection(direction.normalized);
+            _enemyController.Movement.SetMoveDirection(direction.normalized);
         }
 
         public override void Exit()
         {
-            _controller.Movement.StopMovement();
+            _enemyController.Movement.StopMovement();
         }
 
     }

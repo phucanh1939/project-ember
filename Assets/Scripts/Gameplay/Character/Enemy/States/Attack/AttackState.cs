@@ -22,14 +22,14 @@ namespace Game.Gameplay.Enemy
 
         public override void Enter()
         {
-            _controller.Attack.OnAttackEnded += HandleAttackEnded;
-            _controller.Attack.StartAttack();
+            _enemyController.Attack.OnAttackEnded += HandleAttackEnded;
+            _enemyController.Attack.StartAttack();
         }
 
         public override void Exit()
         {
-            _controller.Attack.OnAttackEnded -= HandleAttackEnded;
-            _controller.Attack.CancelAttackIfActive();
+            _enemyController.Attack.OnAttackEnded -= HandleAttackEnded;
+            _enemyController.Attack.CancelAttackIfActive();
         }
 
         private void HandleAttackEnded()

@@ -17,14 +17,14 @@ namespace Game.Gameplay.Player
 
         public override void Enter()
         {
-            _controller.Movement.StopMovement();
+            _playerController.Movement.StopMovement();
         }
 
         public override void Update()
         {
             if (TryAttack()) return;
 
-            if (_controller.Input.Move != Vector2.zero)
+            if (_playerController.Input.Move != Vector2.zero)
             {
                 _stateMachine.ChangeState(CharacterStateId.Move);
             }

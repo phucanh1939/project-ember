@@ -1,9 +1,9 @@
 using Game.Core;
 using UnityEngine;
 
-namespace Game.Gameplay.Enemy
+namespace Game.Gameplay.Player
 {
-    [CreateAssetMenu(fileName = "Idle", menuName = "Game/Enemy/State/Idle")]
+    [CreateAssetMenu(fileName = "Idle", menuName = "Game/Player/State/Idle")]
     public class IdleStateDefinition : CharacterStateDefinition
     {
         private void OnEnable()
@@ -13,7 +13,7 @@ namespace Game.Gameplay.Enemy
 
         public override CharacterState Create(StateMachine<CharacterStateId> stateMachine, CharacterController controller)
         {
-            return new IdleState(stateMachine, (EnemyController)controller);
+            return new IdleState(stateMachine, (PlayerController)controller);
         }
     }
 }

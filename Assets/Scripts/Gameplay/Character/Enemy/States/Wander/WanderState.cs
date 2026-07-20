@@ -31,24 +31,24 @@ namespace Game.Gameplay.Enemy
 
         public override void Enter()
         {
-            _controller.Sensor.SetMode(SensorMode.Passive);
+            _enemyController.Sensor.SetMode(SensorMode.Passive);
             Vector2 randomOffset = Random.insideUnitCircle * WanderRadius;
-            _destination = (Vector2)_controller.SpawnPosition + randomOffset;
+            _destination = (Vector2)_enemyController.SpawnPosition + randomOffset;
         }
 
 
         public override void Update()
         {
-            Collider2D target = _controller.Sensor.DetectedObject;
+            Collider2D target = _enemyController.Sensor.DetectedObject;
 
             if (target != null)
             {
-                _controller.SetTarget(target.transform);
+                _enemyController.SetTarget(target.transform);
                 _stateMachine.ChangeState(CharacterStateId.Chase);
                 return;
             }
 
-            Vector2 direction = _destination - (Vector2)_controller.transform.position;
+            Vector2 direction = _destination - (Vector2)_enemyController.transform.position;
 
             if (direction.sqrMagnitude <= ArriveDistanceSqr)
             {
@@ -56,12 +56,12 @@ namespace Game.Gameplay.Enemy
                 return;
             }
 
-            _controller.Movement.SetMoveDirection(direction.normalized);
+            _enemyController.Movement.SetMoveDirection(direction.normalized);
         }
 
         public override void Exit()
         {
-            _controller.Movement.StopMovement();
+            _enemyController.Movement.StopMovement();
         }
     }
 }

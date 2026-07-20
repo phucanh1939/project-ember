@@ -16,14 +16,14 @@ namespace Game.Gameplay.Player
 
         public override void Enter()
         {
-            _controller.Attack.OnAttackEnded += HandleAttackEnded;
-            _controller.Attack.StartAttack();
+            _playerController.Attack.OnAttackEnded += HandleAttackEnded;
+            _playerController.Attack.StartAttack();
         }
 
         public override void Exit()
         {
-            _controller.Attack.OnAttackEnded -= HandleAttackEnded;
-            _controller.Attack.CancelAttackIfActive();
+            _playerController.Attack.OnAttackEnded -= HandleAttackEnded;
+            _playerController.Attack.CancelAttackIfActive();
         }
 
         private void HandleAttackEnded()

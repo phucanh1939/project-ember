@@ -1,9 +1,9 @@
 using Game.Core;
 using UnityEngine;
 
-namespace Game.Gameplay.Enemy
+namespace Game.Gameplay.Player
 {
-    [CreateAssetMenu(fileName = "Attack", menuName = "Game/Enemy/State/Attack")]
+    [CreateAssetMenu(fileName = "Attack", menuName = "Game/Player/State/Attack")]
     public class AttackStateDefinition : CharacterStateDefinition
     {
         private void OnEnable()
@@ -13,7 +13,7 @@ namespace Game.Gameplay.Enemy
 
         public override CharacterState Create(StateMachine<CharacterStateId> stateMachine, CharacterController controller)
         {
-            return new AttackState(stateMachine, (EnemyController)controller);
+            return new AttackState(stateMachine, (PlayerController)controller);
         }
     }
 }

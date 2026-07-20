@@ -17,11 +17,11 @@ namespace Game.Gameplay.Player
 
         public override void Update()
         {
-            _controller.Movement.SetMoveDirection(_controller.Input.Move);
+            _playerController.Movement.SetMoveDirection(_playerController.Input.Move);
 
             if (TryAttack()) return;
 
-            if (_controller.Input.Move == Vector2.zero)
+            if (_playerController.Input.Move == Vector2.zero)
             {
                 _stateMachine.ChangeState(CharacterStateId.Idle);
             }

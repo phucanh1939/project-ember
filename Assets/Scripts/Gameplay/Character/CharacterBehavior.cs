@@ -1,34 +1,32 @@
 using Game.Core;
 using UnityEngine;
 
-namespace Game.Gameplay.Enemy
+namespace Game.Gameplay
 {
     /// <summary>
     /// Owns the configured state machine and interrupts for an enemy.
     /// </summary>
-    public class EnemyBehavior : MonoBehaviour
+    public class CharacterBehavior : MonoBehaviour
     {
-        [SerializeField] private EnemyBehaviorDefinition _behaviorDefinition;
+        [SerializeField] private CharacterBehaviorDefinition _behaviorDefinition;
         [SerializeField] private StateInterruptDefinition _interruptDefinition;
 
-        protected EnemyController _controller;
         protected StateMachine<CharacterStateId> _stateMachine;
         protected StateInterruptor _interruptor;
 
-        public void Initialize(EnemyController controller)
+        public void Initialize(CharacterController controller)
         {
-            _controller = controller;
             _stateMachine = new StateMachine<CharacterStateId>();
-            InitializeStates();
+            InitializeStates(controller);
             InitializeInterruptor();
             _stateMachine.ChangeState(_behaviorDefinition.InitialState);
         }
 
-        private void InitializeStates()
+        private void InitializeStates(CharacterController controller)
         {
             foreach (var definition in _behaviorDefinition.States)
             {
-                _stateMachine.AddState(definition.Id, definition.Create(_stateMachine, _controller));
+                _stateMachine.AddState(definition.Id, definition.Create(_stateMachine, controller));
             }
         }
 
