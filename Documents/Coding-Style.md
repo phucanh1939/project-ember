@@ -1,6 +1,83 @@
-## Coding Style
+# Coding Style
 
-### Formatting
+## Naming
+
+### Private Fields
+
+* Prefix all private fields with `_`.
+* Use `camelCase` after the prefix.
+
+```csharp
+private CharacterStatsDefinition _definition;
+private readonly CachedStat[] _cache;
+private StatModifierContainer _modifierContainer;
+```
+
+### Public Fields
+
+* Use `camelCase`.
+* Only expose public fields when they are intended to be plain data.
+
+```csharp
+public int level;
+public string characterName;
+```
+
+### Properties
+
+* Use `PascalCase`.
+* Prefer read-only properties (`get` only) whenever possible.
+
+```csharp
+public int MaxHealth => Mathf.RoundToInt(GetFinalStat(StatType.MaxHealth));
+
+public bool IsAlive => _currentHealth > 0;
+```
+
+### Methods
+
+* Use `PascalCase` for all public, protected and private methods.
+
+```csharp
+public void Equip(WeaponDefinition weapon)
+{
+    ...
+}
+
+private void RefreshStats()
+{
+    ...
+}
+```
+
+### Types
+
+* Classes, structs, interfaces, enums and ScriptableObjects use `PascalCase`.
+
+```csharp
+public class CharacterStats : MonoBehaviour
+public struct StatModifier
+public interface IDamageable
+public enum StatType
+```
+
+### Enums
+
+* Enum values use `PascalCase`.
+
+```csharp
+public enum StatType
+{
+    MaxHealth,
+    AttackDamage,
+    Armor,
+    Count
+}
+```
+
+---
+
+## Formatting
 
 * Keep simple expressions inline when readability is not affected.
 
@@ -11,7 +88,7 @@ public int MaxHealth => GetFinalStat(StatType.MaxHealth);
 * Avoid unnecessary blank lines. Separate only major sections:
 
   * Fields
-  * Properties/events
+  * Properties / Events
   * Unity lifecycle methods
   * Public methods
   * Private methods
@@ -21,17 +98,17 @@ public int MaxHealth => GetFinalStat(StatType.MaxHealth);
 Prefer:
 
 ```csharp
-_modifierContainer.AddModifier(Source, new StatModifier(StatType.MaxHealth, ModifierType.Flat, value));
+_modifierContainer.AddModifier(new StatModifier(StatType.MaxHealth, StatModifierType.Flat, StatModifierSource.Attribute, value));
 ```
 
 Instead of:
 
 ```csharp
 _modifierContainer.AddModifier(
-    Source,
     new StatModifier(
         StatType.MaxHealth,
-        ModifierType.Flat,
+        StatModifierType.Flat,
+        StatModifierSource.Attribute,
         value));
 ```
 
@@ -41,7 +118,7 @@ _modifierContainer.AddModifier(
 
 ---
 
-### Comments
+## Comments
 
 Every class should have a short class-level comment explaining its purpose.
 
@@ -73,7 +150,7 @@ OnChanged?.Invoke();
 
 ---
 
-### Performance Notes
+## Performance Notes
 
 Add `// PERF` comments for areas that are simple currently but may require optimization later.
 

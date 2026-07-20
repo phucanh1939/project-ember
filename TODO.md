@@ -1,27 +1,47 @@
 # TODO
 
-## Misc
-
-- [ ] Remove Debug Logs
-
-## Animation
-
-- [ ] Setup player attack animations and blendtree
-- [ ] Setup enemy attack animations and blend tree
-- [ ] Create an `AnimationEventReceiverBridge` to receiver animation events and call needed function from Root (Player and Enemy)
-- [ ] Create attack events: Execute, Complete, End
-
-# Combat
-
-- [ ] Implement IAttacker for PlayerController and Enemy Controller, setup needed things (like projectile Spawn root)
-- [ ] Create combat ScriptableObject assets: `WeaponDefinition`, `MeleeAttackDefinition`/`ProjectileAttackDefinition`, and `HitboxDefinition`.
-- [ ] Add and configure `WeaponHolder` on Player and Enemy prefabs; assign their starting weapons.
-- [ ] Verify the hitbox/hurtbox layers and Physics 2D collision matrix so attacks can damage opponents but not unintended targets.
-- [ ] Hitbox editor for `HitboxDefinition`
+- [ ] Attribute
+- [ ] Stats
+- [ ] Effects
+- [ ] Projectile
+- [ ] Effect Zone
+- [ ] Ability
+- [ ] Damge Calculatetion
+- [ ] Items
 
 ## Stats
+- [x] Implement dirty set and cache for Character Stats reading
 
-- [ ] Create character config for each Character Class (Attribute Config and Stats Config)
-- [ ] Create enemy config for each type of enemy (Stats Config)
-- [ ] Setup Player Prefab: Add and setup stat and attribute components
-- [ ] Setup Enemy Prefab: Add and setup stat components
+## Effects
+- [ ] EffectDefinition: Config
+- [ ] Effect runtime class: runtime data + Logic
+- [ ] EffectController for Character
+
+## Projectile
+- [ ] Projectile Config
+- [ ] Runtime: data + logic
+
+## EffectZone
+- [ ] Config
+- [ ] Runtime: data + logic
+
+## Ability
+- [ ] AbilityDefinition
+- [ ] Ability runtime class: runtime data + Logic
+- [ ] AbilityController for Character
+
+## Damage Calculation
+- [ ] Different damage type
+- [ ] Damage formula
+
+## Items
+- [ ] Item Config (with 2 type consumable and equipment)
+- [ ] Consumable Item Logic
+- [ ] Eqiupment Logic
+
+## Dead
+- [ ] Dead State for Enemy
+- [ ] Dead State for Player
+- [ ] Respawn Player
+
+

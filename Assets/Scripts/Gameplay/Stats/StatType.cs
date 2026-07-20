@@ -8,6 +8,8 @@ namespace Game.Gameplay
         MaxHealth,
         AttackDamage,
         Armor,
-        AttackSpeed
+        AttackSpeed,
+
+        Count, // This must be the last item, will be used as Number of Stat Type
     }
 }

@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Game.Gameplay
@@ -7,15 +6,22 @@ namespace Game.Gameplay
     /// Stores runtime character stats.
     ///
     /// Base stats come from CharacterStatsDefinition.
-    /// Modifiers from equipment, attributes, buffs, etc. are applied at query time.
+    /// Modifiers from equipment, attributes, buffs, etc. are cached until a stat changes.
     /// </summary>
     [RequireComponent(typeof(StatModifierContainer))]
     public class CharacterStats : MonoBehaviour
     {
+        private struct CachedStat
+        {
+            public float value;
+            public bool dirty;
+        }
+
         [SerializeField] private CharacterStatsDefinition _definition;
         [SerializeField] private StatModifierContainer _modifierContainer;
 
-        private readonly Dictionary<StatType, float> _baseStats = new();
+        private readonly float[] _baseStats = new float[(int)StatType.Count];
+        private readonly CachedStat[] _cache = new CachedStat[(int)StatType.Count];
 
         public int MaxHealth => Mathf.RoundToInt(GetFinalStat(StatType.MaxHealth));
         public int AttackDamage => Mathf.RoundToInt(GetFinalStat(StatType.AttackDamage));
@@ -29,6 +35,18 @@ namespace Game.Gameplay
         private void Awake()
         {
             InitializeBaseStats();
+
+            _modifierContainer.OnStatChanged += MarkDirty;
+            _modifierContainer.OnAllStatsChanged += MarkAllDirty;
+        }
+
+        private void OnDestroy()
+        {
+            if (_modifierContainer == null)
+                return;
+
+            _modifierContainer.OnStatChanged -= MarkDirty;
+            _modifierContainer.OnAllStatsChanged -= MarkAllDirty;
         }
 
         private void InitializeBaseStats()
@@ -36,20 +54,47 @@ namespace Game.Gameplay
             if (_definition == null)
                 return;
 
-            _baseStats[StatType.MaxHealth] = _definition.MaxHealth;
-            _baseStats[StatType.AttackDamage] = _definition.AttackDamage;
-            _baseStats[StatType.Armor] = _definition.Armor;
+            SetBaseStat(StatType.MaxHealth, _definition.MaxHealth);
+            SetBaseStat(StatType.AttackDamage, _definition.AttackDamage);
+            SetBaseStat(StatType.Armor, _definition.Armor);
         }
 
+        // PERF: Cache calculated values since combat systems may query stats every frame.
         private float GetFinalStat(StatType type)
         {
-            if (!_baseStats.TryGetValue(type, out var value))
-                return 0;
+            int index = (int)type;
+
+            if (!_cache[index].dirty)
+                return _cache[index].value;
+
+            float value = _baseStats[index];
 
             foreach (var modifier in _modifierContainer.GetModifiers(type))
                 value = modifier.Apply(value);
 
+            _cache[index].value = value;
+            _cache[index].dirty = false;
+
             return value;
+        }
+
+        private void SetBaseStat(StatType type, float value)
+        {
+            int index = (int)type;
+
+            _baseStats[index] = value;
+            _cache[index].dirty = true;
+        }
+
+        private void MarkDirty(StatType type)
+        {
+            _cache[(int)type].dirty = true;
+        }
+
+        private void MarkAllDirty()
+        {
+            for (int i = 0; i < _cache.Length; i++)
+                _cache[i].dirty = true;
         }
     }
 }
