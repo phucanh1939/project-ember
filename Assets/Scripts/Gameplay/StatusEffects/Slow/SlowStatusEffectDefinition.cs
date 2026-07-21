@@ -7,11 +7,9 @@ namespace Game.Gameplay
     {
         [SerializeField] private float _slowPercent;
 
-        public float SlowPercent => _slowPercent;
-
-        public override StatusEffect CreateInstance(EffectContext context)
+        public override StatusEffect CreateStatusEffect(IEffectInstigator instigator)
         {
-            return new SlowStatusEffect(this, context);
+            return new SlowStatusEffect(_duration, _slowPercent);
         }
     }
 }

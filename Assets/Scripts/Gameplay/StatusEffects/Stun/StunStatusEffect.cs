@@ -1,4 +1,3 @@
-
 namespace Game.Gameplay
 {
     /// <summary>
@@ -9,27 +8,24 @@ namespace Game.Gameplay
     /// </summary>
     public class StunStatusEffect : StatusEffect
     {
-        private readonly StunStatusEffectDefinition _definition;
-        private StateInterruptor _stateInterruptor;
         private int _interruptId = -1;
 
-        public StunStatusEffect(StunStatusEffectDefinition definition, EffectContext context) : base(context)
+        public StunStatusEffect(float duration)
+            : base(duration)
         {
-            _definition = definition;
-            _stateInterruptor = context.Target.Behavior.StateInterruptor;
         }
 
-        protected override void OnApply()
+        protected override void OnApply(IEffectTarget target)
         {
-            _interruptId = _stateInterruptor.AddInterrupt(StateInterruptType.Stun);
+            _interruptId = target.Behavior.StateInterruptor.AddInterrupt(StateInterruptType.Stun);
         }
 
-        protected override void OnExpire()
+        protected override void OnExpire(IEffectTarget target)
         {
             if (_interruptId == -1)
                 return;
 
-            _stateInterruptor.RemoveInterrupt(_interruptId);
+            target.Behavior.StateInterruptor.RemoveInterrupt(_interruptId);
         }
     }
 }

@@ -14,7 +14,8 @@ namespace Game.Gameplay
     [RequireComponent(typeof(CharacterBehavior))]
     [RequireComponent(typeof(CharacterStats))]
     [RequireComponent(typeof(StatModifierContainer))]
-    public abstract class Character : MonoBehaviour
+    [RequireComponent(typeof(StatusEffectController))]
+    public abstract class Character : MonoBehaviour, IEffectInstigator, IEffectTarget
     {
         [SerializeField] private Movement _movement;
         [SerializeField] private Health _health;
@@ -22,6 +23,7 @@ namespace Game.Gameplay
         [SerializeField] private CharacterBehavior _behavior;
         [SerializeField] private CharacterStats _stats;
         [SerializeField] private StatModifierContainer _statModifierContainer;
+        [SerializeField] private StatusEffectController _statusEffectController;
 
         public Movement Movement => _movement;
         public Health Health => _health;
@@ -29,6 +31,7 @@ namespace Game.Gameplay
         public CharacterBehavior Behavior => _behavior;
         public CharacterStats Stats => _stats;
         public StatModifierContainer StatModifierContainer => _statModifierContainer;
+        public StatusEffectController StatusEffectController => _statusEffectController;
 
         public Vector2 SpawnPosition { get; private set; }
         public Transform Target { get; private set; }
@@ -37,7 +40,11 @@ namespace Game.Gameplay
         {
             _movement = GetComponent<Movement>();
             _health = GetComponent<Health>();
+            _attack = GetComponent<Attack>();
             _behavior = GetComponent<CharacterBehavior>();
+            _stats = GetComponent<CharacterStats>();
+            _statModifierContainer = GetComponent<StatModifierContainer>();
+            _statusEffectController = GetComponent<StatusEffectController>();
         }
 
         protected virtual void Awake()
@@ -46,7 +53,7 @@ namespace Game.Gameplay
             _behavior.Initialize(this);
             _movement.Initialize(_stats);
             _health.Initialize(_stats);
-
+            _statusEffectController.Initialize(this);
         }
 
         public virtual void SetTarget(Transform target)

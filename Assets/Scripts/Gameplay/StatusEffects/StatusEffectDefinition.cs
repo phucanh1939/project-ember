@@ -11,6 +11,6 @@ namespace Game.Gameplay
 
         public float Duration => _duration;
 
-        public abstract StatusEffect CreateInstance(EffectContext context);
+        public abstract StatusEffect CreateStatusEffect(IEffectInstigator instigator);
     }
 }

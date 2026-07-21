@@ -17,10 +17,10 @@ namespace Game.Gameplay
 
         public void Initialize(int damage, Vector2 direction)
         {
-            _damage = new DamageData(damage);
-            _direction = direction.normalized;
+            // _damage = new DamageData(damage);
+            // _direction = direction.normalized;
 
-            Destroy(gameObject, _lifetime);
+            // Destroy(gameObject, _lifetime);
         }
 
         private void Update()

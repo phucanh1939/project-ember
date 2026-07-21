@@ -9,19 +9,25 @@ namespace Game.Gameplay
     public class StatusEffectController : MonoBehaviour
     {
         private readonly List<StatusEffect> _activeEffects = new();
+        private IEffectTarget _target;
 
-        public void Add(StatusEffectDefinition definition, EffectContext context)
+        public void Initialize(IEffectTarget target)
         {
-            StatusEffect instance = definition.CreateInstance(context);
-            instance.Initialize(definition.Duration);
-            _activeEffects.Add(instance);
+            _target = target;
+        }
+
+
+        public void Add(StatusEffect statusEffect)
+        {
+            statusEffect.Apply(_target);
+            _activeEffects.Add(statusEffect);
         }
 
         private void Update()
         {
             for (int i = _activeEffects.Count - 1; i >= 0; i--)
             {
-                _activeEffects[i].Update(Time.deltaTime);
+                _activeEffects[i].Update(Time.deltaTime, _target);
 
                 // Remove expired effects.
                 if (_activeEffects[i].IsExpired)

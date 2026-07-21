@@ -28,7 +28,7 @@ namespace Game.Gameplay
             if (!IsAlive)
                 return;
 
-            CurrentHealth = Mathf.Max(CurrentHealth - damage.damage, 0);
+            CurrentHealth = Mathf.Max(CurrentHealth - damage.Amount, 0);
 
             if (CurrentHealth == 0)
             {

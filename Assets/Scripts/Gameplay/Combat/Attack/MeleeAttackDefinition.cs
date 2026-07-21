@@ -12,10 +12,10 @@ namespace Game.Gameplay
 
         public override void Execute(AttackContext context, WeaponDefinition weapon)
         {
-            Hitbox hitbox = context.Attacker.Hitbox;
-            hitbox.Setup(_hitbox);
-            hitbox.SetDamage(new DamageData(weapon.Damage));
-            hitbox.Enable();
+            // Hitbox hitbox = context.Attacker.Hitbox;
+            // hitbox.Setup(_hitbox);
+            // hitbox.SetDamage(new DamageData(weapon.Damage));
+            // hitbox.Enable();
         }
 
         public override void Complete(AttackContext context, WeaponDefinition weapon)

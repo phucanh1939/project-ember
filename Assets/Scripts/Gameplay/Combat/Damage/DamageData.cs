@@ -5,11 +5,13 @@ namespace Game.Gameplay
     /// </summary>
     public readonly struct DamageData
     {
-        public readonly float damage;
+        public float Amount { get; }
+        public DamageType Type { get; }
 
-        public DamageData(float damage)
+        public DamageData(float amount, DamageType type)
         {
-            this.damage = damage;
+            Amount = amount;
+            Type = type;
         }
     }
 }
