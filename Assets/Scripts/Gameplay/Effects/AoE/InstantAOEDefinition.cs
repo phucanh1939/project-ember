@@ -19,7 +19,7 @@ namespace Game.Gameplay
             foreach (var effectDefinition in _effectDefinitions)
                 effects.Add(effectDefinition.CreateEffect(instigator));
 
-            return new InstantAOE(_area, effects);
+            return new InstantAOE(instigator.Faction, _targetMask, _area, effects);
         }
     }
 }

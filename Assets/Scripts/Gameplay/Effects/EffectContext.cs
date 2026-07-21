@@ -11,11 +11,6 @@ namespace Game.Gameplay
     public readonly struct EffectContext
     {
         /// <summary>
-        /// The entity that caused or owns the effect.
-        /// </summary>
-        public IEffectInstigator Instigator { get; }
-
-        /// <summary>
         /// The entity affected by the effect.
         /// May be null for effects that do not have a specific target.
         /// </summary>
@@ -36,16 +31,18 @@ namespace Game.Gameplay
         /// </summary>
         public Vector2 Direction { get; }
 
-        public EffectContext(
-            IEffectInstigator instigator,
-            IEffectTarget target,
-            Vector2 originPosition,
-            Vector2 direction)
+        /// <summary>
+        /// The entity affected by the effect.
+        /// May be null for effects that do not have a specific target.
+        /// </summary>
+        public ProjectileSpawner ProjectileSpawner { get; }
+
+        public EffectContext(IEffectTarget target, Vector2 originPosition, Vector2 direction, ProjectileSpawner projectileSpawner)
         {
-            Instigator = instigator;
             Target = target;
             OriginPosition = originPosition;
             Direction = direction;
+            ProjectileSpawner = projectileSpawner;
         }
     }
 }

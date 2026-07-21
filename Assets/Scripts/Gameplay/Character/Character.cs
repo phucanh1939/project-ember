@@ -18,6 +18,10 @@ namespace Game.Gameplay
     [RequireComponent(typeof(ProjectileSpawner))]
     public abstract class Character : MonoBehaviour, IEffectInstigator, IEffectTarget
     {
+        [Header("Identity")]
+        [SerializeField] private EntityFaction _faction;
+
+        [Header("Components")]
         [SerializeField] private Movement _movement;
         [SerializeField] private Health _health;
         [SerializeField] private Attack _attack;
@@ -27,6 +31,7 @@ namespace Game.Gameplay
         [SerializeField] private StatusEffectController _statusEffectController;
         [SerializeField] private ProjectileSpawner _projectileSpawner;
 
+        public EntityFaction Faction => _faction;
         public Movement Movement => _movement;
         public Health Health => _health;
         public Attack Attack => _attack;
@@ -46,6 +51,7 @@ namespace Game.Gameplay
             _attack = GetComponent<Attack>();
             _behavior = GetComponent<CharacterBehavior>();
             _stats = GetComponent<CharacterStats>();
+            _statusEffectController = GetComponent<StatusEffectController>();
             _statModifierContainer = GetComponent<StatModifierContainer>();
             _projectileSpawner = GetComponent<ProjectileSpawner>();
         }

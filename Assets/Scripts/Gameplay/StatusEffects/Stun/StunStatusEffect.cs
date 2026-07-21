@@ -10,8 +10,8 @@ namespace Game.Gameplay
     {
         private int _interruptId = -1;
 
-        public StunStatusEffect(float duration)
-            : base(duration)
+        public StunStatusEffect(EntityFaction faction, EntityRelation targetMask, float duration)
+            : base(faction, targetMask, duration)
         {
         }
 

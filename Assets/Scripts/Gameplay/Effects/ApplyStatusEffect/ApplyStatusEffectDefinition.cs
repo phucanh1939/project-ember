@@ -9,7 +9,8 @@ namespace Game.Gameplay
 
         public override Effect CreateEffect(IEffectInstigator instigator)
         {
-            return new ApplyStatusEffect(_statusEffect.CreateStatusEffect(instigator));
+            var statusEffect = _statusEffect.CreateStatusEffect(instigator);
+            return new ApplyStatusEffect(instigator.Faction, _targetMask, statusEffect);
         }
     }
 }

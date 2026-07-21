@@ -15,7 +15,7 @@ namespace Game.Gameplay
             var statValue = instigator.Stats.GetStatValue(_scalingStat);
             var amount = _baseAmount + statValue * _statScalar;
             var damage = new DamageData(amount, _damageType);
-            return new DamageEffect(damage);
+            return new DamageEffect(instigator.Faction, _targetMask, damage);
         }
     }
 }

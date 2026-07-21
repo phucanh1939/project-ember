@@ -10,15 +10,12 @@ namespace Game.Gameplay
     public class ProjectileDefinition : ScriptableObject
     {
         [SerializeField] private Projectile _prefab;
+        [SerializeField] private EntityRelation _targetMask;
         [SerializeField] private float _speed;
         [SerializeField] private float _lifetime;
         [SerializeField] private List<EffectDefinition> _effectDefinitions;
 
-        public Projectile CreateProjectile(
-            IEffectInstigator instigator,
-            Vector2 position,
-            Vector2 direction,
-            Transform parent)
+        public Projectile CreateProjectile(IEffectInstigator instigator, Vector2 position, Vector2 direction, Transform parent)
         {
             var effects = new List<Effect>(_effectDefinitions.Count);
 
@@ -26,7 +23,7 @@ namespace Game.Gameplay
                 effects.Add(effectDefinition.CreateEffect(instigator));
 
             var projectile = Instantiate(_prefab, position, Quaternion.identity, parent);
-            projectile.Initialize(_speed, _lifetime, direction, effects);
+            projectile.Initialize(instigator.Faction, _targetMask, _speed, _lifetime, direction, effects);
 
             return projectile;
         }

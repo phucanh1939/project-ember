@@ -9,6 +9,7 @@ namespace Game.Gameplay.Enemy
     [RequireComponent(typeof(Sensor))]
     public class EnemyController : Character
     {
+        [Header("Components")]
         [SerializeField] private Sensor _sensor;
 
         public Sensor Sensor => _sensor;

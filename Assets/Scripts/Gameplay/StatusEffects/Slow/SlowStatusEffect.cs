@@ -5,7 +5,8 @@ namespace Game.Gameplay
         private readonly float _slowPercent;
         private StatModifier _modifier;
 
-        public SlowStatusEffect(float duration, float slowPercent) : base(duration)
+        public SlowStatusEffect(EntityFaction faction, EntityRelation targetMask, float duration, float slowPercent)
+            : base(faction, targetMask, duration)
         {
             _slowPercent = slowPercent;
         }

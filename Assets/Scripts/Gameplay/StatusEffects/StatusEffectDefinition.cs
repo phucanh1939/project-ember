@@ -7,9 +7,8 @@ namespace Game.Gameplay
     /// </summary>
     public abstract class StatusEffectDefinition : ScriptableObject
     {
+        [SerializeField] protected EntityRelation _targetMask;
         [SerializeField] protected float _duration;
-
-        public float Duration => _duration;
 
         public abstract StatusEffect CreateStatusEffect(IEffectInstigator instigator);
     }

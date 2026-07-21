@@ -7,12 +7,13 @@ namespace Game.Gameplay
     {
         private readonly DamageData _damage;
 
-        public DamageEffect(DamageData damage)
+        public DamageEffect(EntityFaction faction, EntityRelation targetMask, DamageData damage)
+            : base(faction, targetMask)
         {
             _damage = damage;
         }
 
-        public override void Execute(EffectContext context)
+        protected override void OnExecute(EffectContext context)
         {
             context.Target.Health.TakeDamage(_damage);
         }

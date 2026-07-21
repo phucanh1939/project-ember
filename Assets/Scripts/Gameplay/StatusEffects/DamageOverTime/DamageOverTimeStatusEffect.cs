@@ -10,7 +10,8 @@ namespace Game.Gameplay
 
         private float _tickTimer;
 
-        public DamageOverTimeStatusEffect(float duration, float tickInterval, DamageData damage) : base(duration)
+        public DamageOverTimeStatusEffect(EntityFaction faction, EntityRelation targetMask, float duration, float tickInterval, DamageData damage)
+            : base(faction, targetMask, duration)
         {
             _damage = damage;
             _tickInterval = tickInterval;

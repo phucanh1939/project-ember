@@ -13,6 +13,8 @@ namespace Game.Gameplay
     /// </summary>
     public abstract class EffectDefinition : ScriptableObject
     {
+        [SerializeField] protected EntityRelation _targetMask;
+
         public abstract Effect CreateEffect(IEffectInstigator instigator);
     }
 }

@@ -11,7 +11,7 @@ namespace Game.Gameplay
     /// IHasStats provides stat access.
     /// IHasStatusEffects provides status effect access.
     /// </summary>
-    public interface IEffectTarget
+    public interface IEffectTarget : IEntity
     {
         public Health Health { get; }
         public StatModifierContainer StatModifierContainer { get; }

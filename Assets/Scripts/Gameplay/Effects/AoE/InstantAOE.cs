@@ -11,24 +11,24 @@ namespace Game.Gameplay
         private readonly AreaDefinition _area;
         private readonly IReadOnlyList<Effect> _effects;
 
-        public InstantAOE(
-            AreaDefinition area,
-            IReadOnlyList<Effect> effects)
+        public InstantAOE(EntityFaction faction, EntityRelation targetMask, AreaDefinition area, IReadOnlyList<Effect> effects)
+            : base(faction, targetMask)
         {
             _area = area;
             _effects = effects;
         }
 
-        public override void Execute(EffectContext context)
+        protected override void OnExecute(EffectContext context)
         {
-            var position = context.OriginPosition;
-            var direction = context.Direction;
-            var colliders = _area.Query(position, direction);
+            var colliders = _area.Query(context.OriginPosition, context.Direction);
+
             foreach (var collider in colliders)
             {
                 if (!collider.TryGetComponent<IEffectTarget>(out var target))
                     continue;
-                var targetContext = new EffectContext(context.Instigator, target, collider.transform.position, Vector2.zero);
+
+                var targetContext = new EffectContext(target, collider.transform.position, Vector2.zero, null);
+
                 foreach (var effect in _effects)
                     effect.Execute(targetContext);
             }
