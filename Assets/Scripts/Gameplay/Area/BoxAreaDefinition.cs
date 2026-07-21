@@ -1,4 +1,5 @@
 using UnityEngine;
+using Game.Core;
 
 namespace Game.Gameplay
 {
@@ -11,10 +12,10 @@ namespace Game.Gameplay
         [SerializeField] private Vector2 _offset;
         [SerializeField] private Vector2 _size;
 
-        public override Collider2D[] Query(Transform origin)
+        public override Collider2D[] Query(Vector2 position, Vector2 direction)
         {
-            var center = origin.TransformPoint(_offset);
-            var angle = origin.eulerAngles.z;
+            var angle = Vector2Utils.DirectionToAngle(direction);
+            var center = position + Vector2Utils.RotateByAngle(_offset, angle);
             return Physics2D.OverlapBoxAll(center, _size, angle);
         }
     }

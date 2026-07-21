@@ -18,6 +18,7 @@
 - [x] EffectDefinition (config)
 - [x] Effect (runtime)
 - [x] DamageEffect
+- [x] AoE
 - [ ] Pooling
 
 ## Status Effects
@@ -45,9 +46,11 @@
 - [ ] Pooling
 
 ## Ability
+- [ ] Remove old attack flow (basic attack now will be ability also)
 - [ ] AbilityDefinition
 - [ ] Ability(runtime)
 - [ ] AbilityController (managing active abilities on a character)
+- [ ] Abiltiy Casting State flow
 - [ ] Pooling
 
 ## Items

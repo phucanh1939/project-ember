@@ -18,7 +18,7 @@ namespace Game.Gameplay
 
         public override void Execute(EffectContext context)
         {
-            _projectileSpawner.Spawn(_definition, context.AimPosition);
+            _projectileSpawner.Spawn(_definition, context.TargetPosition);
         }
     }
 }

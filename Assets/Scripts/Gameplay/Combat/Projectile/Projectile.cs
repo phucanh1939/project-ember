@@ -46,7 +46,7 @@ namespace Game.Gameplay
             if (!other.TryGetComponent<IEffectTarget>(out var target))
                 return;
 
-            var context = new EffectContext(null, target, Vector2.zero);
+            var context = new EffectContext(null, target, transform.position, Vector2.zero);
 
             foreach (var effect in _effects)
                 effect.Execute(context);
