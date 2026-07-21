@@ -7,9 +7,11 @@ namespace Game.Gameplay
     {
         MaxHealth,
         AttackDamage,
+        ElementalDamage,
         Armor,
         AttackSpeed,
         MoveSpeed,
+        CritChance,
 
         Count, // This must be the last item, will be used as Number of Stat Type
     }

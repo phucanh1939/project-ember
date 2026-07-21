@@ -23,10 +23,11 @@ namespace Game.Gameplay
         private readonly float[] _baseStats = new float[(int)StatType.Count];
         private readonly CachedStat[] _cache = new CachedStat[(int)StatType.Count];
 
-        public float MaxHealth => GetFinalStat(StatType.MaxHealth);
-        public float AttackDamage => GetFinalStat(StatType.AttackDamage);
-        public float Armor => GetFinalStat(StatType.Armor);
-        public float MoveSpeed => GetFinalStat(StatType.MoveSpeed);
+        public float MaxHealth => GetStatValue(StatType.MaxHealth);
+        public float AttackDamage => GetStatValue(StatType.AttackDamage);
+        public float Armor => GetStatValue(StatType.Armor);
+        public float MoveSpeed => GetStatValue(StatType.MoveSpeed);
+        public float CritChance => GetStatValue(StatType.CritChance);
 
         private void OnValidate()
         {
@@ -61,7 +62,7 @@ namespace Game.Gameplay
         }
 
         // PERF: Cache calculated values since combat systems may query stats every frame.
-        private float GetFinalStat(StatType type)
+        public float GetStatValue(StatType type)
         {
             int index = (int)type;
 

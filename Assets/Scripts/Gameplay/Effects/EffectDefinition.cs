@@ -13,6 +13,6 @@ namespace Game.Gameplay
     /// </summary>
     public abstract class EffectDefinition : ScriptableObject
     {
-        public abstract void Execute(EffectContext context);
+        public abstract Effect CreateEffect(IEffectInstigator instigator);
     }
 }

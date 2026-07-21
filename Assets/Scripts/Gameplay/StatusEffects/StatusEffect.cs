@@ -7,41 +7,39 @@ namespace Game.Gameplay
     /// </summary>
     public abstract class StatusEffect
     {
-        protected EffectContext _context;
-        protected float _remainingTime;
+        private float _remainingTime;
 
         public bool IsExpired => _remainingTime <= 0;
 
-        protected StatusEffect(EffectContext context)
-        {
-            _context = context;
-        }
-
-        public void Initialize(float duration)
+        protected StatusEffect(float duration)
         {
             _remainingTime = duration;
-            OnApply();
         }
 
-        public void Update(float deltaTime)
+        public void Apply(IEffectTarget target)
+        {
+            OnApply(target);
+        }
+
+        public void Update(float deltaTime, IEffectTarget target)
         {
             _remainingTime -= deltaTime;
 
-            OnUpdate(deltaTime);
+            OnUpdate(deltaTime, target);
 
             if (_remainingTime <= 0)
-                OnExpire();
+                OnExpire(target);
         }
 
-        protected virtual void OnApply()
+        protected virtual void OnApply(IEffectTarget target)
         {
         }
 
-        protected virtual void OnUpdate(float deltaTime)
+        protected virtual void OnUpdate(float deltaTime, IEffectTarget target)
         {
         }
 
-        protected virtual void OnExpire()
+        protected virtual void OnExpire(IEffectTarget target)
         {
         }
     }

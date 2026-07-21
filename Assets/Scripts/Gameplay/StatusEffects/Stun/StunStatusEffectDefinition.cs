@@ -5,9 +5,9 @@ namespace Game.Gameplay
     [CreateAssetMenu(menuName = "Gameplay/Status Effects/Stun")]
     public class StunStatusEffectDefinition : StatusEffectDefinition
     {
-        public override StatusEffect CreateInstance(EffectContext context)
+        public override StatusEffect CreateStatusEffect(IEffectInstigator instigator)
         {
-            return new StunStatusEffect(this, context);
+            return new StunStatusEffect(_duration);
         }
     }
 }

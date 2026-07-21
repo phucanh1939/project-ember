@@ -1,5 +1,17 @@
 # Coding Style
 
+## Local Variables
+
+* Prefer `var` for local variables when the type is clear from the right-hand side.
+* Use the explicit type when the type is not obvious or when it improves readability.
+
+Prefer:
+
+```csharp
+var damage = new DamageData(50f, DamageType.Physical);
+var stats = GetComponent<CharacterStats>();
+var count = 10;
+
 ## Naming
 
 ### Private and Protected Fields
