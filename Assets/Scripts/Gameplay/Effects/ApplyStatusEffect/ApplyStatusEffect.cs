@@ -9,9 +9,9 @@ namespace Game.Gameplay
             _statusEffect = statusEffect;
         }
 
-        public override void Execute(IEffectTarget target)
+        public override void Execute(EffectContext context)
         {
-            target.StatusEffectController.Add(_statusEffect);
+            context.Target.StatusEffectController.Add(_statusEffect);
         }
     }
 }

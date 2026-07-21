@@ -6,6 +6,6 @@ namespace Game.Gameplay
     public interface IEffectInstigator
     {
         public CharacterStats Stats { get; }
-
+        public ProjectileSpawner ProjectileSpawner { get; }
     }
 }

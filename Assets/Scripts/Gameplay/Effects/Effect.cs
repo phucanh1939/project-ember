@@ -16,6 +16,6 @@ namespace Game.Gameplay
     /// </summary>
     public abstract class Effect
     {
-        public abstract void Execute(IEffectTarget target);
+        public abstract void Execute(EffectContext context);
     }
 }

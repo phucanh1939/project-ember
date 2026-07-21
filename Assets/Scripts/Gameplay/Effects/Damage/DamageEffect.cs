@@ -12,9 +12,9 @@ namespace Game.Gameplay
             _damage = damage;
         }
 
-        public override void Execute(IEffectTarget target)
+        public override void Execute(EffectContext context)
         {
-            target.Health.TakeDamage(_damage);
+            context.Target.Health.TakeDamage(_damage);
         }
     }
 }

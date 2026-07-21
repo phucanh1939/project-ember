@@ -12,27 +12,47 @@
 ## Stats
 - [x] Implement dirty set and cache for Character Stats reading
 
+## Damage
+- [x] DamageType
+- [x] DamageData
+- [ ] Damage Deal Calculation
+- [ ] Damage Taken Calculation
+
 ## Effects
-- [x] EffectDefinition: Config
-- [x] Effect runtime class: runtime data + Logic
-- [x] EffectController for Character
+- [x] EffectDefinition (config)
+- [x] Effect (runtime)
+- [x] DamageEffect
+- [ ] Pooling
+
+## Status Effects
+- [x] StatusEffectDefinition (config)
+- [x] StatusEffect (runtime)
+- [x] StatusEffectController (managing active status effects on a character)
+- [x] ApplyStatusEffect Effect
+- [x] DamageOverTime
+- [x] Slow
+- [x] Stun
+- [ ] Pooling
 
 ## Projectile
-- [ ] Projectile Config
-- [ ] Runtime: data + logic
+- [x] Projectile Config
+- [x] Runtime: data + logic
+- [x] ProjectileSpawner
+- [x] SpawnProjectileEffect
+- [ ] Projectile types
+- [ ] Pooling
 
 ## EffectZone
-- [ ] Config
-- [ ] Runtime: data + logic
+- [ ] EffectZone types
+- [ ] EffectZoneDefinition (config)
+- [ ] EffectZone (runtime)
+- [ ] Pooling
 
 ## Ability
 - [ ] AbilityDefinition
-- [ ] Ability runtime class: runtime data + Logic
-- [ ] AbilityController for Character
-
-## Damage Calculation
-- [ ] Different damage type
-- [ ] Damage formula
+- [ ] Ability(runtime)
+- [ ] AbilityController (managing active abilities on a character)
+- [ ] Pooling
 
 ## Items
 - [ ] Item Config (with 2 type consumable and equipment)
@@ -44,4 +64,9 @@
 - [ ] Dead State for Player
 - [ ] Respawn Player
 
-
+## Pooling:
+- [ ] Projectile
+- [ ] Effects
+- [ ] Status Effect
+- [ ] Ability
+- [ ] Enemy
