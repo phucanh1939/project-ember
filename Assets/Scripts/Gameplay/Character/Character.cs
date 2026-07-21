@@ -1,13 +1,9 @@
 using UnityEngine;
-using Game.Gameplay;
 
 namespace Game.Gameplay
 {
     /// <summary>
-    /// Coordinates the enemy's gameplay components.
-    ///
-    /// The EnemyController owns the enemy's gameplay components and
-    /// initializes the EnemyBrain.
+    /// Coordinates the character's gameplay components.
     ///
     /// Gameplay behavior is delegated to the current state.
     /// The controller stores shared data required by states.
@@ -18,7 +14,7 @@ namespace Game.Gameplay
     [RequireComponent(typeof(CharacterBehavior))]
     [RequireComponent(typeof(CharacterStats))]
     [RequireComponent(typeof(StatModifierContainer))]
-    public abstract class CharacterController : MonoBehaviour
+    public abstract class Character : MonoBehaviour
     {
         [SerializeField] private Movement _movement;
         [SerializeField] private Health _health;

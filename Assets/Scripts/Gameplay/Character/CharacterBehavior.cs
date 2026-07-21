@@ -16,7 +16,7 @@ namespace Game.Gameplay
 
         public StateInterruptor StateInterruptor => _interruptor;
 
-        public void Initialize(CharacterController controller)
+        public void Initialize(Character controller)
         {
             _stateMachine = new StateMachine<CharacterStateId>();
             InitializeStates(controller);
@@ -24,7 +24,7 @@ namespace Game.Gameplay
             _stateMachine.ChangeState(_behaviorDefinition.InitialState);
         }
 
-        private void InitializeStates(CharacterController controller)
+        private void InitializeStates(Character controller)
         {
             foreach (var definition in _behaviorDefinition.States)
             {

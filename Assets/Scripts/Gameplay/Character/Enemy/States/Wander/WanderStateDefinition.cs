@@ -14,7 +14,7 @@ namespace Game.Gameplay.Enemy
             SetId(CharacterStateId.Wander);
         }
 
-        public override CharacterState Create(StateMachine<CharacterStateId> stateMachine, CharacterController controller)
+        public override CharacterState Create(StateMachine<CharacterStateId> stateMachine, Character controller)
         {
             return new WanderState(stateMachine, (EnemyController)controller);
         }

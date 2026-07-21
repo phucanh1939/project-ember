@@ -7,7 +7,7 @@ namespace Game.Gameplay.Enemy
     /// The controller stores shared components required by states.
     /// </summary>
     [RequireComponent(typeof(Sensor))]
-    public class EnemyController : CharacterController
+    public class EnemyController : Character
     {
         [SerializeField] private Sensor _sensor;
 

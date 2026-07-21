@@ -26,6 +26,6 @@ namespace Game.Gameplay
             _id = id;
         }
 
-        public abstract CharacterState Create(StateMachine<CharacterStateId> stateMachine, CharacterController controller);
+        public abstract CharacterState Create(StateMachine<CharacterStateId> stateMachine, Character controller);
     }
 }

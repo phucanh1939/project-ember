@@ -11,7 +11,7 @@ namespace Game.Gameplay.Player
             SetId(CharacterStateId.Stunned);
         }
 
-        public override CharacterState Create(StateMachine<CharacterStateId> stateMachine, CharacterController controller)
+        public override CharacterState Create(StateMachine<CharacterStateId> stateMachine, Character controller)
         {
             return new StunnedState(stateMachine, (PlayerController)controller);
         }

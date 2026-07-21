@@ -7,7 +7,7 @@ namespace Game.Gameplay.Player
     /// </summary>
     [RequireComponent(typeof(PlayerInput))]
     [RequireComponent(typeof(PlayerInstaller))]
-    public class PlayerController : CharacterController
+    public class PlayerController : Character
     {
         [SerializeField] private PlayerInput _playerInput;
 

@@ -7,9 +7,9 @@ namespace Game.Gameplay
     /// </summary>
     public abstract class CharacterState : State<CharacterStateId>
     {
-        protected CharacterController _characterController;
+        protected Character _characterController;
 
-        protected CharacterState(StateMachine<CharacterStateId> stateMachine, CharacterController controller) : base(stateMachine)
+        protected CharacterState(StateMachine<CharacterStateId> stateMachine, Character controller) : base(stateMachine)
         {
             _characterController = controller;
         }

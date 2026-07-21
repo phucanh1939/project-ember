@@ -11,7 +11,7 @@ namespace Game.Gameplay.Enemy
             SetId(CharacterStateId.Chase);
         }
 
-        public override CharacterState Create(StateMachine<CharacterStateId> stateMachine, CharacterController controller)
+        public override CharacterState Create(StateMachine<CharacterStateId> stateMachine, Character controller)
         {
             return new ChaseState(stateMachine, (EnemyController)controller);
         }

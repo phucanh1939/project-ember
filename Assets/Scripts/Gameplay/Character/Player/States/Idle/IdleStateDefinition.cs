@@ -11,7 +11,7 @@ namespace Game.Gameplay.Player
             SetId(CharacterStateId.Idle);
         }
 
-        public override CharacterState Create(StateMachine<CharacterStateId> stateMachine, CharacterController controller)
+        public override CharacterState Create(StateMachine<CharacterStateId> stateMachine, Character controller)
         {
             return new IdleState(stateMachine, (PlayerController)controller);
         }
