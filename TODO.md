@@ -1,13 +1,9 @@
 # TODO
 
-- [ ] Attribute
-- [ ] Stats
-- [ ] Effects
-- [ ] Projectile
-- [ ] Effect Zone
-- [ ] Ability
-- [ ] Damge Calculatetion
-- [ ] Items
+## Area
+- [x] AreaDefinition
+- [x] CircleAreaDefinition
+- [x] RectAreaDefinition
 
 ## Stats
 - [x] Implement dirty set and cache for Character Stats reading
@@ -35,11 +31,11 @@
 - [ ] Pooling
 
 ## Projectile
+- [ ] Projectile types
 - [x] Projectile Config
 - [x] Runtime: data + logic
 - [x] ProjectileSpawner
 - [x] SpawnProjectileEffect
-- [ ] Projectile types
 - [ ] Pooling
 
 ## EffectZone
