@@ -3,13 +3,13 @@ namespace Game.Gameplay
     /// <summary>
     /// Contains information about a damage event.
     /// </summary>
-    public struct DamageData
+    public readonly struct DamageData
     {
-        public int Amount;
+        public readonly float damage;
 
-        public DamageData(int amount)
+        public DamageData(float damage)
         {
-            Amount = amount;
+            this.damage = damage;
         }
     }
 }

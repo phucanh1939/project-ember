@@ -13,9 +13,9 @@
 - [x] Implement dirty set and cache for Character Stats reading
 
 ## Effects
-- [ ] EffectDefinition: Config
-- [ ] Effect runtime class: runtime data + Logic
-- [ ] EffectController for Character
+- [x] EffectDefinition: Config
+- [x] Effect runtime class: runtime data + Logic
+- [x] EffectController for Character
 
 ## Projectile
 - [ ] Projectile Config

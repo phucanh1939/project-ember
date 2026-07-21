@@ -2,7 +2,7 @@
 
 ## Naming
 
-### Private Fields
+### Private and Protected Fields
 
 * Prefix all private fields with `_`.
 * Use `camelCase` after the prefix.

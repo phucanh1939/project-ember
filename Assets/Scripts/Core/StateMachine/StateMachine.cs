@@ -23,6 +23,9 @@ namespace Game.Core
             if (!_states.TryGetValue(id, out var next))
                 return;
 
+            if (_currentState == next)
+                return;
+
             _currentState?.Exit();
             _currentState = next;
             _currentState.Enter();

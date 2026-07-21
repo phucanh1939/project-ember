@@ -9,18 +9,18 @@ namespace Game.Gameplay
     [RequireComponent(typeof(CharacterStats))]
     public class Health : MonoBehaviour
     {
-        private CharacterStats _stats;
+        private IMaxHealthProvider _maxHealthProvider;
 
-        public int CurrentHealth { get; private set; }
-        public int MaxHealth => _stats.MaxHealth;
+        public float CurrentHealth { get; private set; }
+        public float MaxHealth => _maxHealthProvider.MaxHealth;
         public bool IsAlive => CurrentHealth > 0;
 
         public event Action OnDeath;
 
-        private void Awake()
+        public void Initialize(IMaxHealthProvider maxHealthProvider)
         {
-            _stats = GetComponent<CharacterStats>();
-            CurrentHealth = MaxHealth;
+            _maxHealthProvider = maxHealthProvider;
+            CurrentHealth = _maxHealthProvider.MaxHealth;
         }
 
         public void TakeDamage(DamageData damage)
@@ -28,7 +28,7 @@ namespace Game.Gameplay
             if (!IsAlive)
                 return;
 
-            CurrentHealth = Mathf.Max(CurrentHealth - damage.Amount, 0);
+            CurrentHealth = Mathf.Max(CurrentHealth - damage.damage, 0);
 
             if (CurrentHealth == 0)
             {
@@ -41,7 +41,7 @@ namespace Game.Gameplay
             if (!IsAlive)
                 return;
 
-            CurrentHealth = Mathf.Min(CurrentHealth + amount, MaxHealth);
+            CurrentHealth = Mathf.Min(CurrentHealth + amount, _maxHealthProvider.MaxHealth);
         }
 
         private void Die()

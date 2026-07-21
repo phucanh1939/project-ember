@@ -9,7 +9,7 @@ namespace Game.Gameplay
     /// Modifiers from equipment, attributes, buffs, etc. are cached until a stat changes.
     /// </summary>
     [RequireComponent(typeof(StatModifierContainer))]
-    public class CharacterStats : MonoBehaviour
+    public class CharacterStats : MonoBehaviour, IMovementSpeedProvider, IMaxHealthProvider
     {
         private struct CachedStat
         {
@@ -23,9 +23,10 @@ namespace Game.Gameplay
         private readonly float[] _baseStats = new float[(int)StatType.Count];
         private readonly CachedStat[] _cache = new CachedStat[(int)StatType.Count];
 
-        public int MaxHealth => Mathf.RoundToInt(GetFinalStat(StatType.MaxHealth));
-        public int AttackDamage => Mathf.RoundToInt(GetFinalStat(StatType.AttackDamage));
-        public int Armor => Mathf.RoundToInt(GetFinalStat(StatType.Armor));
+        public float MaxHealth => GetFinalStat(StatType.MaxHealth);
+        public float AttackDamage => GetFinalStat(StatType.AttackDamage);
+        public float Armor => GetFinalStat(StatType.Armor);
+        public float MoveSpeed => GetFinalStat(StatType.MoveSpeed);
 
         private void OnValidate()
         {

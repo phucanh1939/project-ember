@@ -1,0 +1,82 @@
+using Game.Core;
+using UnityEngine;
+
+namespace Game.Gameplay.Enemy
+{
+    /// <summary>
+    /// Enemy pursuit state.
+    ///
+    /// Behavior:
+    /// - Move toward the current target.
+    /// - Follow target until attack range or chase is abandoned.
+    ///
+    /// Transitions:
+    /// - Chase -> Attack: Target is within attack range.
+    /// - Chase -> Return: Target lost or exceeds leash range.
+    /// </summary>
+    public class ChaseState : EnemyState
+    {
+        // TODO: Move these values to enemy configuration.
+        private const float AttackRange = 1.5f;
+        private const float AttackRangeSquare = AttackRange * AttackRange;
+        private const float LeashRange = 10f;
+        private const float LeashRangeSquare = LeashRange * LeashRange;
+
+        public ChaseState(StateMachine<CharacterStateId> stateMachine, EnemyController controller) : base(stateMachine, controller)
+        {
+        }
+
+        public override void Enter()
+        {
+            _enemyController.Movement.StopMovement();
+        }
+
+        public override void Update()
+        {
+            if (ShouldReturn())
+            {
+                _stateMachine.ChangeState(CharacterStateId.Return);
+                return;
+            }
+
+            if (ShouldAttack())
+            {
+                _stateMachine.ChangeState(CharacterStateId.Attack);
+                return;
+            }
+
+            MoveToTarget();
+        }
+
+        public override void Exit()
+        {
+            _enemyController.Movement.StopMovement();
+        }
+
+        private bool ShouldReturn()
+        {
+            Transform target = _enemyController.Target;
+
+            if (target == null)
+                return true;
+
+            Vector2 fromSpawn = (Vector2)_enemyController.transform.position - _enemyController.SpawnPosition;
+
+            return fromSpawn.sqrMagnitude > LeashRangeSquare;
+        }
+
+        private bool ShouldAttack()
+        {
+            Vector2 toTarget = _enemyController.Target.position - _enemyController.transform.position;
+
+            return toTarget.sqrMagnitude <= AttackRangeSquare;
+        }
+
+        private void MoveToTarget()
+        {
+            Vector2 direction = _enemyController.Target.position - _enemyController.transform.position;
+
+            _enemyController.Movement.SetMoveDirection(direction.normalized);
+        }
+    }
+}

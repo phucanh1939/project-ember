@@ -1,65 +1,22 @@
 using UnityEngine;
-using Game.Gameplay;
 
 namespace Game.Gameplay.Enemy
 {
     /// <summary>
     /// Coordinates the enemy's gameplay components.
-    ///
-    /// The EnemyController owns the enemy's gameplay components and
-    /// initializes the EnemyBrain.
-    ///
-    /// Gameplay behavior is delegated to the current state.
-    /// The controller stores shared data required by states.
+    /// The controller stores shared components required by states.
     /// </summary>
-    [RequireComponent(typeof(Movement))]
     [RequireComponent(typeof(Sensor))]
-    [RequireComponent(typeof(Health))]
-    [RequireComponent(typeof(Attack))]
-    [RequireComponent(typeof(StatusEffect))]
-    [RequireComponent(typeof(EnemyBehavior))]
-    public class EnemyController : MonoBehaviour
+    public class EnemyController : Character
     {
-        [Header("Components")]
-        [SerializeField] private Movement _movement;
         [SerializeField] private Sensor _sensor;
-        [SerializeField] private Health _health;
-        [SerializeField] private Attack _attack;
-        [SerializeField] private StatusEffect _statusEffect;
-        [SerializeField] private EnemyBehavior _behavior;
 
-        public Vector2 SpawnPosition { get; private set; }
-
-        public Movement Movement => _movement;
         public Sensor Sensor => _sensor;
-        public Health Health => _health;
-        public Attack Attack => _attack;
-        public StatusEffect StatusEffect => _statusEffect;
 
-        public Transform Target { get; private set; }
-
-
-#if UNITY_EDITOR
-        private void OnValidate()
+        protected override void OnValidate()
         {
-            _movement = GetComponent<Movement>();
-            _health = GetComponent<Health>();
+            base.OnValidate();
             _sensor = GetComponent<Sensor>();
-            _statusEffect = GetComponent<StatusEffect>();
-            _behavior = GetComponent<EnemyBehavior>();
-        }
-#endif
-
-        private void Awake()
-        {
-            SpawnPosition = transform.position;
-            _behavior.Initialize(this);
-        }
-
-
-        public void SetTarget(Transform target)
-        {
-            Target = target;
         }
     }
 }

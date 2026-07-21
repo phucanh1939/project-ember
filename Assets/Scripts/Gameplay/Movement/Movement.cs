@@ -15,62 +15,27 @@ namespace Game.Gameplay
     [RequireComponent(typeof(Rigidbody2D))]
     public class Movement : MonoBehaviour
     {
-        [Header("Movement")]
-        [SerializeField]
-        private float _moveSpeed = 5f;
+        [SerializeField] private Rigidbody2D _rigidbody;
 
-        private Rigidbody2D _rigidbody;
+        private IMovementSpeedProvider _speedProvider;
+        private Vector2 _moveDirection; // Desired movement direction for the next physics update.
 
-        // Desired movement direction for the next physics update.
-        private Vector2 _moveDirection;
-
-        /// <summary>
-        /// Current Rigidbody velocity.
-        /// Other systems (animation, AI, etc.) can observe this
-        /// without accessing the Rigidbody directly.
-        /// </summary>
         public Vector2 Velocity => _rigidbody.linearVelocity;
-
-        /// <summary>
-        /// Last non-zero movement direction.
-        /// Used when the character is idle but should continue
-        /// facing the previous direction.
-        /// </summary>
         public Vector2 FacingDirection { get; private set; } = Vector2.down;
-
-        /// <summary>
-        /// Invoked when the character changes facing direction.
-        ///
-        /// Visual systems can subscribe to this event to update:
-        /// - Sprite flipping
-        /// - Weapon direction
-        /// - Visual effects
-        /// </summary>
         public event Action<Vector2> OnFacingDirectionChanged;
 
-        private void Awake()
+        private void OnValidate()
         {
             _rigidbody = GetComponent<Rigidbody2D>();
-
-            // NOTE:
-            // Caching component references in Awake() is the conventional
-            // Unity approach and avoids repeated GetComponent() calls.
-
-            // PERF:
-            // Later we'll explore dependency injection or a composition
-            // root to provide dependencies without GetComponent().
         }
 
-        /// <summary>
-        /// Receives a movement command from an external controller.
-        /// </summary>
+        public void Initialize(IMovementSpeedProvider speedProvider)
+        {
+            _speedProvider = speedProvider;
+        }
+
         public void SetMoveDirection(Vector2 direction)
         {
-            // ARCH:
-            // Movement never decides where to move.
-            // Another component (PlayerController, EnemyController, etc.)
-            // is responsible for making that decision.
-
             _moveDirection = direction.normalized;
 
             if (_moveDirection != Vector2.zero)
@@ -100,16 +65,11 @@ namespace Game.Gameplay
 
         private void FixedUpdate()
         {
-            // NOTE:
-            // Physics movement belongs in FixedUpdate() to stay synchronized
-            // with Unity's physics simulation.
-
-            _rigidbody.linearVelocity = _moveDirection * _moveSpeed;
-
             // PERF:
             // Every moving object currently owns its own FixedUpdate().
             // During the optimization phase we'll compare this with a
             // centralized update loop (DOP/ECS-inspired architecture).
+            _rigidbody.linearVelocity = _moveDirection * _speedProvider.MoveSpeed;
         }
         
     }
