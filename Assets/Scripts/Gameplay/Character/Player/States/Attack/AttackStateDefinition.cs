@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Game.Gameplay.Player
 {
-    [CreateAssetMenu(fileName = "Attack", menuName = "Game/Player/State/Attack")]
+    [CreateAssetMenu(fileName = "Attack", menuName = "Gameplay/Player/State/Attack")]
     public class AttackStateDefinition : CharacterStateDefinition
     {
         private void OnEnable()

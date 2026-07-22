@@ -5,20 +5,17 @@ namespace Game.Gameplay
     /// </summary>
     public class SpawnProjectileEffect : Effect
     {
-        private readonly ProjectileSpawner _projectileSpawner;
         private readonly ProjectileDefinition _definition;
 
-        public SpawnProjectileEffect(
-            ProjectileSpawner projectileSpawner,
-            ProjectileDefinition definition)
+        public SpawnProjectileEffect(EntityFaction faction, EntityRelation targetMask, ProjectileDefinition definition)
+            : base(faction, targetMask)
         {
-            _projectileSpawner = projectileSpawner;
             _definition = definition;
         }
 
-        public override void Execute(EffectContext context)
+        protected override void OnExecute(EffectContext context)
         {
-            _projectileSpawner.Spawn(_definition, context.AimPosition);
+            context.Instigator.ProjectileSpawner.Spawn(_definition, context.TargetPosition);
         }
     }
 }

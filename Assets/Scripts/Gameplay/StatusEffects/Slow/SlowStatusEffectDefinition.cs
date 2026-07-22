@@ -9,7 +9,7 @@ namespace Game.Gameplay
 
         public override StatusEffect CreateStatusEffect(IEffectInstigator instigator)
         {
-            return new SlowStatusEffect(_duration, _slowPercent);
+            return new SlowStatusEffect(instigator.Faction, _targetMask, _duration, _slowPercent);
         }
     }
 }

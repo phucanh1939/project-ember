@@ -6,7 +6,7 @@ namespace Game.Gameplay
     /// <summary>
     /// Defines how character attributes convert into stat modifiers.
     /// </summary>
-    [CreateAssetMenu(fileName = "AttributeStatRuleDefinition", menuName = "Game/Stats/Attribute Stat Rule Definition")]
+    [CreateAssetMenu(fileName = "AttributeStatRuleDefinition", menuName = "Gameplay/Stats/Attribute Stat Rule Definition")]
     public class AttributeStatRuleDefinition : ScriptableObject
     {
         [SerializeField] private List<AttributeStatRule> _rules = new();

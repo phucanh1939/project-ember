@@ -13,10 +13,10 @@ namespace Game.Gameplay
 
         public override StatusEffect CreateStatusEffect(IEffectInstigator instigator)
         {
-            var elementalDamage = instigator.Stats.GetStatValue(_scalingStat);
+            var elementalDamage = instigator.StatsProvider.GetStatValue(_scalingStat);
             var damageAmount = _baseDamage + elementalDamage * _damageScalar;
             var damage = new DamageData(damageAmount, _damageType);
-            return new DamageOverTimeStatusEffect(_duration, _tickInterval, damage);
+            return new DamageOverTimeStatusEffect(instigator.Faction, _targetMask, _duration, _tickInterval, damage);
         }
     }
 }

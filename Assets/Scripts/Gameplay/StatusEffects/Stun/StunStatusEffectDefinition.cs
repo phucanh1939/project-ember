@@ -7,7 +7,7 @@ namespace Game.Gameplay
     {
         public override StatusEffect CreateStatusEffect(IEffectInstigator instigator)
         {
-            return new StunStatusEffect(_duration);
+            return new StunStatusEffect(instigator.Faction, _targetMask, _duration);
         }
     }
 }

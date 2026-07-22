@@ -10,7 +10,7 @@ namespace Game.Gameplay
     /// Interrupt states override normal behavior while active interrupts exist.
     /// The highest priority active interrupt determines the current state.
     /// </summary>
-    public class StateInterruptor
+    public class StateInterruptor : IStateInterruptor
     {
         private readonly StateInterruptDefinition _definition;
         private readonly StateMachine<CharacterStateId> _stateMachine;

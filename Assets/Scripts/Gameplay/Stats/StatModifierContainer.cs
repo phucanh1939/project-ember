@@ -5,71 +5,51 @@ using UnityEngine;
 namespace Game.Gameplay
 {
     /// <summary>
-    /// Stores active runtime stat modifiers from different gameplay systems.
+    /// Stores active runtime stat modifiers grouped by their source.
     /// </summary>
-    public class StatModifierContainer : MonoBehaviour
+    public class StatModifierContainer : MonoBehaviour, IStatModifierReceiver
     {
-        // Each list contains all active modifiers affecting that stat.
-        // Indexed by StatType because stat calculation is the most frequent operation.
-        // This avoids scanning unrelated modifiers and keeps GetFinalStat() proportional
-        // to the number of modifiers affecting that stat.
-        private readonly List<StatModifier>[] _modifiers = new List<StatModifier>[(int)StatType.Count];
+        private readonly Dictionary<int, List<StatModifier>> _modifiers = new();
+
+        private int _nextModifierId;
 
         public event Action<StatType> OnStatChanged;
-        public event Action OnAllStatsChanged;
 
-        private void Awake()
+        public int AddModifier(StatModifier modifier)
         {
-            for (int i = 0; i < _modifiers.Length; i++)
-                _modifiers[i] = new List<StatModifier>();
-        }
+            int id = ++_nextModifierId;
 
-        public void AddModifier(StatModifier modifier)
-        {
-            _modifiers[(int)modifier.StatType].Add(modifier);
+            _modifiers.Add(id, new List<StatModifier> { modifier });
 
             OnStatChanged?.Invoke(modifier.StatType);
+
+            return id;
         }
 
-        public void RemoveModifier(StatModifier modifier)
+        public int AddModifiers(IReadOnlyList<StatModifier> modifiers)
         {
-            if (!_modifiers[(int)modifier.StatType].Remove(modifier))
+            int id = ++_nextModifierId;
+
+            _modifiers.Add(id, new List<StatModifier>(modifiers));
+
+            foreach (var modifier in modifiers)
+                OnStatChanged?.Invoke(modifier.StatType);
+
+            return id;
+        }
+
+        public void RemoveModifiers(int id)
+        {
+            if (!_modifiers.Remove(id, out var modifiers))
                 return;
 
-            OnStatChanged?.Invoke(modifier.StatType);
+            foreach (var modifier in modifiers)
+                OnStatChanged?.Invoke(modifier.StatType);
         }
 
-        public void RemoveSource(StatModifierSource source)
+        public IReadOnlyDictionary<int, List<StatModifier>> GetModifiers()
         {
-            for (int i = 0; i < _modifiers.Length; i++)
-            {
-                int removed = _modifiers[i].RemoveAll(x => x.Source == source);
-
-                if (removed > 0)
-                    OnStatChanged?.Invoke((StatType)i);
-            }
-        }
-
-        public IReadOnlyList<StatModifier> GetModifiers(StatType type)
-        {
-            return _modifiers[(int)type];
-        }
-
-        public void Clear()
-        {
-            bool changed = false;
-
-            foreach (var modifiers in _modifiers)
-            {
-                if (modifiers.Count == 0)
-                    continue;
-
-                modifiers.Clear();
-                changed = true;
-            }
-
-            if (changed)
-                OnAllStatsChanged?.Invoke();
+            return _modifiers;
         }
     }
 }

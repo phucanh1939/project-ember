@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Game.Gameplay
 {
-    [CreateAssetMenu(menuName = "Game/Combat/Attack/Projectile Attack")]
+    [CreateAssetMenu(menuName = "Gameplay/Combat/Attack/Projectile Attack")]
     /// <summary>
     /// Executes an attack by spawning a projectile.
     /// </summary>
@@ -12,12 +12,12 @@ namespace Game.Gameplay
 
         public override void Execute(AttackContext context, WeaponDefinition weapon)
         {
-            Projectile projectile = Instantiate(
-                _projectilePrefab,
-                context.Attacker.ProjectileSpawn.position,
-                context.Attacker.ProjectileSpawn.rotation);
+            // Projectile projectile = Instantiate(
+            //     _projectilePrefab,
+            //     context.Attacker.ProjectileSpawn.position,
+            //     context.Attacker.ProjectileSpawn.rotation);
 
-            projectile.Initialize(weapon.Damage,context.Attacker.Movement.FacingDirection);
+            // projectile.Initialize(weapon.Damage,context.Attacker.Movement.FacingDirection);
         }
     }
 }

@@ -1,13 +1,9 @@
 # TODO
 
-- [ ] Attribute
-- [ ] Stats
-- [ ] Effects
-- [ ] Projectile
-- [ ] Effect Zone
-- [ ] Ability
-- [ ] Damge Calculatetion
-- [ ] Items
+## Area
+- [x] AreaDefinition
+- [x] CircleAreaDefinition
+- [x] RectAreaDefinition
 
 ## Stats
 - [x] Implement dirty set and cache for Character Stats reading
@@ -22,6 +18,7 @@
 - [x] EffectDefinition (config)
 - [x] Effect (runtime)
 - [x] DamageEffect
+- [x] AoE
 - [ ] Pooling
 
 ## Status Effects
@@ -35,11 +32,11 @@
 - [ ] Pooling
 
 ## Projectile
+- [ ] Projectile types
 - [x] Projectile Config
 - [x] Runtime: data + logic
 - [x] ProjectileSpawner
 - [x] SpawnProjectileEffect
-- [ ] Projectile types
 - [ ] Pooling
 
 ## EffectZone
@@ -49,9 +46,11 @@
 - [ ] Pooling
 
 ## Ability
+- [ ] Remove old attack flow (basic attack now will be ability also)
 - [ ] AbilityDefinition
 - [ ] Ability(runtime)
 - [ ] AbilityController (managing active abilities on a character)
+- [ ] Abiltiy Casting State flow
 - [ ] Pooling
 
 ## Items

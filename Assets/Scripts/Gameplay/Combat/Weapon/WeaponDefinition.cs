@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Game.Gameplay
 {
-    [CreateAssetMenu(menuName = "Game/Weapon")]
+    [CreateAssetMenu(menuName = "Gameplay/Weapon")]
     /// <summary>
     /// Defines a weapon's base damage and basic attack.
     /// </summary>

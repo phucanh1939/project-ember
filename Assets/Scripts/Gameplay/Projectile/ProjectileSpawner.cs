@@ -5,7 +5,7 @@ namespace Game.Gameplay
     /// <summary>
     /// Spawns projectiles for an effect instigator.
     /// </summary>
-    public class ProjectileSpawner : MonoBehaviour
+    public class ProjectileSpawner : MonoBehaviour, IProjectileSpawner
     {
         [SerializeField] private Transform _spawnPoint;
         [SerializeField] private Transform _projectileContainer;
@@ -17,10 +17,10 @@ namespace Game.Gameplay
             _instigator = instigator;
         }
 
-        public Projectile Spawn(ProjectileDefinition definition, Vector2 aimPosition)
+        public void Spawn(ProjectileDefinition definition, Vector2 targetposition)
         {
-            var direction = aimPosition - (Vector2)_spawnPoint.position;
-            return definition.CreateProjectile(_instigator, _spawnPoint.position, direction, _projectileContainer);
+            var direction = targetposition - (Vector2)_spawnPoint.position;
+            definition.CreateProjectile(_instigator, _spawnPoint.position, direction, _projectileContainer);
         }
     }
 }

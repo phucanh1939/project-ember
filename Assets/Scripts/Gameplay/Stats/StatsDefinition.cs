@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace Game.Gameplay
 {
-    [CreateAssetMenu(fileName = "CharacterStatsDefinition", menuName = "Game/Stats/Character Stats Definition")]
-    public class CharacterStatsDefinition : ScriptableObject
+    [CreateAssetMenu(fileName = "StatsDefinition", menuName = "Gameplay/Stats/Stats Definition")]
+    public class StatsDefinition : ScriptableObject
     {
         [SerializeField] private float _maxHealth = 100;
         [SerializeField] private float _attackDamage = 10;

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Game.Gameplay.Player
 {
-    [CreateAssetMenu(fileName = "Move", menuName = "Game/Player/State/Move")]
+    [CreateAssetMenu(fileName = "Move", menuName = "Gameplay/Player/State/Move")]
     public class MoveStateDefinition : CharacterStateDefinition
     {
         private void OnEnable()

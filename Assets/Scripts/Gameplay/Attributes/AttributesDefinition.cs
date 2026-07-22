@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace Game.Gameplay
 {
-    [CreateAssetMenu(fileName = "CharacterAttributesDefinition", menuName = "Game/Stats/Character Attributes Definition")]
-    public class CharacterAttributesDefinition : ScriptableObject
+    [CreateAssetMenu(fileName = "AttributesDefinition", menuName = "Gameplay/Stats/Attributes Definition")]
+    public class AttributesDefinition : ScriptableObject
     {
         [SerializeField] private int _strength = 10;
         [SerializeField] private int _dexterity = 10;

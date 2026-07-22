@@ -4,12 +4,13 @@ namespace Game.Gameplay
     {
         private readonly StatusEffect _statusEffect;
 
-        public ApplyStatusEffect(StatusEffect statusEffect)
+        public ApplyStatusEffect(EntityFaction faction, EntityRelation targetMask, StatusEffect statusEffect)
+            : base(faction, targetMask)
         {
             _statusEffect = statusEffect;
         }
 
-        public override void Execute(EffectContext context)
+        protected override void OnExecute(EffectContext context)
         {
             context.Target.StatusEffectController.Add(_statusEffect);
         }

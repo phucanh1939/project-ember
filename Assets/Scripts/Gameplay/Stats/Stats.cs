@@ -9,7 +9,7 @@ namespace Game.Gameplay
     /// Modifiers from equipment, attributes, buffs, etc. are cached until a stat changes.
     /// </summary>
     [RequireComponent(typeof(StatModifierContainer))]
-    public class CharacterStats : MonoBehaviour, IMovementSpeedProvider, IMaxHealthProvider
+    public class Stats : MonoBehaviour, IStatProvider, IMovementSpeedProvider, IMaxHealthProvider
     {
         private struct CachedStat
         {
@@ -17,7 +17,7 @@ namespace Game.Gameplay
             public bool dirty;
         }
 
-        [SerializeField] private CharacterStatsDefinition _definition;
+        [SerializeField] private StatsDefinition _definition;
         [SerializeField] private StatModifierContainer _modifierContainer;
 
         private readonly float[] _baseStats = new float[(int)StatType.Count];
@@ -39,7 +39,6 @@ namespace Game.Gameplay
             InitializeBaseStats();
 
             _modifierContainer.OnStatChanged += MarkDirty;
-            _modifierContainer.OnAllStatsChanged += MarkAllDirty;
         }
 
         private void OnDestroy()
@@ -48,7 +47,6 @@ namespace Game.Gameplay
                 return;
 
             _modifierContainer.OnStatChanged -= MarkDirty;
-            _modifierContainer.OnAllStatsChanged -= MarkAllDirty;
         }
 
         private void InitializeBaseStats()
@@ -71,8 +69,16 @@ namespace Game.Gameplay
 
             float value = _baseStats[index];
 
-            foreach (var modifier in _modifierContainer.GetModifiers(type))
-                value = modifier.Apply(value);
+            foreach (var modifiers in _modifierContainer.GetModifiers().Values)
+            {
+                foreach (var modifier in modifiers)
+                {
+                    if (modifier.StatType != type)
+                        continue;
+
+                    value = modifier.Apply(value);
+                }
+            }
 
             _cache[index].value = value;
             _cache[index].dirty = false;

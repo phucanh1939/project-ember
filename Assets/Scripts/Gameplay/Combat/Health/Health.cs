@@ -6,8 +6,8 @@ namespace Game.Gameplay
     /// <summary>
     /// Tracks current health using the character's calculated maximum health.
     /// </summary>
-    [RequireComponent(typeof(CharacterStats))]
-    public class Health : MonoBehaviour
+    [RequireComponent(typeof(Stats))]
+    public class Health : MonoBehaviour, IDamageable
     {
         private IMaxHealthProvider _maxHealthProvider;
 

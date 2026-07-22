@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Game.Gameplay
 {
-    [CreateAssetMenu(menuName = "Game/Combat/Attack/Melee Attack")]
+    [CreateAssetMenu(menuName = "Gameplay/Combat/Attack/Melee Attack")]
     /// <summary>
     /// Executes an attack by enabling the attacker's hitbox.
     /// </summary>

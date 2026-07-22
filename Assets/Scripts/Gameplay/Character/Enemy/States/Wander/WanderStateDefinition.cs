@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Game.Gameplay.Enemy
 {
-    [CreateAssetMenu(fileName = "Wander", menuName = "Game/Enemy/State/Wander")]
+    [CreateAssetMenu(fileName = "Wander", menuName = "Gameplay/Enemy/State/Wander")]
     /// <summary>
     /// Creates the runtime enemy wander state.
     /// </summary>

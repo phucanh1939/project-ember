@@ -9,6 +9,7 @@ namespace Game.Gameplay.Player
     [RequireComponent(typeof(PlayerInstaller))]
     public class PlayerController : Character
     {
+        [Header("Components")]
         [SerializeField] private PlayerInput _playerInput;
 
         public PlayerInput Input => _playerInput;

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Game.Gameplay.Player
 {
-    [CreateAssetMenu(fileName = "Stunned", menuName = "Game/Player/State/Stunned")]
+    [CreateAssetMenu(fileName = "Stunned", menuName = "Gameplay/Player/State/Stunned")]
     public class StunnedStateDefinition : CharacterStateDefinition
     {
         private void OnEnable()
