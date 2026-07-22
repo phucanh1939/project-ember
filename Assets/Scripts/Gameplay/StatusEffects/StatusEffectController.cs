@@ -6,7 +6,7 @@ namespace Game.Gameplay
     /// <summary>
     /// Manages active status effects on an entity.
     /// </summary>
-    public class StatusEffectController : MonoBehaviour
+    public class StatusEffectController : MonoBehaviour, IStatusEffectReceiver
     {
         private readonly List<StatusEffect> _activeEffects = new();
         private IEffectTarget _target;
@@ -16,8 +16,7 @@ namespace Game.Gameplay
             _target = target;
         }
 
-
-        public void Add(StatusEffect statusEffect)
+        public void AddStatusEffect(StatusEffect statusEffect)
         {
             statusEffect.Apply(_target);
             _activeEffects.Add(statusEffect);

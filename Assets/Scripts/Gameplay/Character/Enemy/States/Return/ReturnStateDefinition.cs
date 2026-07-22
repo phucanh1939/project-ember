@@ -4,7 +4,7 @@ using Game.Gameplay;
 
 namespace Game.Gameplay.Enemy
 {
-    [CreateAssetMenu(fileName = "Return", menuName = "Game/Enemy/State/Return")]
+    [CreateAssetMenu(fileName = "Return", menuName = "Gameplay/Enemy/State/Return")]
     public class ReturnStateDefinition : CharacterStateDefinition
     {
         private void OnEnable()

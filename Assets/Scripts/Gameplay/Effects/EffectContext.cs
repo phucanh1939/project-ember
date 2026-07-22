@@ -3,46 +3,56 @@ using UnityEngine;
 namespace Game.Gameplay
 {
     /// <summary>
-    /// Contains temporary runtime information required to execute an effect.
+    /// Contains the runtime information available when an effect is executed.
     ///
-    /// The context describes the source of the effect, its target, and the
-    /// world-space origin and direction used to execute it.
+    /// The context describes the entity that caused the effect, the entity
+    /// affected by it, and the world-space position relevant to the execution.
     /// </summary>
     public readonly struct EffectContext
     {
         /// <summary>
-        /// The entity affected by the effect.
-        /// May be null for effects that do not have a specific target.
+        /// The entity responsible for causing the effect.
+        ///
+        /// May be null when the effect has no specific instigator.
+        /// </summary>
+        public IEffectInstigator Instigator { get; }
+
+        /// <summary>
+        /// The entity directly affected by the effect.
+        ///
         /// </summary>
         public IEffectTarget Target { get; }
 
         /// <summary>
-        /// The world-space position where the effect originates.
-        /// Used by AOE (both Point-targeted and Directional), to query targets
-        /// 
+        /// The world-space target position of the effect
         /// </summary>
-        public Vector2 OriginPosition { get; }
+        public Vector2 TargetPosition { get; }
 
-        /// <summary>
-        /// The normalized direction in which the effect is executed.
-        /// Used by Directional AOE, to query target
-        ///
-        /// A zero vector represents an effect with no specific direction.
-        /// </summary>
-        public Vector2 Direction { get; }
-
-        /// <summary>
-        /// The entity affected by the effect.
-        /// May be null for effects that do not have a specific target.
-        /// </summary>
-        public ProjectileSpawner ProjectileSpawner { get; }
-
-        public EffectContext(IEffectTarget target, Vector2 originPosition, Vector2 direction, ProjectileSpawner projectileSpawner)
+        public EffectContext(
+            IEffectInstigator instigator,
+            IEffectTarget target,
+            Vector2 targetPosition)
         {
+            Instigator = instigator;
             Target = target;
-            OriginPosition = originPosition;
-            Direction = direction;
-            ProjectileSpawner = projectileSpawner;
+            TargetPosition = targetPosition;
+        }
+
+        public EffectContext(
+            IEffectInstigator instigator,
+            IEffectTarget target)
+            : this(instigator, target, Vector2.zero)
+        {
+        }
+
+        public EffectContext(IEffectTarget target)
+            : this(null, target, Vector2.zero)
+        {
+        }
+
+        public EffectContext(IEffectTarget target, Vector2 targetPosition)
+            : this(null, target, targetPosition)
+        {
         }
     }
 }

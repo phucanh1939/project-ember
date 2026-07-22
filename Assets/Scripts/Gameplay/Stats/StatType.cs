@@ -5,6 +5,7 @@ namespace Game.Gameplay
     /// </summary>
     public enum StatType
     {
+        None,
         MaxHealth,
         AttackDamage,
         ElementalDamage,

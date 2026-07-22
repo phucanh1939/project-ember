@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace Game.Gameplay
 {
     /// <summary>
@@ -5,7 +7,8 @@ namespace Game.Gameplay
     /// </summary>
     public interface IEffectInstigator : IEntity
     {
-        public CharacterStats Stats { get; }
-        public ProjectileSpawner ProjectileSpawner { get; }
+        public IStatProvider StatsProvider { get; }
+        public IProjectileSpawner ProjectileSpawner { get; }
+        public Vector2 Position { get; }
     }
 }

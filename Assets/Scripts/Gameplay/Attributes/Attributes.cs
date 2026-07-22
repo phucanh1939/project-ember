@@ -9,9 +9,9 @@ namespace Game.Gameplay
     /// Stores progression values such as Strength, Dexterity, Vitality, and Energy.
     /// Does not calculate combat stats.
     /// </summary>
-    public class CharacterAttributes : MonoBehaviour
+    public class Attributes : MonoBehaviour
     {
-        [SerializeField] private CharacterAttributesDefinition _definition;
+        [SerializeField] private AttributesDefinition _definition;
 
         public int Strength { get; private set; }
         public int Dexterity { get; private set; }

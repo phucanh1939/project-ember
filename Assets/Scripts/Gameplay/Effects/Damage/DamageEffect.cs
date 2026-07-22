@@ -15,7 +15,7 @@ namespace Game.Gameplay
 
         protected override void OnExecute(EffectContext context)
         {
-            context.Target.Health.TakeDamage(_damage);
+            context.Target.Damageble.TakeDamage(_damage);
         }
     }
 }

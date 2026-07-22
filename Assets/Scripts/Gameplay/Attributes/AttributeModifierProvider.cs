@@ -5,18 +5,18 @@ namespace Game.Gameplay
     /// <summary>
     /// Converts character attributes into stat modifiers.
     /// </summary>
-    [RequireComponent(typeof(CharacterAttributes))]
+    [RequireComponent(typeof(Attributes))]
     [RequireComponent(typeof(StatModifierContainer))]
     public class AttributeModifierProvider : MonoBehaviour
     {
         [SerializeField] private AttributeStatRuleDefinition _definition;
 
-        private CharacterAttributes _attributes;
+        private Attributes _attributes;
         private StatModifierContainer _modifierContainer;
 
         private void Awake()
         {
-            _attributes = GetComponent<CharacterAttributes>();
+            _attributes = GetComponent<Attributes>();
             _modifierContainer = GetComponent<StatModifierContainer>();
 
             _attributes.OnChanged += Refresh;

@@ -27,7 +27,7 @@ namespace Game.Gameplay
 
             _tickTimer += _tickInterval;
 
-            target.Health.TakeDamage(_damage);
+            target.Damageble.TakeDamage(_damage);
         }
     }
 }

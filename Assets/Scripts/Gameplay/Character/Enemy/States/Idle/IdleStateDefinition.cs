@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Game.Gameplay.Enemy
 {
-    [CreateAssetMenu(fileName = "Idle", menuName = "Game/Enemy/State/Idle")]
+    [CreateAssetMenu(fileName = "Idle", menuName = "Gameplay/Enemy/State/Idle")]
     public class IdleStateDefinition : CharacterStateDefinition
     {
         private void OnEnable()

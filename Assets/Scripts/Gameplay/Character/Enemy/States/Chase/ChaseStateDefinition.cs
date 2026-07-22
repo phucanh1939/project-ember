@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Game.Gameplay.Enemy
 {
-    [CreateAssetMenu(fileName = "Chase", menuName = "Game/Enemy/State/Chase")]
+    [CreateAssetMenu(fileName = "Chase", menuName = "Gameplay/Enemy/State/Chase")]
     public class ChaseStateDefinition : CharacterStateDefinition
     {
         private void OnEnable()

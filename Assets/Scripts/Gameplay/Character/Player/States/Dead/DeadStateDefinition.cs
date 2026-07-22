@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Game.Gameplay.Player
 {
-    [CreateAssetMenu(fileName = "Dead", menuName = "Game/Player/State/Dead")]
+    [CreateAssetMenu(fileName = "Dead", menuName = "Gameplay/Player/State/Dead")]
     public class DeadStateDefinition : CharacterStateDefinition
     {
         private void OnEnable()

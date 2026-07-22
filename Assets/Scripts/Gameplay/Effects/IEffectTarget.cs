@@ -13,9 +13,9 @@ namespace Game.Gameplay
     /// </summary>
     public interface IEffectTarget : IEntity
     {
-        public Health Health { get; }
-        public StatModifierContainer StatModifierContainer { get; }
-        public StatusEffectController StatusEffectController { get; }
-        public CharacterBehavior Behavior { get; }
+        public IDamageable Damageble { get; }
+        public IStatModifierReceiver StatModifierReceiver { get; }
+        public IStatusEffectReceiver StatusEffectReceiver { get; }
+        public IStateInterruptor IStateInterruptor { get; }
     }
 }

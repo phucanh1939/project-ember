@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Game.Gameplay
 {
-    [CreateAssetMenu(menuName = "Game/Combat/Attack/Projectile Attack")]
+    [CreateAssetMenu(menuName = "Gameplay/Combat/Attack/Projectile Attack")]
     /// <summary>
     /// Executes an attack by spawning a projectile.
     /// </summary>

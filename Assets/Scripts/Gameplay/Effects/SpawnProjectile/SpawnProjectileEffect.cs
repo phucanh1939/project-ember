@@ -15,7 +15,7 @@ namespace Game.Gameplay
 
         protected override void OnExecute(EffectContext context)
         {
-            context.ProjectileSpawner.Spawn(_definition, context.OriginPosition);
+            context.Instigator.ProjectileSpawner.Spawn(_definition, context.TargetPosition);
         }
     }
 }
